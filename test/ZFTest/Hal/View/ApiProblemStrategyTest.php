@@ -9,7 +9,6 @@ use ZF\Hal\ApiProblem;
 use ZF\Hal\View\ApiProblemModel;
 use ZF\Hal\View\ApiProblemRenderer;
 use ZF\Hal\View\ApiProblemStrategy;
-use ZF\Hal\View\RestfulJsonModel;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Http\Response;
 use Zend\View\Model\JsonModel;
@@ -38,7 +37,6 @@ class ApiProblemStrategyTest extends TestCase
             'null'    => array(null),
             'generic' => array(new ViewModel()),
             'json'    => array(new JsonModel()),
-            'hal'     => array(new RestfulJsonModel()),
         );
     }
 
