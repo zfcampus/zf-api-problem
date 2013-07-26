@@ -3,12 +3,12 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZFTest\Hal;
+namespace ZFTest\ApiProblem;
 
-use ZF\Hal\ApiProblem;
-use ZF\Hal\Exception;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionObject;
+use ZF\ApiProblem\ApiProblem;
+use ZF\ApiProblem\Exception;
 
 class ApiProblemTest extends TestCase
 {

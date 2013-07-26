@@ -3,15 +3,15 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZF\Hal\Listener;
+namespace ZF\ApiProblem\Listener;
 
-use ZF\Hal\ApiProblem;
-use ZF\Hal\View\ApiProblemModel;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ModelInterface;
+use ZF\ApiProblem\ApiProblem;
+use ZF\ApiProblem\View\ApiProblemModel;
 
 /**
  * ApiProblemListener

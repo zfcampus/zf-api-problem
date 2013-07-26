@@ -1,6 +1,6 @@
 <phpunit bootstrap="./Bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="ZFHal Module Tests">
+        <testsuite name="ZFApiProblem Module Tests">
             <directory>./ZFTest</directory>
         </testsuite>
     </testsuites>

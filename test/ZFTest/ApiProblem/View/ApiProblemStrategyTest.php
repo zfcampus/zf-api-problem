@@ -3,18 +3,18 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZFTest\Hal\View;
+namespace ZFTest\ApiProblem\View;
 
-use ZF\Hal\ApiProblem;
-use ZF\Hal\View\ApiProblemModel;
-use ZF\Hal\View\ApiProblemRenderer;
-use ZF\Hal\View\ApiProblemStrategy;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Http\Response;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use Zend\View\Renderer\JsonRenderer;
 use Zend\View\ViewEvent;
+use ZF\ApiProblem\ApiProblem;
+use ZF\ApiProblem\View\ApiProblemModel;
+use ZF\ApiProblem\View\ApiProblemRenderer;
+use ZF\ApiProblem\View\ApiProblemStrategy;
 
 /**
  * @subpackage UnitTest

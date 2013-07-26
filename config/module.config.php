@@ -4,9 +4,7 @@
  */
 
 return array(
-    'zf-hal' => array(
-        'renderer'         => array(),
-        'resources'        => array(),
+    'zf-api-problem' => array(
     ),
 
     'view_manager' => array(

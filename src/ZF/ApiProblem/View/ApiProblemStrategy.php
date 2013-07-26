@@ -3,11 +3,11 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZF\Hal\View;
+namespace ZF\ApiProblem\View;
 
-use ZF\Hal\ApiProblem;
 use Zend\View\Strategy\JsonStrategy;
 use Zend\View\ViewEvent;
+use ZF\ApiProblem\ApiProblem;
 
 /**
  * Extension of the JSON strategy to handle the ApiProblemModel and provide

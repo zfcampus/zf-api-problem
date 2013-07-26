@@ -3,13 +3,13 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZFTest\Hal\Listener;
+namespace ZFTest\ApiProblem\Listener;
 
-use ZF\Hal\Listener\ApiProblemListener;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\Console\Response as ConsoleResponse;
 use Zend\Mvc\MvcEvent;
+use ZF\ApiProblem\Listener\ApiProblemListener;
 
 class ApiProblemListenerTest extends TestCase
 {

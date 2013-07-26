@@ -3,7 +3,7 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZF\Hal\Exception;
+namespace ZF\ApiProblem\Exception;
 
 /**
  * Interface for exceptions that can provide additional API Problem details

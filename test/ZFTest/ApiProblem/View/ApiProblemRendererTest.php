@@ -3,12 +3,12 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZFTest\Hal\View;
+namespace ZFTest\ApiProblem\View;
 
-use ZF\Hal\ApiProblem;
-use ZF\Hal\View\ApiProblemModel;
-use ZF\Hal\View\ApiProblemRenderer;
 use PHPUnit_Framework_TestCase as TestCase;
+use ZF\ApiProblem\ApiProblem;
+use ZF\ApiProblem\View\ApiProblemModel;
+use ZF\ApiProblem\View\ApiProblemRenderer;
 
 /**
  * @subpackage UnitTest

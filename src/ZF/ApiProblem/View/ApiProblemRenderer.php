@@ -3,10 +3,10 @@
  * @license   http://opensource.org/licenses/BSD-2-Clause BSD-2-Clause
  */
 
-namespace ZF\Hal\View;
+namespace ZF\ApiProblem\View;
 
-use ZF\Hal\ApiProblem;
 use Zend\View\Renderer\JsonRenderer;
+use ZF\ApiProblem\ApiProblem;
 
 class ApiProblemRenderer extends JsonRenderer
 {
