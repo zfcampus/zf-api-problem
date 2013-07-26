@@ -1,11 +1,7 @@
-ZFHal: ZF2 Module for Hypermedia Application Layer representations
-==================================================================
+ZFApiProblem: ZF2 Module for API-Problem representations
+========================================================
 
-This module provides data structures for Hypermedia Application Language, as
-well as the ability to render them to JSON.
+This module provides data structures and rendering for API-Problem.
 
-- [HAL](http://tools.ietf.org/html/draft-kelly-json-hal-03), used for creating
-  hypermedia links
 - [Problem API](http://tools.ietf.org/html/draft-nottingham-http-problem-02),
   used for reporting API problems
-
