@@ -12,7 +12,7 @@ class ApiProblemModel extends ViewModel
 {
     protected $captureTo = 'errors';
     protected $problem;
-    protected $terminate = false;
+    protected $terminate = true;
 
     public function __construct($problem = null, $options = null)
     {
