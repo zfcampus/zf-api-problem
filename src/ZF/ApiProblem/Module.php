@@ -94,6 +94,7 @@ class Module
         $app      = $e->getTarget();
         $services = $app->getServiceManager();
         $events   = $app->getEventManager();
+        $events->attach($services->get('ZF\ApiProblem\ApiProblemListener'));
         $events->attach('render', array($this, 'onRender'), 100);
     }
 
