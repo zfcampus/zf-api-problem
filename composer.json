@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": ">=2.3.0dev"
+        "zendframework/zendframework": "dev-master"
     },
     "require-dev": {
         "phpunit/PHPUnit": "3.7.*"
