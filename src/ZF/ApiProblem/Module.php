@@ -103,7 +103,7 @@ class Module
 
     public function onDispatch($e)
     {
-        $app      = $e->getTarget();
+        $app      = $e->getApplication();
         $services = $app->getServiceManager();
         $config   = $services->get('Config');
         if (!isset($config['zf-api-problem'])) {
