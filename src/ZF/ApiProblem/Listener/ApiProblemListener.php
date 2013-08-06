@@ -123,6 +123,50 @@ class ApiProblemListener extends AbstractListenerAggregate
      * 
      * @param  MvcEvent $e 
      */
+    public static function onRenderError(MvcEvent $e)
+    {
+        // Only invoke if we have an Accept header...
+        $request = $e->getRequest();
+        if (!$request instanceof HttpRequest) {
+            return;
+        }
+
+        $headers = $request->getHeaders();
+        if (!$headers->has('Accept')) {
+            return;
+        }
+
+        // ... that matches certain criteria
+        $accept = $headers->get('Accept');
+        if (!static::matchAcceptCriteria($accept)) {
+            return;
+        }
+
+        // Rendering errors are usually due to trying to render a template in 
+        // the PhpRenderer, when we have no templates. As such, report as an
+        // unacceptable response.
+        $response = $e->getResponse();
+        $response->setStatusCode(406);
+        $response->getHeaders()->addHeaderLine('content-type', 'application/api-problem+json');
+        $response->setContent(json_encode(array(
+            'httpStatus'  => 406,
+            'title'       => 'Not Acceptable',
+            'describedBy' => 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+            'detail'      => 'Your request could not be resolved to an acceptable representation.'
+        )));
+
+        $e->stopPropagation();
+    }
+
+    /**
+     * Handle render errors
+     *
+     * If the request meets the accept criteria, creates an ApiProblemModel
+     * based on the exception, sets that as the event result, and stops
+     * event propagation.
+     * 
+     * @param  MvcEvent $e 
+     */
     public static function onDispatchError(MvcEvent $e)
     {
         // only worried about error pages
@@ -167,6 +211,7 @@ class ApiProblemListener extends AbstractListenerAggregate
         $e->setResult($model);
         $e->stopPropagation();
     }
+
 
     /**
      * Attempt to match the accept criteria
