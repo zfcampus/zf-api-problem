@@ -11,6 +11,7 @@ use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ModelInterface;
 use ZF\ApiProblem\ApiProblem;
+use ZF\ApiProblem\Exception\ProblemExceptionInterface;
 use ZF\ApiProblem\View\ApiProblemModel;
 
 /**
@@ -24,23 +25,29 @@ use ZF\ApiProblem\View\ApiProblemModel;
 class ApiProblemListener extends AbstractListenerAggregate
 {
     /**
-     * Default values to match in Accept header
+     * Default types to match in Accept header
      *
-     * @var string
+     * @var array
      */
-    protected static $acceptFilter = 'application/json';
+    protected static $acceptFilter = array(
+        'application/json',
+        'application/*+json',
+    );
 
     /**
      * Constructor
      *
      * Set the accept filter, if one is passed
      *
-     * @param string $filter
+     * @param string|array $filter
      */
     public function __construct($filter = null)
     {
         if (is_string($filter) && !empty($filter)) {
-            self::$acceptFilter = $filter;
+            static::$acceptFilter = array($filter);
+        }
+        if (is_array($filter) && !empty($filter)) {
+            static::$acceptFilter = $filter;
         }
     }
 
@@ -50,6 +57,8 @@ class ApiProblemListener extends AbstractListenerAggregate
     public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, __CLASS__ . '::onRender', 1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, __CLASS__ . '::onDispatchError', 100);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, __CLASS__ . '::onRenderError', 100);
     }
 
     /**
@@ -77,8 +86,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         // ... that matches certain criteria
         $accept = $headers->get('Accept');
-        $match  = $accept->match(self::$acceptFilter);
-        if (!$match || $match->getTypeString() == '*/*') {
+        if (!static::matchAcceptCriteria($accept)) {
             return;
         }
 
@@ -104,5 +112,80 @@ class ApiProblemListener extends AbstractListenerAggregate
         $model = new ApiProblemModel($apiProblem);
         $e->setResult($model);
         $e->setViewModel($model);
+    }
+
+    /**
+     * Handle dispatch errors
+     *
+     * If the request meets the accept criteria, creates an ApiProblemModel
+     * based on the exception, sets that as the event result, and stops
+     * event propagation.
+     * 
+     * @param  MvcEvent $e 
+     */
+    public static function onDispatchError(MvcEvent $e)
+    {
+        // only worried about error pages
+        if (!$e->isError()) {
+            return;
+        }
+
+        // and then, only if we have an Accept header...
+        $request = $e->getRequest();
+        if (!$request instanceof HttpRequest) {
+            return;
+        }
+
+        $headers = $request->getHeaders();
+        if (!$headers->has('Accept')) {
+            return;
+        }
+
+        // ... that matches certain criteria
+        $accept = $headers->get('Accept');
+        if (!static::matchAcceptCriteria($accept)) {
+            return;
+        }
+
+        // Marshall an ApiProblem and view model based on the exception
+        $exception = $e->getParam('exception');
+        if ($exception instanceof ProblemExceptionInterface) {
+            $problem = new ApiProblem($exception->getCode(), $exception);
+        } elseif ($exception instanceof \Exception) {
+            $status = $exception->getCode();
+            if (0 === $status) {
+                $status = 500;
+            }
+            $detail  = $exception->getMessage();
+            $problem = new ApiProblem($status, $detail);
+        } else {
+            // If it's not an exception, do not know what to do.
+            return;
+        }
+
+        $model = new ApiProblemModel($problem);
+        $e->setResult($model);
+        $e->stopPropagation();
+    }
+
+    /**
+     * Attempt to match the accept criteria
+     *
+     * If it matches, but on "*\/*", return false.
+     *
+     * Otherwise, return based on whether or not one or more criteria match.
+     * 
+     * @param  \Zend\Http\Header\Accept $accept 
+     * @return bool
+     */
+    protected static function matchAcceptCriteria($accept)
+    {
+        foreach (static::$acceptFilter as $type) {
+            $match = $accept->match($type);
+            if ($match && $match->getTypeString() != '*/*') {
+                return true;
+            }
+        }
+        return false;
     }
 }
