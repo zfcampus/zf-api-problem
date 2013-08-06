@@ -113,7 +113,7 @@ class Module
             return;
         }
 
-        $controller  = $e->getRouteMatch()->getParam('contoller');
+        $controller  = $e->getRouteMatch()->getParam('controller');
         $controllers = $config['zf-api-problem']['render_error_controllers'];
         if (!in_array($controller, $controllers)) {
             // The current controller is not in our list of controllers to handle
