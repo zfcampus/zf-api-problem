@@ -116,9 +116,8 @@ class ApiProblemListener extends AbstractListenerAggregate
     /**
      * Handle render errors
      *
-     * If the request meets the accept criteria, creates an ApiProblemModel
-     * based on the exception, sets that as the event result, and stops
-     * event propagation.
+     * If the event representes an error, and has an exception composed, marshals an ApiProblemModel based on the exception, sets that as the event result 
+     * and view model, and stops event propagation.
      * 
      * @param  MvcEvent $e 
      */
@@ -126,23 +125,6 @@ class ApiProblemListener extends AbstractListenerAggregate
     {
         // only worried about error pages
         if (!$e->isError()) {
-            return;
-        }
-
-        // and then, only if we have an Accept header...
-        $request = $e->getRequest();
-        if (!$request instanceof HttpRequest) {
-            return;
-        }
-
-        $headers = $request->getHeaders();
-        if (!$headers->has('Accept')) {
-            return;
-        }
-
-        // ... that matches certain criteria
-        $accept = $headers->get('Accept');
-        if (!static::matchAcceptCriteria($accept)) {
             return;
         }
 
@@ -164,6 +146,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         $model = new ApiProblemModel($problem);
         $e->setResult($model);
+        $e->setViewModel($model);
         $e->stopPropagation();
     }
 
