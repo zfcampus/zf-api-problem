@@ -58,7 +58,6 @@ class ApiProblemListener extends AbstractListenerAggregate
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, __CLASS__ . '::onRender', 1000);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, __CLASS__ . '::onDispatchError', 100);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, __CLASS__ . '::onRenderError', 100);
     }
 
     /**
@@ -112,50 +111,6 @@ class ApiProblemListener extends AbstractListenerAggregate
         $model = new ApiProblemModel($apiProblem);
         $e->setResult($model);
         $e->setViewModel($model);
-    }
-
-    /**
-     * Handle dispatch errors
-     *
-     * If the request meets the accept criteria, creates an ApiProblemModel
-     * based on the exception, sets that as the event result, and stops
-     * event propagation.
-     * 
-     * @param  MvcEvent $e 
-     */
-    public static function onRenderError(MvcEvent $e)
-    {
-        // Only invoke if we have an Accept header...
-        $request = $e->getRequest();
-        if (!$request instanceof HttpRequest) {
-            return;
-        }
-
-        $headers = $request->getHeaders();
-        if (!$headers->has('Accept')) {
-            return;
-        }
-
-        // ... that matches certain criteria
-        $accept = $headers->get('Accept');
-        if (!static::matchAcceptCriteria($accept)) {
-            return;
-        }
-
-        // Rendering errors are usually due to trying to render a template in 
-        // the PhpRenderer, when we have no templates. As such, report as an
-        // unacceptable response.
-        $response = $e->getResponse();
-        $response->setStatusCode(406);
-        $response->getHeaders()->addHeaderLine('content-type', 'application/api-problem+json');
-        $response->setContent(json_encode(array(
-            'httpStatus'  => 406,
-            'title'       => 'Not Acceptable',
-            'describedBy' => 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
-            'detail'      => 'Your request could not be resolved to an acceptable representation.'
-        )));
-
-        $e->stopPropagation();
     }
 
     /**
