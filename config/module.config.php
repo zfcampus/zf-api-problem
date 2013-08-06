@@ -5,6 +5,11 @@
 
 return array(
     'zf-api-problem' => array(
+        /*
+        'accept_filter' => $stringOrArray, // Accept types that should allow ApiProblem responses
+        'render_error_controllers' => array(), // Array of controller service names that should
+                                               // enable the ApiProblem render.error listener
+         */
     ),
 
     'service_manager' => array(
