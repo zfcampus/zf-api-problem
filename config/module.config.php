@@ -12,12 +12,6 @@ return array(
          */
     ),
 
-    'service_manager' => array(
-        'invokables' => array(
-            'ZF\ApiProblem\RenderErrorListener' => 'ZF\ApiProblem\Listener\RenderErrorListener',
-        ),
-    ),
-
     'view_manager' => array(
         // Enable this in your application configuration in order to get full
         // exception stack traces in your API-Problem responses.

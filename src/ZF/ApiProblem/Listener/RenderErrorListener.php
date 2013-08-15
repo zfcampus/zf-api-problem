@@ -22,11 +22,26 @@ use ZF\ApiProblem\View\ApiProblemModel;
 class RenderErrorListener extends AbstractListenerAggregate
 {
     /**
+     * @var bool
+     */
+    protected $displayExceptions = false;
+
+    /**
      * @param EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, __CLASS__ . '::onRenderError', 100);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'), 100);
+    }
+
+    /**
+     * @param  bool $flag 
+     * @return self
+     */
+    public function setDisplayExceptions($flag)
+    {
+        $this->displayExceptions = (bool) $flag;
+        return $this;
     }
 
     /**
@@ -39,17 +54,47 @@ class RenderErrorListener extends AbstractListenerAggregate
      *
      * @param  MvcEvent $e 
      */
-    public static function onRenderError(MvcEvent $e)
+    public function onRenderError(MvcEvent $e)
     {
-        $response = $e->getResponse();
-        $response->setStatusCode(406);
+        $response    = $e->getResponse();
+        $status      = 406;
+        $title       = 'Not Acceptable';
+        $describedBy = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
+        $detail      = 'Your request could not be resolved to an acceptable representation.';
+        $details     = false;
+
+        $exception   = $e->getParam('exception');
+        if ($exception instanceof \Exception
+            && !$exception instanceof \Zend\View\Exception\ExceptionInterface
+        ) {
+            $code = $exception->getCode();
+            if ($code > 0) {
+                $status = $code;
+            } else {
+                $status = 500;
+            }
+            $title   = 'Unexpected error';
+            $detail  = $exception->getMessage();
+            $details = array(
+                'code'    => $exception->getCode(),
+                'message' => $exception->getMessage(),
+                'trace'   => $exception->getTraceAsString(),
+            );
+        }
+
+        $payload = array(
+            'httpStatus'  => $status,
+            'title'       => $title,
+            'describedBy' => $describedBy,
+            'detail'      => $detail,
+        );
+        if ($details && $this->displayExceptions) {
+            $payload['details'] = $details;
+        }
+
         $response->getHeaders()->addHeaderLine('content-type', 'application/api-problem+json');
-        $response->setContent(json_encode(array(
-            'httpStatus'  => 406,
-            'title'       => 'Not Acceptable',
-            'describedBy' => 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
-            'detail'      => 'Your request could not be resolved to an acceptable representation.'
-        )));
+        $response->setStatusCode($status);
+        $response->setContent(json_encode($payload));
 
         $e->stopPropagation();
     }

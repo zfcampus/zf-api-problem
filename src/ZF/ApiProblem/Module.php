@@ -79,6 +79,21 @@ class Module
                 $renderer = $services->get('ZF\ApiProblem\ApiProblemRenderer');
                 return new View\ApiProblemStrategy($renderer);
             },
+            'ZF\ApiProblem\RenderErrorListener' => function ($services) {
+                $config   = $services->get('Config');
+
+                $displayExceptions = false;
+                if (isset($config['view_manager'])
+                    && isset($config['view_manager']['display_exceptions'])
+                ) {
+                    $displayExceptions = (bool) $config['view_manager']['display_exceptions'];
+                }
+
+                $listener = new Listener\RenderErrorListener();
+                $listener->setDisplayExceptions($displayExceptions);
+
+                return $listener;
+            },
         ));
     }
 
