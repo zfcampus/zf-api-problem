@@ -10,12 +10,9 @@
         "rest",
         "api-problem"
     ],
-    "homepage": "https://bitbucket.org/zendframework/zfapiproblem",
     "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packages.zendframework.com"
-        }
+        { "type": "composer", "url": "https://packages.zendframework.com" },
+        { "type": "composer", "url": "http://packages-zfcampus.rhcloud.com" }
     ],
     "minimum-stability": "dev",
     "require": {
