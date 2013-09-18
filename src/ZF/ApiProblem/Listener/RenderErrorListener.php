@@ -68,7 +68,7 @@ class RenderErrorListener extends AbstractListenerAggregate
             && !$exception instanceof \Zend\View\Exception\ExceptionInterface
         ) {
             $code = $exception->getCode();
-            if ($code > 0) {
+            if ($code >= 100 && $code <= 600) {
                 $status = $code;
             } else {
                 $status = 500;
