@@ -90,12 +90,12 @@ class ApiProblemTest extends TestCase
         $this->assertEquals($expected, $payload['detail']);
     }
 
-    public function testDescribedByUrlIsUsedVerbatim()
+    public function testProblemTypeUrlIsUsedVerbatim()
     {
         $apiProblem = new ApiProblem('500', 'foo', 'http://status.dev:8080/details.md');
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('describedBy', $payload);
-        $this->assertEquals('http://status.dev:8080/details.md', $payload['describedBy']);
+        $this->assertArrayHasKey('problemType', $payload);
+        $this->assertEquals('http://status.dev:8080/details.md', $payload['problemType']);
     }
 
     public function knownHttpStatusCodes()
@@ -172,14 +172,14 @@ class ApiProblemTest extends TestCase
         $this->assertEquals($exception->getTitle(), $payload['title']);
     }
 
-    public function testUsesDescribedByFromExceptionWhenProvided()
+    public function testUsesProblemTypeFromExceptionWhenProvided()
     {
         $exception  = new Exception\DomainException('exception message', 401);
-        $exception->setDescribedBy('http://example.com/api/help/401');
+        $exception->setProblemType('http://example.com/api/help/401');
         $apiProblem = new ApiProblem('401', $exception);
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('describedBy', $payload);
-        $this->assertEquals($exception->getDescribedBy(), $payload['describedBy']);
+        $this->assertArrayHasKey('problemType', $payload);
+        $this->assertEquals($exception->getProblemType(), $payload['problemType']);
     }
 
     public function testUsesAdditionalDetailsFromExceptionWhenProvided()

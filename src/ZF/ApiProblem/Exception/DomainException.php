@@ -12,7 +12,7 @@ class DomainException extends \DomainException implements
     /**
      * @var string
      */
-    protected $describedBy;
+    protected $problemType;
 
     /**
      * @var array
@@ -38,9 +38,9 @@ class DomainException extends \DomainException implements
      * @param string $uri
      * @return self
      */
-    public function setDescribedBy($uri)
+    public function setProblemType($uri)
     {
-        $this->describedBy = (string) $uri;
+        $this->problemType = (string) $uri;
         return $this;
     }
 
@@ -65,9 +65,9 @@ class DomainException extends \DomainException implements
     /**
      * @return string
      */
-    public function getDescribedBy()
+    public function getProblemType()
     {
-        return $this->describedBy;
+        return $this->problemType;
     }
 
     /**
