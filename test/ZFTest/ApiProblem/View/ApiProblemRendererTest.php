@@ -28,7 +28,7 @@ class ApiProblemRendererTest extends TestCase
         $test = $this->renderer->render($model);
         $expected = array(
             'httpStatus'  => 401,
-            'describedBy' => 'http://status.dev/errors.md',
+            'problemType' => 'http://status.dev/errors.md',
             'title'       => 'Unauthorized',
             'detail'      => 'login error',
         );

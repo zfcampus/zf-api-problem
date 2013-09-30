@@ -21,7 +21,7 @@ class ApiProblem
      * URL describing the problem type; defaults to HTTP status codes
      * @var string
      */
-    protected $describedBy = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
+    protected $problemType = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
 
     /**
      * Description of the specific problem.
@@ -50,8 +50,8 @@ class ApiProblem
      * @var array
      */
     protected $normalizedProperties = array(
-        'describedby'  => 'describedBy',
-        'described_by' => 'describedBy',
+        'problemtype'  => 'problemType',
+        'problem_type' => 'problemType',
         'httpstatus'   => 'httpStatus',
         'http_status'  => 'httpStatus',
         'title'        => 'title',
@@ -116,20 +116,20 @@ class ApiProblem
      * Constructor
      *
      * Create an instance using the provided information. If nothing is
-     * provided for the describedBy field, the class default will be used;
+     * provided for the problemType field, the class default will be used;
      * if the httpStatus matches any known, the title field will be selected
      * from $problemStatusTitles as a result.
      *
      * @param  int $httpStatus
      * @param  string $detail
-     * @param  string $describedBy
+     * @param  string $problemType
      * @param  string $title
      */
-    public function __construct($httpStatus, $detail, $describedBy = null, $title = null, array $additional = array())
+    public function __construct($httpStatus, $detail, $problemType = null, $title = null, array $additional = array())
     {
         if ($detail instanceof Exception\ProblemExceptionInterface) {
-            if (null === $describedBy) {
-                $describedBy = $detail->getDescribedBy();
+            if (null === $problemType) {
+                $problemType = $detail->getProblemType();
             }
             if (null === $title) {
                 $title = $detail->getTitle();
@@ -142,8 +142,8 @@ class ApiProblem
         $this->httpStatus = $httpStatus;
         $this->detail     = $detail;
         $this->title      = $title;
-        if (null !== $describedBy) {
-            $this->describedBy = $describedBy;
+        if (null !== $problemType) {
+            $this->problemType = $problemType;
         }
         $this->additionalDetails = $additional;
     }
@@ -184,7 +184,7 @@ class ApiProblem
     public function toArray()
     {
         $problem = array(
-            'describedBy' => $this->describedBy,
+            'problemType' => $this->problemType,
             'title'       => $this->getTitle(),
             'httpStatus'  => $this->getHttpStatus(),
             'detail'      => $this->getDetail(),
@@ -241,7 +241,7 @@ class ApiProblem
     /**
      * Retrieve the title
      *
-     * If the default $describedBy is used, and the $httpStatus is found in
+     * If the default $problemType is used, and the $httpStatus is found in
      * $problemStatusTitles, then use the matching title.
      *
      * If no title was provided, and the above conditions are not met, use the
@@ -258,7 +258,7 @@ class ApiProblem
         }
 
         if (null === $this->title
-            && $this->describedBy == 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
+            && $this->problemType == 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
             && array_key_exists($this->getHttpStatus(), $this->problemStatusTitles)
         ) {
             return $this->problemStatusTitles[$this->httpStatus];
