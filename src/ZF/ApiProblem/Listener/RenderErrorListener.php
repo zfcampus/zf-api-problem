@@ -10,6 +10,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Exception\ExceptionInterface;
 use Zend\View\Model\ModelInterface;
 use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\Exception\ProblemExceptionInterface;
@@ -65,7 +66,7 @@ class RenderErrorListener extends AbstractListenerAggregate
 
         $exception   = $e->getParam('exception');
         if ($exception instanceof \Exception
-            && !$exception instanceof \Zend\View\Exception\ExceptionInterface
+            && !$exception instanceof ExceptionInterface
         ) {
             $code = $exception->getCode();
             if ($code >= 100 && $code <= 600) {

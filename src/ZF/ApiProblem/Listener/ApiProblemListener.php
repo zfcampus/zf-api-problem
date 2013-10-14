@@ -57,7 +57,8 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
-     * @param EventManagerInterface $events
+     * @internal
+     * @param    EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
     {
@@ -125,8 +126,9 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * If the event representes an error, and has an exception composed, marshals an ApiProblemModel
      * based on the exception, sets that as the event result and view model, and stops event propagation.
-     * 
-     * @param  MvcEvent $e 
+     *
+     * @internal
+     * @param    MvcEvent $e
      */
     public function onDispatchError(MvcEvent $e)
     {
