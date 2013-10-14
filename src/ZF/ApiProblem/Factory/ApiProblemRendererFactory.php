@@ -14,17 +14,14 @@ class ApiProblemRendererFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
+     * @return ApiProblemRenderer
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config            = $serviceLocator->get('Config');
-        $displayExceptions = false;
-
-        if (isset($config['view_manager'])
+        $displayExceptions = isset($config['view_manager'])
             && isset($config['view_manager']['display_exceptions'])
-        ) {
-            $displayExceptions = (bool) $config['view_manager']['display_exceptions'];
-        }
+            && $config['view_manager']['display_exceptions'];
 
         $renderer = new ApiProblemRenderer();
         $renderer->setDisplayExceptions($displayExceptions);

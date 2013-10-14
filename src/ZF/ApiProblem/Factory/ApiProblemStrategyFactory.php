@@ -14,6 +14,7 @@ class ApiProblemStrategyFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
+     * @return ApiProblemStrategy
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

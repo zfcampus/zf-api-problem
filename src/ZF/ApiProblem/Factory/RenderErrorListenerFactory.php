@@ -14,6 +14,7 @@ class RenderErrorListenerFactory implements FactoryInterface
 {
     /**
      * {@inheritDoc}
+     * @return RenderErrorListener
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
