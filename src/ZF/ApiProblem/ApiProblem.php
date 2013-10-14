@@ -121,10 +121,11 @@ class ApiProblem
      * if the httpStatus matches any known, the title field will be selected
      * from $problemStatusTitles as a result.
      *
-     * @param  int $httpStatus
-     * @param  string $detail
-     * @param  string $problemType
-     * @param  string $title
+     * @param int    $httpStatus
+     * @param string $detail
+     * @param string $problemType
+     * @param string $title
+     * @param array  $additional
      */
     public function __construct($httpStatus, $detail, $problemType = null, $title = null, array $additional = array())
     {
@@ -143,9 +144,11 @@ class ApiProblem
         $this->httpStatus = $httpStatus;
         $this->detail     = $detail;
         $this->title      = $title;
+
         if (null !== $problemType) {
             $this->problemType = $problemType;
         }
+
         $this->additionalDetails = $additional;
     }
 
@@ -154,6 +157,7 @@ class ApiProblem
      *
      * @param  string $name
      * @return mixed
+     * @throws Exception\InvalidArgumentException
      */
     public function __get($name)
     {
@@ -199,12 +203,11 @@ class ApiProblem
      * stack trace and previous exception information.
      *
      * @param  bool $flag
-     * @return ApiProblem
+     * @return void
      */
     public function setDetailIncludesStackTrace($flag)
     {
         $this->detailIncludesStackTrace = (bool) $flag;
-        return $this;
     }
 
     /**
@@ -220,6 +223,7 @@ class ApiProblem
         if ($this->detail instanceof \Exception) {
             return $this->createDetailFromException();
         }
+
         return $this->detail;
     }
 
@@ -236,6 +240,7 @@ class ApiProblem
         if ($this->detail instanceof \Exception) {
             $this->httpStatus = $this->createStatusFromException();
         }
+
         return $this->httpStatus;
     }
 
@@ -264,9 +269,11 @@ class ApiProblem
         ) {
             return $this->problemStatusTitles[$this->httpStatus];
         }
+
         if ($this->detail instanceof \Exception) {
             return get_class($this->detail);
         }
+
         if (null === $this->title) {
             return 'Unknown';
         }
@@ -286,12 +293,14 @@ class ApiProblem
         if (!$this->detailIncludesStackTrace) {
             return $e->getMessage();
         }
+
         $message = '';
         do {
             $message .= $e->getMessage() . "\n";
             $message .= $e->getTraceAsString() . "\n";
             $e = $e->getPrevious();
         } while ($e instanceof \Exception);
+
         return trim($message);
     }
 

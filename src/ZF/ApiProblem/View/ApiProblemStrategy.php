@@ -58,13 +58,13 @@ class ApiProblemStrategy extends JsonStrategy
      */
     public function injectResponse(ViewEvent $e)
     {
-        $result   = $e->getResult();
+        $result = $e->getResult();
         if (!is_string($result)) {
             // We don't have a string, and thus, no JSON
             return;
         }
 
-        $model       = $e->getModel();
+        $model = $e->getModel();
         if (!$model instanceof ApiProblemModel) {
             // Model is not an ApiProblemModel; we cannot handle it here
             return;
@@ -79,7 +79,7 @@ class ApiProblemStrategy extends JsonStrategy
         $response->setStatusCode($statusCode);
         $response->setContent($result);
         $headers = $response->getHeaders();
-        $headers->addHeaderLine('content-type', $contentType);
+        $headers->addHeaderLine('Content-Type', $contentType);
     }
 
     /**
@@ -93,9 +93,11 @@ class ApiProblemStrategy extends JsonStrategy
     protected function getStatusCodeFromApiProblem(ApiProblem $problem)
     {
         $status = $problem->httpStatus;
+
         if ($status < 100 || $status >= 600) {
             return 500;
         }
+
         return $status;
     }
 }

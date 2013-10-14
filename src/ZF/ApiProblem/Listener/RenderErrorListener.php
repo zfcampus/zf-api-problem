@@ -37,12 +37,11 @@ class RenderErrorListener extends AbstractListenerAggregate
 
     /**
      * @param  bool $flag 
-     * @return self
+     * @return void
      */
     public function setDisplayExceptions($flag)
     {
         $this->displayExceptions = (bool) $flag;
-        return $this;
     }
 
     /**
