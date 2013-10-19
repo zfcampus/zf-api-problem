@@ -10,10 +10,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
-use Zend\View\Model\ModelInterface;
-use ZF\ApiProblem\ApiProblem;
-use ZF\ApiProblem\Exception\ProblemExceptionInterface;
-use ZF\ApiProblem\View\ApiProblemModel;
+use Zend\View\Exception\ExceptionInterface as ViewExceptionInterface;
 
 /**
  * RenderErrorListener
@@ -37,7 +34,7 @@ class RenderErrorListener extends AbstractListenerAggregate
 
     /**
      * @param  bool $flag 
-     * @return self
+     * @return RenderErrorListener
      */
     public function setDisplayExceptions($flag)
     {
@@ -66,7 +63,7 @@ class RenderErrorListener extends AbstractListenerAggregate
 
         $exception   = $e->getParam('exception');
         if ($exception instanceof \Exception
-            && !$exception instanceof \Zend\View\Exception\ExceptionInterface
+            && !$exception instanceof ViewExceptionInterface
         ) {
             $code = $exception->getCode();
             if ($code >= 100 && $code <= 600) {

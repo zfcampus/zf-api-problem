@@ -5,12 +5,13 @@
  */
 
 return array(
-    'zf-api-problem' => array(
-        /*
-        'accept_filter' => $stringOrArray, // Accept types that should allow ApiProblem responses
-        'render_error_controllers' => array(), // Array of controller service names that should
-                                               // enable the ApiProblem render.error listener
-         */
+    'service_manager' => array(
+        'factories' => array(
+            'ZF\ApiProblem\Listener\ApiProblemListener'  => 'ZF\ApiProblem\Factory\ApiProblemListenerFactory',
+            'ZF\ApiProblem\Listener\RenderErrorListener' => 'ZF\ApiProblem\Factory\RenderErrorListenerFactory',
+            'ZF\ApiProblem\View\ApiProblemRenderer'      => 'ZF\ApiProblem\Factory\ApiProblemRendererFactory',
+            'ZF\ApiProblem\View\ApiProblemStrategy'      => 'ZF\ApiProblem\Factory\ApiProblemStrategyFactory',
+        )
     ),
 
     'view_manager' => array(
@@ -18,4 +19,12 @@ return array(
         // exception stack traces in your API-Problem responses.
         'display_exceptions' => false,
     ),
+
+    'zf-api-problem' => array(
+        // Accept types that should allow ApiProblem responses
+        // 'accept_filter' => $stringOrArray,
+
+        // Array of controller service names that should enable the ApiProblem render.error listener
+        //'render_error_controllers' => array(),
+    )
 );
