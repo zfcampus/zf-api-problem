@@ -7,7 +7,6 @@
 namespace ZF\ApiProblem\View;
 
 use Zend\View\Renderer\JsonRenderer;
-use ZF\ApiProblem\ApiProblem;
 
 class ApiProblemRenderer extends JsonRenderer
 {

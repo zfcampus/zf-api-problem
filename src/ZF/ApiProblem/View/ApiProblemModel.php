@@ -37,11 +37,13 @@ class ApiProblemModel extends ViewModel
     }
 
     /**
-     * @param ApiProblem $problem
+     * @param  ApiProblem $problem
+     * @return ApiProblemModel
      */
     public function setApiProblem(ApiProblem $problem)
     {
         $this->problem = $problem;
+        return $this;
     }
 
     /**

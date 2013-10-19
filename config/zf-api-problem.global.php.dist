@@ -5,7 +5,7 @@
  */
 
 return array(
-    'zf_api_problem' => array(
+    'zf-api-problem' => array(
         /*
          * Specify what MIME types the ApiProblemListener will respond to.
          * DEFAULT: application/json, application/*+json

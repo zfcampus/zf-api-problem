@@ -21,10 +21,10 @@ class ApiProblemListenerFactory implements FactoryInterface
         $config  = $serviceLocator->has('Config');
         $filters = null;
 
-        if (isset($config['zf_api_problem'])
-            && isset($config['zf_api_problem']['accept_filters'])
+        if (isset($config['zf-api-problem'])
+            && isset($config['zf-api-problem']['accept_filters'])
         ) {
-            $filters = $config['zf_api_problem']['accept_filters'];
+            $filters = $config['zf-api-problem']['accept_filters'];
         }
 
         return new ApiProblemListener($filters);

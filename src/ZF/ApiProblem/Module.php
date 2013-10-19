@@ -60,15 +60,15 @@ class Module
         $app      = $e->getApplication();
         $services = $app->getServiceManager();
         $config   = $services->get('Config');
-        if (!isset($config['zf_api_problem'])) {
+        if (!isset($config['zf-api-problem'])) {
             return;
         }
-        if (!isset($config['zf_api_problem']['render_error_controllers'])) {
+        if (!isset($config['zf-api-problem']['render_error_controllers'])) {
             return;
         }
 
         $controller  = $e->getRouteMatch()->getParam('controller');
-        $controllers = $config['zf_api_problem']['render_error_controllers'];
+        $controllers = $config['zf-api-problem']['render_error_controllers'];
         if (!in_array($controller, $controllers)) {
             // The current controller is not in our list of controllers to handle
             return;

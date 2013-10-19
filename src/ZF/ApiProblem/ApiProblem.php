@@ -203,11 +203,12 @@ class ApiProblem
      * stack trace and previous exception information.
      *
      * @param  bool $flag
-     * @return void
+     * @return ApiProblem
      */
     public function setDetailIncludesStackTrace($flag)
     {
         $this->detailIncludesStackTrace = (bool) $flag;
+        return $this;
     }
 
     /**

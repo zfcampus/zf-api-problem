@@ -19,4 +19,12 @@ return array(
         // exception stack traces in your API-Problem responses.
         'display_exceptions' => false,
     ),
+
+    'zf-api-problem' => array(
+        // Accept types that should allow ApiProblem responses
+        // 'accept_filter' => $stringOrArray,
+
+        // Array of controller service names that should enable the ApiProblem render.error listener
+        //'render_error_controllers' => array(),
+    )
 );

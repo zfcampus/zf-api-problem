@@ -98,9 +98,7 @@ class ApiProblemListener extends AbstractListenerAggregate
         // Next, do we have a view model in the result?
         // If not, nothing more to do.
         $model = $e->getResult();
-        if (!$model instanceof ModelInterface
-            || $model instanceof ApiProblemModel
-        ) {
+        if (!$model instanceof ModelInterface || $model instanceof ApiProblemModel) {
             return;
         }
 
