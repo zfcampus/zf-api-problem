@@ -64,6 +64,14 @@ class ApiProblemListener extends AbstractListenerAggregate
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 1000);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 100);
+
+        $sharedEvents = $events->getSharedManager();
+        $sharedEvents->attach(
+            'Zend\Stdlib\DispatchableInterface',
+            MvcEvent::EVENT_DISPATCH,
+            array($this, 'onDispatch'),
+            100
+        );
     }
 
     /**
@@ -117,6 +125,38 @@ class ApiProblemListener extends AbstractListenerAggregate
         $model = new ApiProblemModel($apiProblem);
         $e->setResult($model);
         $e->setViewModel($model);
+    }
+
+    /**
+     * Handle dispatch
+     *
+     * It checks if the controller is in our list
+     *
+     * @internal
+     * @param MvcEvent $e
+     */
+    public function onDispatch(MvcEvent $e)
+    {
+        $app      = $e->getApplication();
+        $services = $app->getServiceManager();
+        $config   = $services->get('Config');
+        if (!isset($config['zf-api-problem'])) {
+            return;
+        }
+        if (!isset($config['zf-api-problem']['render_error_controllers'])) {
+            return;
+        }
+
+        $controller  = $e->getRouteMatch()->getParam('controller');
+        $controllers = $config['zf-api-problem']['render_error_controllers'];
+        if (!in_array($controller, $controllers)) {
+            // The current controller is not in our list of controllers to handle
+            return;
+        }
+
+        // Attach the ApiProblem render.error listener
+        $events = $app->getEventManager();
+        $events->attach($services->get('ZF\ApiProblem\RenderErrorListener'));
     }
 
     /**

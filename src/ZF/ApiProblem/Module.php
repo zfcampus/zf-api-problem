@@ -50,33 +50,6 @@ class Module
 
         $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
         $eventManager->attach('render', array($this, 'onRender'), 100);
-
-        $sharedEvents = $eventManager->getSharedManager();
-        $sharedEvents->attach('Zend\Stdlib\DispatchableInterface', $e::EVENT_DISPATCH, array($this, 'onDispatch'), 100);
-    }
-
-    public function onDispatch($e)
-    {
-        $app      = $e->getApplication();
-        $services = $app->getServiceManager();
-        $config   = $services->get('Config');
-        if (!isset($config['zf-api-problem'])) {
-            return;
-        }
-        if (!isset($config['zf-api-problem']['render_error_controllers'])) {
-            return;
-        }
-
-        $controller  = $e->getRouteMatch()->getParam('controller');
-        $controllers = $config['zf-api-problem']['render_error_controllers'];
-        if (!in_array($controller, $controllers)) {
-            // The current controller is not in our list of controllers to handle
-            return;
-        }
-
-        // Attach the ApiProblem render.error listener
-        $events = $app->getEventManager();
-        $events->attach($services->get('ZF\ApiProblem\RenderErrorListener'));
     }
 
     /**
