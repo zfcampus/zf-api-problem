@@ -26,7 +26,8 @@ class ApiProblem
 
     /**
      * Description of the specific problem.
-     * @var string
+     *
+     * @var string|\Exception
      */
     protected $detail = '';
 
@@ -312,8 +313,9 @@ class ApiProblem
      */
     protected function createStatusFromException()
     {
-        $e = $this->detail;
+        $e          = $this->detail;
         $httpStatus = $e->getCode();
+
         if (!empty($httpStatus)) {
             return $httpStatus;
         } else {
