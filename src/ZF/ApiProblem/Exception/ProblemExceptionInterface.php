@@ -12,17 +12,17 @@ namespace ZF\ApiProblem\Exception;
 interface ProblemExceptionInterface
 {
     /**
-     * @return mixed
+     * @return null|array|\Traversable
      */
     public function getAdditionalDetails();
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getProblemType();
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTitle();
 }
