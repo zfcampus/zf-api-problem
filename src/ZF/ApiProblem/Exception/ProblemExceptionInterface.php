@@ -11,7 +11,18 @@ namespace ZF\ApiProblem\Exception;
  */
 interface ProblemExceptionInterface
 {
+    /**
+     * @return mixed
+     */
     public function getAdditionalDetails();
+
+    /**
+     * @return mixed
+     */
     public function getProblemType();
+
+    /**
+     * @return mixed
+     */
     public function getTitle();
 }
