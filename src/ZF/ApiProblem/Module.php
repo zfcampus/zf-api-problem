@@ -6,6 +6,8 @@
 
 namespace ZF\ApiProblem;
 
+use Zend\Mvc\ResponseSender\SendResponseEvent;
+
 /**
  * ZF2 module
  */
@@ -50,6 +52,13 @@ class Module
 
         $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
         $eventManager->attach('render', array($this, 'onRender'), 100);
+
+        $sendResponseListener = $serviceManager->get('SendResponseListener');
+        $sendResponseListener->getEventManager()->attach(
+            SendResponseEvent::EVENT_SEND_RESPONSE,
+            $serviceManager->get('ZF\ApiProblem\Listener\SendApiProblemResponseListener'),
+            -500
+        );
     }
 
     /**
