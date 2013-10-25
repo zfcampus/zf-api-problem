@@ -33,7 +33,7 @@ class RenderErrorListener extends AbstractListenerAggregate
     }
 
     /**
-     * @param  bool $flag 
+     * @param  bool $flag
      * @return RenderErrorListener
      */
     public function setDisplayExceptions($flag)
@@ -45,12 +45,12 @@ class RenderErrorListener extends AbstractListenerAggregate
     /**
      * Handle rendering errors
      *
-     * Rendering errors are usually due to trying to render a template in 
+     * Rendering errors are usually due to trying to render a template in
      * the PhpRenderer, when we have no templates.
      *
      * As such, report as an unacceptable response.
      *
-     * @param  MvcEvent $e 
+     * @param  MvcEvent $e
      */
     public function onRenderError(MvcEvent $e)
     {

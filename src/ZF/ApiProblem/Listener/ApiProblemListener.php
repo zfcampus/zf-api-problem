@@ -200,7 +200,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      * If it matches, but on "*\/*", return false.
      *
      * Otherwise, return based on whether or not one or more criteria match.
-     * 
+     *
      * @param  AcceptHeader $accept
      * @return bool
      */
