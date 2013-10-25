@@ -6,6 +6,12 @@
 
 return array(
     'service_manager' => array(
+        'aliases'   => array(
+            'ZF\ApiProblem\ApiProblemListener'  => 'ZF\ApiProblem\Listener\ApiProblemListener',
+            'ZF\ApiProblem\RenderErrorListener' => 'ZF\ApiProblem\Listener\RenderErrorListener',
+            'ZF\ApiProblem\ApiProblemRenderer'  => 'ZF\ApiProblem\View\ApiProblemRenderer',
+            'ZF\ApiProblem\ApiProblemStrategy'  => 'ZF\ApiProblem\View\ApiProblemStrategy',
+        ),
         'factories' => array(
             'ZF\ApiProblem\Listener\ApiProblemListener'  => 'ZF\ApiProblem\Factory\ApiProblemListenerFactory',
             'ZF\ApiProblem\Listener\RenderErrorListener' => 'ZF\ApiProblem\Factory\RenderErrorListenerFactory',
