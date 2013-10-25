@@ -8,6 +8,7 @@ namespace ZF\ApiProblem\Listener;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\Http\Header\Accept as AcceptHeader;
 use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ModelInterface;
@@ -30,7 +31,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @var array
      */
-    protected static $acceptFilter = array(
+    protected $acceptFilters = array(
         'application/json',
         'application/*+json',
     );
@@ -40,25 +41,36 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * Set the accept filter, if one is passed
      *
-     * @param string|array $filter
+     * @param string|array $filters
      */
-    public function __construct($filter = null)
+    public function __construct($filters = null)
     {
-        if (is_string($filter) && !empty($filter)) {
-            static::$acceptFilter = array($filter);
-        }
-        if (is_array($filter) && !empty($filter)) {
-            static::$acceptFilter = $filter;
+        if (!empty($filters)) {
+            if (is_string($filters)) {
+                $this->acceptFilters = array($filters);
+            }
+
+            if (is_array($filters)) {
+                $this->acceptFilters = $filters;
+            }
         }
     }
 
     /**
-     * @param EventManagerInterface $events
+     * @param    EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, __CLASS__ . '::onRender', 1000);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, __CLASS__ . '::onDispatchError', 100);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 100);
+
+        $sharedEvents = $events->getSharedManager();
+        $sharedEvents->attach(
+            'Zend\Stdlib\DispatchableInterface',
+            MvcEvent::EVENT_DISPATCH,
+            array($this, 'onDispatch'),
+            100
+        );
     }
 
     /**
@@ -66,7 +78,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @param MvcEvent $e
      */
-    public static function onRender(MvcEvent $e)
+    public function onRender(MvcEvent $e)
     {
         // only worried about error pages
         if (!$e->isError()) {
@@ -86,16 +98,14 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         // ... that matches certain criteria
         $accept = $headers->get('Accept');
-        if (!static::matchAcceptCriteria($accept)) {
+        if (!$this->matchAcceptCriteria($accept)) {
             return;
         }
 
         // Next, do we have a view model in the result?
         // If not, nothing more to do.
         $model = $e->getResult();
-        if (!$model instanceof ModelInterface
-            || $model instanceof ApiProblemModel
-        ) {
+        if (!$model instanceof ModelInterface || $model instanceof ApiProblemModel) {
             return;
         }
 
@@ -117,14 +127,45 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
+     * Handle dispatch
+     *
+     * It checks if the controller is in our list
+     *
+     * @param MvcEvent $e
+     */
+    public function onDispatch(MvcEvent $e)
+    {
+        $app      = $e->getApplication();
+        $services = $app->getServiceManager();
+        $config   = $services->get('Config');
+        if (!isset($config['zf-api-problem'])) {
+            return;
+        }
+        if (!isset($config['zf-api-problem']['render_error_controllers'])) {
+            return;
+        }
+
+        $controller  = $e->getRouteMatch()->getParam('controller');
+        $controllers = $config['zf-api-problem']['render_error_controllers'];
+        if (!in_array($controller, $controllers)) {
+            // The current controller is not in our list of controllers to handle
+            return;
+        }
+
+        // Attach the ApiProblem render.error listener
+        $events = $app->getEventManager();
+        $events->attach($services->get('ZF\ApiProblem\RenderErrorListener'));
+    }
+
+    /**
      * Handle render errors
      *
-     * If the event representes an error, and has an exception composed, marshals an ApiProblemModel based on the exception, sets that as the event result 
-     * and view model, and stops event propagation.
-     * 
-     * @param  MvcEvent $e 
+     * If the event representes an error, and has an exception composed, marshals an ApiProblemModel
+     * based on the exception, sets that as the event result and view model, and stops event propagation.
+     *
+     * @param    MvcEvent $e
      */
-    public static function onDispatchError(MvcEvent $e)
+    public function onDispatchError(MvcEvent $e)
     {
         // only worried about error pages
         if (!$e->isError()) {
@@ -153,25 +194,25 @@ class ApiProblemListener extends AbstractListenerAggregate
         $e->stopPropagation();
     }
 
-
     /**
      * Attempt to match the accept criteria
      *
      * If it matches, but on "*\/*", return false.
      *
      * Otherwise, return based on whether or not one or more criteria match.
-     * 
-     * @param  \Zend\Http\Header\Accept $accept 
+     *
+     * @param  AcceptHeader $accept
      * @return bool
      */
-    protected static function matchAcceptCriteria($accept)
+    protected function matchAcceptCriteria(AcceptHeader $accept)
     {
-        foreach (static::$acceptFilter as $type) {
+        foreach ($this->acceptFilters as $type) {
             $match = $accept->match($type);
             if ($match && $match->getTypeString() != '*/*') {
                 return true;
             }
         }
+
         return false;
     }
 }

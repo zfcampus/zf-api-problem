@@ -13,8 +13,13 @@ use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use ZF\ApiProblem\Listener\RenderErrorListener;
 
-class ApiProblemListenerTest extends TestCase
+class RenderErrorListenerTest extends TestCase
 {
+    /**
+     * @var RenderErrorListener
+     */
+    protected $listener;
+
     public function setUp()
     {
         $this->listener = new RenderErrorListener();

@@ -7,7 +7,6 @@
 namespace ZF\ApiProblem\View;
 
 use Zend\View\Renderer\JsonRenderer;
-use ZF\ApiProblem\ApiProblem;
 
 class ApiProblemRenderer extends JsonRenderer
 {
@@ -22,7 +21,7 @@ class ApiProblemRenderer extends JsonRenderer
      * Set display_exceptions flag
      *
      * @param  bool $flag
-     * @return RestfulJsonRenderer
+     * @return self
      */
     public function setDisplayExceptions($flag)
     {
@@ -30,11 +29,17 @@ class ApiProblemRenderer extends JsonRenderer
         return $this;
     }
 
+    /**
+     * @param  string|\Zend\View\Model\ModelInterface $nameOrModel
+     * @param  array|null $values
+     * @return string
+     */
     public function render($nameOrModel, $values = null)
     {
         if (!$nameOrModel instanceof ApiProblemModel) {
             return '';
         }
+
         $apiProblem = $nameOrModel->getApiProblem();
 
         if ($this->displayExceptions) {
