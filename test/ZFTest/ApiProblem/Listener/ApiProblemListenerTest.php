@@ -31,7 +31,7 @@ class ApiProblemListenerTest extends TestCase
         $this->assertNull($this->listener->onRender($this->event));
     }
 
-    public function testOnDispatchErrorSetsAnApiProblemModelResultBasedOnCurrentEventException()
+    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventException()
     {
         $request = new Request();
         $request->getHeaders()->addHeaderLine('Accept', 'application/json');
@@ -40,12 +40,13 @@ class ApiProblemListenerTest extends TestCase
         $event->setError(Application::ERROR_EXCEPTION);
         $event->setParam('exception', new DomainException('triggering exception', 400));
         $event->setRequest($request);
-        $this->listener->onDispatchError($event);
+        $return = $this->listener->onDispatchError($event);
 
         $this->assertTrue($event->propagationIsStopped());
-        $result = $event->getResult();
-        $this->assertInstanceOf('ZF\ApiProblem\View\ApiProblemModel', $result);
-        $problem = $result->getApiProblem();
+        $this->assertInstanceOf('ZF\ApiProblem\ApiProblemResponse', $return);
+        $response = $event->getResponse();
+        $this->assertSame($return, $response);
+        $problem = $response->getApiProblem();
         $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $problem);
         $this->assertEquals(400, $problem->http_status);
         $this->assertSame($event->getParam('exception'), $problem->detail);

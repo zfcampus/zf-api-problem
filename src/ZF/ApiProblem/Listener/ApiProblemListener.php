@@ -13,8 +13,9 @@ use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ModelInterface;
 use ZF\ApiProblem\ApiProblem;
-use ZF\ApiProblem\Exception\ProblemExceptionInterface;
+use ZF\ApiProblem\ApiProblemResponse;
 use ZF\ApiProblem\View\ApiProblemModel;
+use ZF\ApiProblem\Exception\ProblemExceptionInterface;
 
 /**
  * ApiProblemListener
@@ -160,10 +161,11 @@ class ApiProblemListener extends AbstractListenerAggregate
     /**
      * Handle render errors
      *
-     * If the event representes an error, and has an exception composed, marshals an ApiProblemModel
-     * based on the exception, sets that as the event result and view model, and stops event propagation.
+     * If the event representes an error, and has an exception composed, marshals an ApiProblem
+     * based on the exception, stops event propagation, and returns an ApiProblemResponse.
      *
-     * @param    MvcEvent $e
+     * @param  MvcEvent $e
+     * @return ApiProblemResponse
      */
     public function onDispatchError(MvcEvent $e)
     {
@@ -188,10 +190,10 @@ class ApiProblemListener extends AbstractListenerAggregate
             return;
         }
 
-        $model = new ApiProblemModel($problem);
-        $e->setResult($model);
-        $e->setViewModel($model);
         $e->stopPropagation();
+        $response = new ApiProblemResponse($problem);
+        $e->setResponse($response);
+        return $response;
     }
 
     /**
