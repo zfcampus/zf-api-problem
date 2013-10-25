@@ -57,7 +57,6 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
-     * @internal
      * @param    EventManagerInterface $events
      */
     public function attach(EventManagerInterface $events)
@@ -132,7 +131,6 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * It checks if the controller is in our list
      *
-     * @internal
      * @param MvcEvent $e
      */
     public function onDispatch(MvcEvent $e)
@@ -165,7 +163,6 @@ class ApiProblemListener extends AbstractListenerAggregate
      * If the event representes an error, and has an exception composed, marshals an ApiProblemModel
      * based on the exception, sets that as the event result and view model, and stops event propagation.
      *
-     * @internal
      * @param    MvcEvent $e
      */
     public function onDispatchError(MvcEvent $e)
