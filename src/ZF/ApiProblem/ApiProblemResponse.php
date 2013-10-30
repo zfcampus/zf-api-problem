@@ -21,6 +21,8 @@ class ApiProblemResponse extends Response
     public function __construct(ApiProblem $apiProblem)
     {
         $this->apiProblem = $apiProblem;
+        $this->setStatusCode($apiProblem->httpStatus);
+        $this->setReasonPhrase($apiProblem->title);
     }
 
     /**
