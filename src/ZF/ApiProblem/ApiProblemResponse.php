@@ -48,16 +48,16 @@ class ApiProblemResponse extends Response
     /**
      * Retrieve headers
      *
-     * Proxies to parent class, but then checks if we have an accept header; if
-     * not, sets it, with a value of "application/api-problem+json".
+     * Proxies to parent class, but then checks if we have an content-type 
+     * header; if not, sets it, with a value of "application/api-problem+json".
      *
      * @return \Zend\Http\Headers
      */
     public function getHeaders()
     {
         $headers = parent::getHeaders();
-        if (!$headers->has('accept')) {
-            $headers->addHeaderLine('accept', 'application/api-problem+json');
+        if (!$headers->has('content-type')) {
+            $headers->addHeaderLine('content-type', 'application/api-problem+json');
         }
         return $headers;
     }
