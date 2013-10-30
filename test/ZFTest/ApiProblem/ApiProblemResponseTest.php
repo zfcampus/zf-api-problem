@@ -44,9 +44,9 @@ class ApiProblemResponseTest extends TestCase
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
         $headers  = $response->getHeaders();
-        $this->assertTrue($headers->has('accept'));
-        $header = $headers->get('accept');
-        $this->assertInstanceOf('Zend\Http\Header\Accept', $header);
+        $this->assertTrue($headers->has('content-type'));
+        $header = $headers->get('content-type');
+        $this->assertInstanceOf('Zend\Http\Header\ContentType', $header);
         $this->assertEquals('application/api-problem+json', $header->getFieldValue());
     }
 
