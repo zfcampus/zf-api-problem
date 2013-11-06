@@ -72,10 +72,10 @@ class Module
     {
         $app      = $e->getTarget();
         $services = $app->getServiceManager();
-        $events   = $view->getEventManager();
 
         if ($services->has('View')) {
-            $view = $services->get('View');
+            $view   = $services->get('View');
+            $events = $view->getEventManager();
 
             // register at high priority, to "beat" normal json strategy registered
             // via view manager, as well as HAL strategy.
