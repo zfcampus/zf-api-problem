@@ -81,25 +81,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function onRender(MvcEvent $e)
     {
-        // only worried about error pages
-        if (!$e->isError()) {
-            return;
-        }
-
-        // and then, only if we have an Accept header...
-        $request = $e->getRequest();
-        if (!$request instanceof HttpRequest) {
-            return;
-        }
-
-        $headers = $request->getHeaders();
-        if (!$headers->has('Accept')) {
-            return;
-        }
-
-        // ... that matches certain criteria
-        $accept = $headers->get('Accept');
-        if (!$this->matchAcceptCriteria($accept)) {
+        if (!$this->validateErrorEvent($e)) {
             return;
         }
 
@@ -169,8 +151,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function onDispatchError(MvcEvent $e)
     {
-        // only worried about error pages
-        if (!$e->isError()) {
+        if (!$this->validateErrorEvent($e)) {
             return;
         }
 
@@ -194,6 +175,39 @@ class ApiProblemListener extends AbstractListenerAggregate
         $response = new ApiProblemResponse($problem);
         $e->setResponse($response);
         return $response;
+    }
+
+    /**
+     * Determine if we have a valid error event
+     * 
+     * @param  MvcEvent $e 
+     * @return bool
+     */
+    protected function validateErrorEvent(MvcEvent $e)
+    {
+        // only worried about error pages
+        if (!$e->isError()) {
+            return false;
+        }
+
+        // and then, only if we have an Accept header...
+        $request = $e->getRequest();
+        if (!$request instanceof HttpRequest) {
+            return false;
+        }
+
+        $headers = $request->getHeaders();
+        if (!$headers->has('Accept')) {
+            return false;
+        }
+
+        // ... that matches certain criteria
+        $accept = $headers->get('Accept');
+        if (!$this->matchAcceptCriteria($accept)) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
