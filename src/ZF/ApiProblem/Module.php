@@ -72,11 +72,14 @@ class Module
     {
         $app      = $e->getTarget();
         $services = $app->getServiceManager();
-        $view     = $services->get('View');
         $events   = $view->getEventManager();
 
-        // register at high priority, to "beat" normal json strategy registered
-        // via view manager, as well as HAL strategy.
-        $events->attach($services->get('ZF\ApiProblem\ApiProblemStrategy'), 400);
+        if ($services->has('View')) {
+            $view = $services->get('View');
+
+            // register at high priority, to "beat" normal json strategy registered
+            // via view manager, as well as HAL strategy.
+            $events->attach($services->get('ZF\ApiProblem\ApiProblemStrategy'), 400);
+        }
     }
 }
