@@ -164,8 +164,7 @@ class ApiProblemListener extends AbstractListenerAggregate
             if (0 === $status) {
                 $status = 500;
             }
-            $detail  = $exception->getMessage();
-            $problem = new ApiProblem($status, $detail);
+            $problem = new ApiProblem($status, $exception);
         } else {
             // If it's not an exception, do not know what to do.
             return;
