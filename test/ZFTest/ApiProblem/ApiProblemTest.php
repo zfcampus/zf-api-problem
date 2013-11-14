@@ -65,17 +65,18 @@ class ApiProblemTest extends TestCase
         $this->assertEquals($exception->getMessage(), $payload['detail']);
     }
 
-    public function testDetailCanIncludeStackTrace()
+    public function testExceptionsCanTriggerInclusionOfStackTraceInDetails()
     {
         $exception  = new \Exception('exception message');
         $apiProblem = new ApiProblem('500', $exception);
         $apiProblem->setDetailIncludesStackTrace(true);
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('detail', $payload);
-        $this->assertEquals($exception->getMessage() . "\n" . $exception->getTraceAsString(), $payload['detail']);
+        $this->assertArrayHasKey('trace', $payload);
+        $this->assertInternalType('array', $payload['trace']);
+        $this->assertEquals($exception->getTrace(), $payload['trace']);
     }
 
-    public function testDetailCanIncludeNestedExceptions()
+    public function testExceptionsCanTriggerInclusionOfNestedExceptions()
     {
         $exceptionChild  = new \Exception('child exception');
         $exceptionParent = new \Exception('parent exception', null, $exceptionChild);
@@ -83,12 +84,16 @@ class ApiProblemTest extends TestCase
         $apiProblem = new ApiProblem('500', $exceptionParent);
         $apiProblem->setDetailIncludesStackTrace(true);
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('detail', $payload);
-        $expected = $exceptionParent->getMessage() . "\n"
-            . $exceptionParent->getTraceAsString() . "\n"
-            . $exceptionChild->getMessage() . "\n"
-            . $exceptionChild->getTraceAsString();
-        $this->assertEquals($expected, $payload['detail']);
+        $this->assertArrayHasKey('exception_stack', $payload);
+        $this->assertInternalType('array', $payload['exception_stack']);
+        $expected = array(
+            array(
+                'code' => $exceptionChild->getCode(),
+                'message' => $exceptionChild->getMessage(),
+                'trace' => $exceptionChild->getTrace(),
+            ),
+        );
+        $this->assertEquals($expected, $payload['exception_stack']);
     }
 
     public function testProblemTypeUrlIsUsedVerbatim()

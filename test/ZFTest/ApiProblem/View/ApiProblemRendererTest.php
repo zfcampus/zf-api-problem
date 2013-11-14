@@ -45,6 +45,8 @@ class ApiProblemRendererTest extends TestCase
         $this->renderer->setDisplayExceptions(true);
         $test = $this->renderer->render($model);
         $test = json_decode($test, true);
-        $this->assertContains($exception->getMessage() . "\n" . $exception->getTraceAsString(), $test['detail']);
+        $this->assertArrayHasKey('trace', $test);
+        $this->assertInternalType('array', $test['trace']);
+        $this->assertGreaterThanOrEqual(1, count($test['trace']));
     }
 }

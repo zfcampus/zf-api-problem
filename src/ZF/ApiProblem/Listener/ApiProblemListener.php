@@ -164,8 +164,7 @@ class ApiProblemListener extends AbstractListenerAggregate
             if (0 === $status) {
                 $status = 500;
             }
-            $detail  = $exception->getMessage();
-            $problem = new ApiProblem($status, $detail);
+            $problem = new ApiProblem($status, $exception);
         } else {
             // If it's not an exception, do not know what to do.
             return;
@@ -179,8 +178,8 @@ class ApiProblemListener extends AbstractListenerAggregate
 
     /**
      * Determine if we have a valid error event
-     * 
-     * @param  MvcEvent $e 
+     *
+     * @param  MvcEvent $e
      * @return bool
      */
     protected function validateErrorEvent(MvcEvent $e)
