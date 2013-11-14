@@ -296,14 +296,24 @@ class ApiProblem
             return $e->getMessage();
         }
 
-        $message = '';
-        do {
-            $message .= $e->getMessage() . "\n";
-            $message .= $e->getTraceAsString() . "\n";
-            $e = $e->getPrevious();
-        } while ($e instanceof \Exception);
+        $message = trim($e->getMessage());
+        $this->additionalDetails['trace'] = $e->getTrace();
 
-        return trim($message);
+        $previous = array();
+        $e = $e->getPrevious();
+        while ($e) {
+            $previous[] = array(
+                'code'    => (int) $e->getCode(),
+                'message' => trim($e->getMessage()),
+                'trace'   => $e->getTrace(),
+            );
+            $e = $e->getPrevious();
+        }
+        if (count($previous)) {
+            $this->additionalDetails['exception_stack'] = $previous;
+        }
+
+        return $message;
     }
 
     /**

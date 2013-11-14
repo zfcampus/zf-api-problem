@@ -67,8 +67,9 @@ class SendApiProblemResponseListenerTest extends TestCase
         $contents = ob_get_clean();
         $this->assertInternalType('string', $contents);
         $data = json_decode($contents, true);
-        $this->assertContains("\n", $data['detail']);
-        $this->assertContains($this->exception->getTraceAsString(), $data['detail']);
+        $this->assertArrayHasKey('trace', $data);
+        $this->assertInternalType('array', $data['trace']);
+        $this->assertGreaterThanOrEqual(1, count($data['trace']));
     }
 
     public function testSendContentDoesNothingIfEventDoesNotContainApiProblemResponse()

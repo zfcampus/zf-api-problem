@@ -178,8 +178,8 @@ class ApiProblemListener extends AbstractListenerAggregate
 
     /**
      * Determine if we have a valid error event
-     * 
-     * @param  MvcEvent $e 
+     *
+     * @param  MvcEvent $e
      * @return bool
      */
     protected function validateErrorEvent(MvcEvent $e)
