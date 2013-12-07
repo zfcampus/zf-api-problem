@@ -41,7 +41,10 @@
     "autoload": {
         "psr-0": {
             "ZF\\ApiProblem\\": "src/",
-            "ZFTest\\": "test/"
-        }
+            "ZFTest\\ApiProblem\\": "test/"
+        },
+        "classmap": [
+            "Module.php"
+        ]
     }
 }
