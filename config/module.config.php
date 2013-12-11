@@ -29,7 +29,7 @@ return array(
 
     'zf-api-problem' => array(
         // Accept types that should allow ApiProblem responses
-        // 'accept_filter' => $stringOrArray,
+        // 'accept_filters' => $stringOrArray,
 
         // Array of controller service names that should enable the ApiProblem render.error listener
         //'render_error_controllers' => array(),
