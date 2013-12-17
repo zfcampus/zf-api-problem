@@ -50,7 +50,7 @@ This latter bit, the ``Accept`` header matching, is configurable. If you want to
 allow an API-Problem response for other than the default set of mediatypes
 (``application/hal+json``, ``application/api-problem+json``, and
 ``application/json``), you can do so via your configuration. Set the value in
-the ``accept_filter`` subkey of the ``zf-hal`` configuration; the value
+the ``accept_filters`` subkey of the ``zf-hal`` configuration; the value
 should be a comma-separated set of mimetypes.
 
 .. code-block:: php
@@ -59,7 +59,7 @@ should be a comma-separated set of mimetypes.
     return array(
         'zf-hal' => array(
             // ...
-            'accept_filter' => 'application/json,text/json',
+            'accept_filters' => 'application/json,text/json',
         ),
     );
 
