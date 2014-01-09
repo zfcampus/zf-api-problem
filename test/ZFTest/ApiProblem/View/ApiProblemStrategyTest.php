@@ -79,7 +79,7 @@ class ApiProblemStrategyTest extends TestCase
         $headers = $this->response->getHeaders();
         $this->assertTrue($headers->has('Content-Type'));
         $header = $headers->get('Content-Type');
-        $this->assertEquals('application/api-problem+json', $header->getFieldValue());
+        $this->assertEquals('application/problem+json', $header->getFieldValue());
     }
 
     public function invalidStatusCodes()

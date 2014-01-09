@@ -22,7 +22,7 @@ class ApiProblem
      * URL describing the problem type; defaults to HTTP status codes
      * @var string
      */
-    protected $problemType = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
+    protected $type = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
 
     /**
      * Description of the specific problem.
@@ -44,7 +44,7 @@ class ApiProblem
      *
      * @var int
      */
-    protected $httpStatus;
+    protected $status;
 
     /**
      * Normalized property names for overloading
@@ -52,12 +52,10 @@ class ApiProblem
      * @var array
      */
     protected $normalizedProperties = array(
-        'problemtype'  => 'problemType',
-        'problem_type' => 'problemType',
-        'httpstatus'   => 'httpStatus',
-        'http_status'  => 'httpStatus',
-        'title'        => 'title',
-        'detail'       => 'detail',
+        'type'   => 'type',
+        'status' => 'status',
+        'title'  => 'title',
+        'detail' => 'detail',
     );
 
     /**
@@ -118,21 +116,21 @@ class ApiProblem
      * Constructor
      *
      * Create an instance using the provided information. If nothing is
-     * provided for the problemType field, the class default will be used;
-     * if the httpStatus matches any known, the title field will be selected
+     * provided for the type field, the class default will be used;
+     * if the status matches any known, the title field will be selected
      * from $problemStatusTitles as a result.
      *
-     * @param int    $httpStatus
+     * @param int    $status
      * @param string $detail
-     * @param string $problemType
+     * @param string $type
      * @param string $title
      * @param array  $additional
      */
-    public function __construct($httpStatus, $detail, $problemType = null, $title = null, array $additional = array())
+    public function __construct($status, $detail, $type = null, $title = null, array $additional = array())
     {
         if ($detail instanceof Exception\ProblemExceptionInterface) {
-            if (null === $problemType) {
-                $problemType = $detail->getProblemType();
+            if (null === $type) {
+                $type = $detail->getType();
             }
             if (null === $title) {
                 $title = $detail->getTitle();
@@ -142,12 +140,12 @@ class ApiProblem
             }
         }
 
-        $this->httpStatus = $httpStatus;
-        $this->detail     = $detail;
-        $this->title      = $title;
+        $this->status = $status;
+        $this->detail = $detail;
+        $this->title  = $title;
 
-        if (null !== $problemType) {
-            $this->problemType = $problemType;
+        if (null !== $type) {
+            $this->type = $type;
         }
 
         $this->additionalDetails = $additional;
@@ -190,10 +188,10 @@ class ApiProblem
     public function toArray()
     {
         $problem = array(
-            'problemType' => $this->problemType,
-            'title'       => $this->getTitle(),
-            'httpStatus'  => $this->getHttpStatus(),
-            'detail'      => $this->getDetail(),
+            'type'   => $this->type,
+            'title'  => $this->getTitle(),
+            'status' => $this->getStatus(),
+            'detail' => $this->getDetail(),
         );
         // Required fields should always overwrite additional fields
         return array_merge($this->additionalDetails, $problem);
@@ -237,19 +235,19 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getHttpStatus()
+    protected function getStatus()
     {
         if ($this->detail instanceof \Exception) {
-            $this->httpStatus = $this->createStatusFromException();
+            $this->status = $this->createStatusFromException();
         }
 
-        return $this->httpStatus;
+        return $this->status;
     }
 
     /**
      * Retrieve the title
      *
-     * If the default $problemType is used, and the $httpStatus is found in
+     * If the default $type is used, and the $status is found in
      * $problemStatusTitles, then use the matching title.
      *
      * If no title was provided, and the above conditions are not met, use the
@@ -266,10 +264,10 @@ class ApiProblem
         }
 
         if (null === $this->title
-            && $this->problemType == 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
-            && array_key_exists($this->getHttpStatus(), $this->problemStatusTitles)
+            && $this->type == 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html'
+            && array_key_exists($this->getStatus(), $this->problemStatusTitles)
         ) {
-            return $this->problemStatusTitles[$this->httpStatus];
+            return $this->problemStatusTitles[$this->status];
         }
 
         if ($this->detail instanceof \Exception) {
@@ -323,11 +321,11 @@ class ApiProblem
      */
     protected function createStatusFromException()
     {
-        $e          = $this->detail;
-        $httpStatus = $e->getCode();
+        $e      = $this->detail;
+        $status = $e->getCode();
 
-        if (!empty($httpStatus)) {
-            return $httpStatus;
+        if (!empty($status)) {
+            return $status;
         } else {
             return 500;
         }

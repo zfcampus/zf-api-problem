@@ -21,7 +21,7 @@ class ApiProblemResponse extends Response
     public function __construct(ApiProblem $apiProblem)
     {
         $this->apiProblem = $apiProblem;
-        $this->setStatusCode($apiProblem->httpStatus);
+        $this->setStatusCode($apiProblem->status);
         $this->setReasonPhrase($apiProblem->title);
     }
 
@@ -48,8 +48,8 @@ class ApiProblemResponse extends Response
     /**
      * Retrieve headers
      *
-     * Proxies to parent class, but then checks if we have an content-type 
-     * header; if not, sets it, with a value of "application/api-problem+json".
+     * Proxies to parent class, but then checks if we have an content-type
+     * header; if not, sets it, with a value of "application/problem+json".
      *
      * @return \Zend\Http\Headers
      */
@@ -57,7 +57,7 @@ class ApiProblemResponse extends Response
     {
         $headers = parent::getHeaders();
         if (!$headers->has('content-type')) {
-            $headers->addHeaderLine('content-type', 'application/api-problem+json');
+            $headers->addHeaderLine('content-type', 'application/problem+json');
         }
         return $headers;
     }
