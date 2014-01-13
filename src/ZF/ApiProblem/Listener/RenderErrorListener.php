@@ -81,7 +81,7 @@ class RenderErrorListener extends AbstractListenerAggregate
         }
 
         $payload = array(
-            'httpStatus'  => $status,
+            'status'      => $status,
             'title'       => $title,
             'describedBy' => $describedBy,
             'detail'      => $detail,
@@ -90,7 +90,7 @@ class RenderErrorListener extends AbstractListenerAggregate
             $payload['details'] = $details;
         }
 
-        $response->getHeaders()->addHeaderLine('content-type', 'application/api-problem+json');
+        $response->getHeaders()->addHeaderLine('content-type', 'application/problem+json');
         $response->setStatusCode($status);
         $response->setContent(json_encode($payload));
 

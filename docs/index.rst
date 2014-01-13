@@ -9,13 +9,13 @@ implementing RESTful JSON APIs in `Hypermedia Application Language (HAL)
 <http://stateless.co/hal_specification.html>`_. It provides a workflow for
 mapping persistence to resources to expose via your API.
 
-For error reporting, it uses `API-Problem <http://tools.ietf.org/html/draft-nottingham-http-problem-02>`_.
+For error reporting, it uses `API-Problem <http://tools.ietf.org/html/draft-nottingham-http-problem-05>`_.
 
 Contents:
 
 .. toctree::
    :hidden:
-   
+
    halprimer
    problems
    options

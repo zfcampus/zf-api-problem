@@ -28,10 +28,10 @@ class ApiProblemRendererTest extends TestCase
         $model->setApiProblem($apiProblem);
         $test = $this->renderer->render($model);
         $expected = array(
-            'httpStatus'  => 401,
-            'problemType' => 'http://status.dev/errors.md',
-            'title'       => 'Unauthorized',
-            'detail'      => 'login error',
+            'status' => 401,
+            'type'   => 'http://status.dev/errors.md',
+            'title'  => 'Unauthorized',
+            'detail' => 'login error',
         );
         $this->assertEquals($expected, json_decode($test, true));
     }

@@ -48,7 +48,7 @@ class ApiProblemListenerTest extends TestCase
         $this->assertSame($return, $response);
         $problem = $response->getApiProblem();
         $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $problem);
-        $this->assertEquals(400, $problem->http_status);
+        $this->assertEquals(400, $problem->status);
         $this->assertSame($event->getParam('exception'), $problem->detail);
     }
 }

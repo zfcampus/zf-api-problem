@@ -43,14 +43,14 @@ class RenderErrorListenerTest extends TestCase
         $this->assertEquals(406, $response->getStatusCode());
         $headers = $response->getHeaders();
         $this->assertTrue($headers->has('Content-Type'));
-        $this->assertEquals('application/api-problem+json', $headers->get('content-type')->getFieldValue());
+        $this->assertEquals('application/problem+json', $headers->get('content-type')->getFieldValue());
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('httpStatus', $content);
+        $this->assertArrayHasKey('status', $content);
         $this->assertArrayHasKey('title', $content);
         $this->assertArrayHasKey('describedBy', $content);
         $this->assertArrayHasKey('detail', $content);
 
-        $this->assertEquals(406, $content['httpStatus']);
+        $this->assertEquals(406, $content['status']);
         $this->assertEquals('Not Acceptable', $content['title']);
         $this->assertContains('www.w3.org', $content['describedBy']);
         $this->assertContains('accept', $content['detail']);
