@@ -16,7 +16,7 @@ use ZF\ApiProblem\ApiProblem;
  *
  * This will give the following content types:
  *
- * - application/api-problem+json for a result that contains a Problem
+ * - application/problem+json for a result that contains a Problem
  *   API-formatted response
  */
 class ApiProblemStrategy extends JsonStrategy
@@ -72,7 +72,7 @@ class ApiProblemStrategy extends JsonStrategy
 
         $problem     = $model->getApiProblem();
         $statusCode  = $this->getStatusCodeFromApiProblem($problem);
-        $contentType = 'application/api-problem+json';
+        $contentType = 'application/problem+json';
 
         // Populate response
         $response = $e->getResponse();
@@ -92,7 +92,7 @@ class ApiProblemStrategy extends JsonStrategy
      */
     protected function getStatusCodeFromApiProblem(ApiProblem $problem)
     {
-        $status = $problem->httpStatus;
+        $status = $problem->status;
 
         if ($status < 100 || $status >= 600) {
             return 500;

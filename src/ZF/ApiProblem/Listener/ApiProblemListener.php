@@ -93,13 +93,13 @@ class ApiProblemListener extends AbstractListenerAggregate
         }
 
         // Marshal the information we need for the API-Problem response
-        $httpStatus = $e->getResponse()->getStatusCode();
+        $status     = $e->getResponse()->getStatusCode();
         $exception  = $model->getVariable('exception');
 
         if ($exception instanceof \Exception) {
-            $apiProblem = new ApiProblem($httpStatus, $exception);
+            $apiProblem = new ApiProblem($status, $exception);
         } else {
-            $apiProblem = new ApiProblem($httpStatus, $model->getVariable('message'));
+            $apiProblem = new ApiProblem($status, $model->getVariable('message'));
         }
 
         // Create a new model with the API-Problem payload, and reset

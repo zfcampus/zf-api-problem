@@ -13,7 +13,7 @@ use ZF\ApiProblem\Exception;
 
 class ApiProblemTest extends TestCase
 {
-    public function httpStatusCodes()
+    public function statusCodes()
     {
         return array(
             '200' => array(200),
@@ -29,23 +29,23 @@ class ApiProblemTest extends TestCase
     }
 
     /**
-     * @dataProvider httpStatusCodes
+     * @dataProvider statusCodes
      */
-    public function testHttpStatusIsUsedVerbatim($status)
+    public function testStatusIsUsedVerbatim($status)
     {
         $apiProblem = new ApiProblem($status, 'foo');
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('httpStatus', $payload);
-        $this->assertEquals($status, $payload['httpStatus']);
+        $this->assertArrayHasKey('status', $payload);
+        $this->assertEquals($status, $payload['status']);
     }
 
-    public function testExceptionCodeIsUsedForHttpStatus()
+    public function testExceptionCodeIsUsedForStatus()
     {
         $exception  = new \Exception('exception message', 401);
         $apiProblem = new ApiProblem('500', $exception);
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('httpStatus', $payload);
-        $this->assertEquals($exception->getCode(), $payload['httpStatus']);
+        $this->assertArrayHasKey('status', $payload);
+        $this->assertEquals($exception->getCode(), $payload['status']);
     }
 
     public function testDetailStringIsUsedVerbatim()
@@ -96,15 +96,15 @@ class ApiProblemTest extends TestCase
         $this->assertEquals($expected, $payload['exception_stack']);
     }
 
-    public function testProblemTypeUrlIsUsedVerbatim()
+    public function testTypeUrlIsUsedVerbatim()
     {
         $apiProblem = new ApiProblem('500', 'foo', 'http://status.dev:8080/details.md');
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('problemType', $payload);
-        $this->assertEquals('http://status.dev:8080/details.md', $payload['problemType']);
+        $this->assertArrayHasKey('type', $payload);
+        $this->assertEquals('http://status.dev:8080/details.md', $payload['type']);
     }
 
-    public function knownHttpStatusCodes()
+    public function knownStatusCodes()
     {
         return array(
             '404' => array(404),
@@ -115,11 +115,11 @@ class ApiProblemTest extends TestCase
     }
 
     /**
-     * @dataProvider knownHttpStatusCodes
+     * @dataProvider knownStatusCodes
      */
-    public function testKnownHttpStatusResultsInKnownTitle($httpStatus)
+    public function testKnownStatusResultsInKnownTitle($status)
     {
-        $apiProblem = new ApiProblem($httpStatus, 'foo');
+        $apiProblem = new ApiProblem($status, 'foo');
         $r = new ReflectionObject($apiProblem);
         $p = $r->getProperty('problemStatusTitles');
         $p->setAccessible(true);
@@ -127,10 +127,10 @@ class ApiProblemTest extends TestCase
 
         $payload = $apiProblem->toArray();
         $this->assertArrayHasKey('title', $payload);
-        $this->assertEquals($titles[$httpStatus], $payload['title']);
+        $this->assertEquals($titles[$status], $payload['title']);
     }
 
-    public function testUnknownHttpStatusResultsInUnknownTitle()
+    public function testUnknownStatusResultsInUnknownTitle()
     {
         $apiProblem = new ApiProblem(420, 'foo');
         $payload = $apiProblem->toArray();
@@ -178,14 +178,14 @@ class ApiProblemTest extends TestCase
         $this->assertEquals($exception->getTitle(), $payload['title']);
     }
 
-    public function testUsesProblemTypeFromExceptionWhenProvided()
+    public function testUsesTypeFromExceptionWhenProvided()
     {
         $exception  = new Exception\DomainException('exception message', 401);
-        $exception->setProblemType('http://example.com/api/help/401');
+        $exception->setType('http://example.com/api/help/401');
         $apiProblem = new ApiProblem('401', $exception);
         $payload    = $apiProblem->toArray();
-        $this->assertArrayHasKey('problemType', $payload);
-        $this->assertEquals($exception->getProblemType(), $payload['problemType']);
+        $this->assertArrayHasKey('type', $payload);
+        $this->assertEquals($exception->getType(), $payload['type']);
     }
 
     public function testUsesAdditionalDetailsFromExceptionWhenProvided()

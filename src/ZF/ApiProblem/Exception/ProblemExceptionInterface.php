@@ -19,7 +19,7 @@ interface ProblemExceptionInterface
     /**
      * @return string
      */
-    public function getProblemType();
+    public function getType();
 
     /**
      * @return string
