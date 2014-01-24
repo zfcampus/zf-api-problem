@@ -52,7 +52,7 @@ class Module
         $eventManager   = $app->getEventManager();
 
         $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
-        $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 100);
+        $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 400);
 
         $sendResponseListener = $serviceManager->get('SendResponseListener');
         $sendResponseListener->getEventManager()->attach(
