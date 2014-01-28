@@ -61,4 +61,25 @@ class ApiProblemResponse extends Response
         }
         return $headers;
     }
+
+    /**
+     * Override reason phrase handling
+     *
+     * If no corresponding reason phrase is available for the current status
+     * code, return "Unknown Error".
+     *
+     * @return string
+     */
+    public function getReasonPhrase()
+    {
+        if (! empty($this->reasonPhrase)) {
+            return $this->reasonPhrase;
+        }
+
+        if (isset($this->recommendedReasonPhrases[$this->statusCode])) {
+            return $this->recommendedReasonPhrases[$this->statusCode];
+        }
+
+        return 'Unknown Error';
+    }
 }

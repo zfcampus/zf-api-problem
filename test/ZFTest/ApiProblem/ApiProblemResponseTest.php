@@ -56,4 +56,13 @@ class ApiProblemResponseTest extends TestCase
         $response   = new ApiProblemResponse($apiProblem);
         $this->assertSame($apiProblem, $response->getApiProblem());
     }
+
+    /**
+     * @group 14
+     */
+    public function testOverridesReasonPhraseIfStatusCodeIsUnknown()
+    {
+        $response = new ApiProblemResponse(new ApiProblem(7, 'Random error'));
+        $this->assertContains('Unknown', $response->getReasonPhrase());
+    }
 }
