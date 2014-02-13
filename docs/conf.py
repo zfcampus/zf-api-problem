@@ -41,7 +41,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'PhlyRestfully - ZF2 module for creating RESTful JSON APIs'
-copyright = u'2013, Matthew Weier O\'Phinney'
+copyright = u'2014, Matthew Weier O\'Phinney'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
