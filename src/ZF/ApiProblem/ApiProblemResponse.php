@@ -13,7 +13,17 @@ use Zend\Http\Response;
  */
 class ApiProblemResponse extends Response
 {
+    /**
+     * @var ApiProblem
+     */
     protected $apiProblem;
+
+    /**
+     * Flags to use with json_encode 
+     * 
+     * @var int
+     */
+    protected $jsonFlags = 0;
 
     /**
      * @param ApiProblem $apiProblem
@@ -23,6 +33,10 @@ class ApiProblemResponse extends Response
         $this->apiProblem = $apiProblem;
         $this->setStatusCode($apiProblem->status);
         $this->setReasonPhrase($apiProblem->title);
+
+        if (defined('JSON_UNESCAPED_SLASHES')) {
+            $this->jsonFlags = constant('JSON_UNESCAPED_SLASHES');
+        }
     }
 
     /**
@@ -42,7 +56,7 @@ class ApiProblemResponse extends Response
      */
     public function getContent()
     {
-        return json_encode($this->apiProblem->toArray(), JSON_UNESCAPED_SLASHES);
+        return json_encode($this->apiProblem->toArray(), $this->jsonFlags);
     }
 
     /**
