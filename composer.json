@@ -39,7 +39,7 @@
         "zendframework/zend-loader": "~2.3"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "ZF\\ApiProblem\\": "src/",
             "ZFTest\\ApiProblem\\": "test/"
         },
