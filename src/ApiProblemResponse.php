@@ -31,7 +31,7 @@ class ApiProblemResponse extends Response
     public function __construct(ApiProblem $apiProblem)
     {
         $this->apiProblem = $apiProblem;
-        $this->setStatusCode($apiProblem->status);
+        $this->setCustomStatusCode($apiProblem->status);
         $this->setReasonPhrase($apiProblem->title);
 
         if (defined('JSON_UNESCAPED_SLASHES')) {
