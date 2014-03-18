@@ -23,7 +23,7 @@ class Module
     {
         return array(
             'Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-                __NAMESPACE__ => __DIR__ . '/src/ZF/ApiProblem/',
+                __NAMESPACE__ => __DIR__ . '/src/',
             ))
         );
     }
