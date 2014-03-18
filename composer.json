@@ -33,13 +33,15 @@
         "zendframework/zend-view": "~2.3"
     },
     "require-dev": {
+        "fabpot/php-cs-fixer": "*@dev",
         "phpunit/PHPUnit": "3.7.*",
+        "satooshi/php-coveralls": ">=0.6.0",
         "zendframework/zend-console": "~2.3",
         "zendframework/zend-http": "~2.3",
         "zendframework/zend-loader": "~2.3"
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "ZF\\ApiProblem\\": "src/",
             "ZFTest\\ApiProblem\\": "test/"
         },
