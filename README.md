@@ -94,12 +94,44 @@ ZF2 Events
 
 ### Listeners
 
-#### `ZF\ApiProblem\ApiProblemListener` (a.k.a. `ZF\ApiProblem\Listener\ApiProblemListener`)
+#### `ZF\ApiProblem\Listener\ApiProblemListener`
 
-#### `ZF\ApiProblem\RenderErrorListener` (a.k.a. `ZF\ApiProblem\Listener\RenderErrorListener`)
+The `ApiProblemListener` attaches to three events in the MVC lifecycle:
+
+- `MvcEvent::EVENT_RENDER` with a priority of 1000
+- `MvcEvent::EVENT_DISPATCH_ERROR` with a priority of 100
+- `MvcEvent::EVENT_DISPATCH` as a _shared_ event on `Zend\Stdlib\DispatchableInterface` with a
+  priority of 100
+
+If the current Accept media type does not match the configured api-problem media types,
+then this listener passes on taking any action.
+
+When this listener does take action, the purposes are threefold:
+
+- Before dispatching, the `render_error_controllers` configuration value is consulted to determine
+  if the `ZF\ApiProblem\Listener\RenderErrorListener` should be attached, see
+  `RenderErrorListener` for more information.
+- After dispatching, detect the type of response from the controller, if it is already an
+  ApiProblem model, continue.  If not, but there was an exception throw during dispatch,
+  convert the response to an api-problem with some information as to what the exception is.
+- If a dispatch error has occurred, and is a valid Accept type, attempt to cast the dispatch
+  exception into an API problem response.
+
+#### `ZF\ApiProblem\Listener\RenderErrorListener`
+
+This listener is attached to `MvcEvent::EVENT_RENDER_ERROR` at priority `100`.  This listener
+is conditionally attached by `ZF\ApiProblem\Listener\ApiProblemListener` for controllers that
+require API Problem responses.  With a priority of `100`, this ensures that this Render Error
+time listener will run before the ZF2 one.  In cases when it does run, it will attempt to
+take exceptions and inject an api-problem response in the HTTP response.
 
 #### `ZF\ApiProblem\Listener\SendApiProblemResponseListener`
 
+This listener is attached to the `SendResponseEvent::EVENT_SEND_RESPONSE` at priority `-500`.
+The primary purpose of this listener is to, when an ApiProblem response is to be sent, to
+send the headers and content body.  This differs from the way ZF2 typically sends responses
+in that inside this listener it takes into account if the Response should include an
+exception trace as part of the serialized response or not.
 
 ZF2 Services
 ------------
@@ -112,7 +144,58 @@ ZF2 Services
 
 ### View Services
 
-#### `ZF\ApiProblem\ApiProblemRenderer` (a.k.a. `ZF\ApiProblem\View\ApiProblemRenderer`)
+#### `ZF\ApiProblem\View\ApiProblemRenderer`
 
-#### `ZF\ApiProblem\ApiProblemStrategy` (a.k.a. `ZF\ApiProblem\View\ApiProblemStrategy`)
+This service extends the JsonRenderer service from the ZF2 MVC layer.  It's primary responsibility
+is to decorate JSON rendering with the ability to optionally output stack traces.
 
+#### `ZF\ApiProblem\View\ApiProblemStrategy`
+
+This service is a view strategy that allows any ApiProblemModels details to be injected into the
+MVC's HTTP response object.  This is similar in nature to the `JsonStrategy`.
+
+### Models
+
+#### `ZF\ApiProblem\ApiProblem`
+
+An instance of `ZF\ApiProblem\ApiProblem` serves the purpose of modeling the kind of problem that
+is encountered.  An instance of `ApiProblem` is typically wrapped in an `ApiProblemResponse`
+(see `ApiProblemResponse` below).  Most information can be passed into the constructor:
+
+```php
+class ApiProblem {
+  public function __construct($status, $detail, $type = null, $title = null, array $additional = array()) {}
+}
+```
+
+For example:
+
+```php
+new ApiProblem(404, 'Entity not found');
+// or
+new ApiProblem(424, $exceptionInstance);
+```
+
+#### `ZF\ApiProblem\ApiProblemResponse`
+
+An instance of `ZF\ApiProblem\ApiProblem` can be returned from any controller service or ZF2
+MVC event.  When it is, the HTTP response will be converted to the proper JSON based HTTP response.
+
+For example:
+
+```php
+use ZF\ApiProblem\ApiProblem;
+use ZF\ApiProblem\ApiProblemResponse;
+class MyController extends Zend\Mvc\Controller\AbstractActionController
+{
+    /* ... */
+    public function fetch($id)
+    {
+        $entity = $this->model->fetch($id);
+        if (!$entity) {
+            return new ApiProblemResponse(ApiProblem(404, 'Entity not found'));
+        }
+        return $entity;
+    }
+}
+```

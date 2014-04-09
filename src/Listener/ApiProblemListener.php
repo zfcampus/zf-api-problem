@@ -143,7 +143,7 @@ class ApiProblemListener extends AbstractListenerAggregate
     /**
      * Handle render errors
      *
-     * If the event representes an error, and has an exception composed, marshals an ApiProblem
+     * If the event represents an error, and has an exception composed, marshals an ApiProblem
      * based on the exception, stops event propagation, and returns an ApiProblemResponse.
      *
      * @param  MvcEvent $e
