@@ -53,12 +53,15 @@ The top-level configuration key for user configuration of this module is `zf-api
 
 #### Key: `accept_filters`
 
-// Accept types that should allow ApiProblem responses
+An array of `Accept` header media types that, when matched, will result in the
+[ApiProblemListener](#zfapiproblemlistenerapiproblemlistener) handling an
+`MvcEvent::EVENT_RENDER_ERROR` event.
 
 #### Key: `render_error_controllers`
 
-// Array of controller service names that should enable the ApiProblem render.error listener
-
+An array of controller service names that, if matched as the `controller` parameter in the MVC
+`RouteMatch`, will cause the [ApiProblemListener](#zfapiproblemlistenerapiproblemlistener) to handle 
+`MvcEvent::EVENT_RENDER_ERROR` events.
 
 ### System Configuration
 
