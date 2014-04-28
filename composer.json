@@ -28,6 +28,7 @@
     "require": {
         "php": ">=5.3.23",
         "zendframework/zend-eventmanager": "~2.3",
+        "zendframework/zend-http": "~2.3",
         "zendframework/zend-json": "~2.3",
         "zendframework/zend-mvc": "~2.3",
         "zendframework/zend-view": "~2.3"
@@ -37,7 +38,6 @@
         "phpunit/PHPUnit": "3.7.*",
         "satooshi/php-coveralls": ">=0.6.0",
         "zendframework/zend-console": "~2.3",
-        "zendframework/zend-http": "~2.3",
         "zendframework/zend-loader": "~2.3"
     },
     "autoload": {

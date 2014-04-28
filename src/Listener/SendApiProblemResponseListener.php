@@ -6,6 +6,7 @@
 
 namespace ZF\ApiProblem\Listener;
 
+use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\ResponseSender\HttpResponseSender;
 use Zend\Mvc\ResponseSender\SendResponseEvent;
 use ZF\ApiProblem\ApiProblemResponse;
@@ -16,9 +17,24 @@ use ZF\ApiProblem\ApiProblemResponse;
 class SendApiProblemResponseListener extends HttpResponseSender
 {
     /**
+     * @var HttpResponse;
+     */
+    protected $applicationResponse;
+
+    /**
      * @var bool
      */
     protected $displayExceptions = false;
+
+    /**
+     * @param  HttpResponse $response
+     * @return self
+     */
+    public function setApplicationResponse(HttpResponse $response)
+    {
+        $this->applicationResponse = $response;
+        return $this;
+    }
 
     /**
      * Set the flag determining whether exception stack traces are included
@@ -62,6 +78,29 @@ class SendApiProblemResponseListener extends HttpResponseSender
     }
 
     /**
+     * Send HTTP response headers
+     *
+     * If an application response is composed, and is an HTTP response, merges
+     * its headers with the ApiProblemResponse headers prior to sending them.
+     *
+     * @param  SendResponseEvent $e
+     * @return self
+     */
+    public function sendHeaders(SendResponseEvent $e)
+    {
+        $response = $e->getResponse();
+        if (!$response instanceof ApiProblemResponse) {
+            return $this;
+        }
+
+        if ($this->applicationResponse instanceof HttpResponse) {
+            $this->mergeHeaders($this->applicationResponse, $response);
+        }
+
+        return parent::sendHeaders($e);
+    }
+
+    /**
      * Send ApiProblem response
      *
      * @param  SendResponseEvent $event
@@ -78,5 +117,22 @@ class SendApiProblemResponseListener extends HttpResponseSender
              ->sendContent($event);
         $event->stopPropagation(true);
         return $this;
+    }
+
+    /**
+     * Merge headers set on the application response into the API Problem response
+     *
+     * @param  HttpResponse $applicationResponse
+     * @param  ApiProblemResponse $apiProblemResponse
+     */
+    protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse)
+    {
+        $apiProblemHeaders = $apiProblemResponse->getHeaders();
+        foreach ($applicationResponse->getHeaders() as $header) {
+            if ($apiProblemHeaders->has($header->getFieldName())) {
+                continue;
+            }
+            $apiProblemHeaders->addHeader($header);
+        }
     }
 }
