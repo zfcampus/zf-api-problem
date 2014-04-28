@@ -81,4 +81,20 @@ class SendApiProblemResponseListenerTest extends TestCase
         $this->assertInternalType('string', $contents);
         $this->assertEmpty($contents);
     }
+
+    public function testSendHeadersMergesApplicationAndProblemHttpHeaders()
+    {
+        $appResponse = new HttpResponse();
+        $appResponse->getHeaders()->addHeaderLine('Access-Control-Allow-Origin', '*');
+
+        $listener = new SendApiProblemResponseListener();
+        $listener->setApplicationResponse($appResponse);
+
+        ob_start();
+        $listener->sendHeaders($this->event);
+        ob_get_clean();
+
+        $headers = $this->response->getHeaders();
+        $this->assertTrue($headers->has('Access-Control-Allow-Origin'));
+    }
 }

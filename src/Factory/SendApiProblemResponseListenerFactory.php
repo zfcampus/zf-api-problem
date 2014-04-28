@@ -6,6 +6,7 @@
 
 namespace ZF\ApiProblem\Factory;
 
+use Zend\Http\Response as HttpResponse;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
@@ -25,6 +26,13 @@ class SendApiProblemResponseListenerFactory implements FactoryInterface
 
         $listener = new SendApiProblemResponseListener();
         $listener->setDisplayExceptions($displayExceptions);
+
+        if ($serviceLocator->has('Response')) {
+            $response = $serviceLocator->get('Response');
+            if ($response instanceof HttpResponse) {
+                $listener->setApplicationResponse($response);
+            }
+        }
 
         return $listener;
     }
