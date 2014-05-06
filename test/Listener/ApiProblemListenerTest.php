@@ -8,7 +8,6 @@ namespace ZFTest\ApiProblem\Listener;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Console\Request as ConsoleRequest;
-use Zend\Console\Response as ConsoleResponse;
 use Zend\Http\Request;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;

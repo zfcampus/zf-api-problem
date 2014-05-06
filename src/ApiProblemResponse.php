@@ -19,8 +19,8 @@ class ApiProblemResponse extends Response
     protected $apiProblem;
 
     /**
-     * Flags to use with json_encode 
-     * 
+     * Flags to use with json_encode
+     *
      * @var int
      */
     protected $jsonFlags = 0;
