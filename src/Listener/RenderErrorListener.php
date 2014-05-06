@@ -8,7 +8,6 @@ namespace ZF\ApiProblem\Listener;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
-use Zend\Http\Request as HttpRequest;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Exception\ExceptionInterface as ViewExceptionInterface;
 

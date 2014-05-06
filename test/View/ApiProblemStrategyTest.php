@@ -10,7 +10,6 @@ use PHPUnit_Framework_TestCase as TestCase;
 use Zend\Http\Response;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
-use Zend\View\Renderer\JsonRenderer;
 use Zend\View\ViewEvent;
 use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\View\ApiProblemModel;
