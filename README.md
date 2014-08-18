@@ -56,13 +56,13 @@ Configuration
 
 The top-level configuration key for user configuration of this module is `zf-api-problem`.
 
-#### Key: `accept_filters`
+#### Key: accept_filters
 
 An array of `Accept` header media types that, when matched, will result in the
 [ApiProblemListener](#zfapiproblemlistenerapiproblemlistener) handling an
 `MvcEvent::EVENT_RENDER_ERROR` event.
 
-#### Key: `render_error_controllers`
+#### Key: render_error_controllers
 
 An array of controller service names that, if matched as the `controller` parameter in the MVC
 `RouteMatch`, will cause the [ApiProblemListener](#zfapiproblemlistenerapiproblemlistener) to handle 
@@ -101,7 +101,7 @@ ZF2 Events
 
 ### Listeners
 
-#### `ZF\ApiProblem\Listener\ApiProblemListener`
+#### ZF\ApiProblem\Listener\ApiProblemListener
 
 The `ApiProblemListener` attaches to three events in the MVC lifecycle:
 
@@ -126,7 +126,7 @@ When this listener does take action, the purposes are threefold:
 - If a dispatch error occurred, and the `Accept` type is in the set defined for API-Problems, it
   attempts to cast the dispatch exception into an API-Problem response.
 
-#### `ZF\ApiProblem\Listener\RenderErrorListener`
+#### ZF\ApiProblem\Listener\RenderErrorListener
 
 This listener is attached to `MvcEvent::EVENT_RENDER_ERROR` at priority `100`.  This listener is
 conditionally attached by `ZF\ApiProblem\Listener\ApiProblemListener` for controllers that require
@@ -153,12 +153,12 @@ ZF2 Services
 
 ### View Services
 
-#### `ZF\ApiProblem\View\ApiProblemRenderer`
+#### ZF\ApiProblem\View\ApiProblemRenderer
 
 This service extends the `JsonRenderer` service from the ZF2 MVC layer.  Its primary responsibility
 is to decorate JSON rendering with the ability to optionally output stack traces.
 
-#### `ZF\ApiProblem\View\ApiProblemStrategy`
+#### ZF\ApiProblem\View\ApiProblemStrategy
 
 This service is a view strategy that detects a `ZF\ApiProblem\View\ApiProblemModel`; when detected,
 it selects the [ApiProblemRender](#zfapiproblemviewapiproblemrenderer), and injects the response
@@ -167,7 +167,7 @@ similar in nature to Zend Framework 2's `JsonStrategy`.
 
 ### Models
 
-#### `ZF\ApiProblem\ApiProblem`
+#### ZF\ApiProblem\ApiProblem
 
 An instance of `ZF\ApiProblem\ApiProblem` serves the purpose of modeling the kind of problem that is
 encountered.  An instance of `ApiProblem` is typically wrapped in an
