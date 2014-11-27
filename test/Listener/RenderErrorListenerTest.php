@@ -55,4 +55,45 @@ class RenderErrorListenerTest extends TestCase
         $this->assertContains('www.w3.org', $content['describedBy']);
         $this->assertContains('accept', $content['detail']);
     }
+
+    public function testOnRenderErrorHideDetailIfNotApiExeption()
+    {
+        $code = 500;
+        $exception = new \Exception('hidden message', $code);
+
+        $response = new Response();
+
+        $event = new MvcEvent();
+        $event->setResponse($response);
+        $event->setParam('exception', $exception);
+
+        $this->listener->onRenderError($event);
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertFalse(isset($content['detail']));
+        $this->assertEquals($code, $content['status']);
+    }
+
+    public function testOnRenderErrorShowDetailIfApiExeption()
+    {
+        $message = 'hidden message';
+        $code = 500;
+        $exception = new \ZF\ApiProblem\Exception\InvalidArgumentException($message, $code);
+
+        $response = new Response();
+
+        $event = new MvcEvent();
+        $event->setResponse($response);
+        $event->setParam('exception', $exception);
+
+        $this->listener->onRenderError($event);
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertTrue(isset($content['detail']));
+        $this->assertEquals($message, $content['detail']);
+        $this->assertEquals($code, $content['status']);
+    }
+
 }

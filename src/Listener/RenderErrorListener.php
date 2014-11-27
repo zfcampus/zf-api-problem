@@ -6,10 +6,11 @@
 
 namespace ZF\ApiProblem\Listener;
 
-use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Exception\ExceptionInterface as ViewExceptionInterface;
+use ZF\ApiProblem\Exception\ExceptionInterface as ApiProblemException;
 
 /**
  * RenderErrorListener
@@ -70,11 +71,17 @@ class RenderErrorListener extends AbstractListenerAggregate
             } else {
                 $status = 500;
             }
-            $title   = 'Unexpected error';
-            $detail  = $exception->getMessage();
+            $exceptionMessage = $exception->getMessage();
+            $title = 'Unexpected error';
+
+            if ($exception instanceof ApiProblemException) {
+                $detail = $exceptionMessage;
+            } else {
+                $detail = null;
+            }
             $details = array(
-                'code'    => $exception->getCode(),
-                'message' => $exception->getMessage(),
+                'code'    => $code,
+                'message' => $exceptionMessage,
                 'trace'   => $exception->getTraceAsString(),
             );
         }
@@ -83,8 +90,10 @@ class RenderErrorListener extends AbstractListenerAggregate
             'status'      => $status,
             'title'       => $title,
             'describedBy' => $describedBy,
-            'detail'      => $detail,
         );
+        if ($detail !== null) {
+            $payload['detail'] = $detail;
+        }
         if ($details && $this->displayExceptions) {
             $payload['details'] = $details;
         }
