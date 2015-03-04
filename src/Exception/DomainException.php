@@ -26,6 +26,34 @@ class DomainException extends \DomainException implements
     protected $title;
 
     /**
+     * @var integer
+     */
+    protected $httpStatusCode = 500;
+
+    /**
+     * Get httpStatusCode
+     *
+     * @return int
+     */
+    public function getHttpStatusCode()
+    {
+        return $this->httpStatusCode;
+    }
+
+    /**
+     * Set httpStatusCode
+     *
+     * @param int $httpStatusCode
+     *
+     * @return DomainException
+     */
+    public function setHttpStatusCode($httpStatusCode)
+    {
+        $this->httpStatusCode = $httpStatusCode;
+        return $this;
+    }
+
+    /**
      * @param array $details
      * @return self
      */

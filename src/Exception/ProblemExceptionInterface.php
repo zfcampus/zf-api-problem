@@ -25,4 +25,9 @@ interface ProblemExceptionInterface
      * @return string
      */
     public function getTitle();
+
+    /**
+     * @return int
+     */
+    public function getHttpStatusCode();
 }

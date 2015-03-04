@@ -158,13 +158,9 @@ class ApiProblemListener extends AbstractListenerAggregate
         // Marshall an ApiProblem and view model based on the exception
         $exception = $e->getParam('exception');
         if ($exception instanceof ProblemExceptionInterface) {
-            $problem = new ApiProblem($exception->getCode(), $exception);
+            $problem = new ApiProblem($exception->getHttpStatusCode(), $exception);
         } elseif ($exception instanceof \Exception) {
-            $status = $exception->getCode();
-            if (0 === $status) {
-                $status = 500;
-            }
-            $problem = new ApiProblem($status, $exception);
+            $problem = new ApiProblem(500, $exception);
         } else {
             // If it's not an exception, do not know what to do.
             return;
