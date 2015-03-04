@@ -160,11 +160,7 @@ class ApiProblemListener extends AbstractListenerAggregate
         if ($exception instanceof ProblemExceptionInterface) {
             $problem = new ApiProblem($exception->getCode(), $exception);
         } elseif ($exception instanceof \Exception) {
-            $status = $exception->getCode();
-            if (0 === $status) {
-                $status = 500;
-            }
-            $problem = new ApiProblem($status, $exception);
+            $problem = new ApiProblem(500, $exception);
         } else {
             // If it's not an exception, do not know what to do.
             return;
