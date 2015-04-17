@@ -219,7 +219,7 @@ class MyController extends AbstractActionController
     {
         $entity = $this->model->fetch($id);
         if (! $entity) {
-            return new ApiProblemResponse(ApiProblem(404, 'Entity not found'));
+            return new ApiProblemResponse(new ApiProblem(404, 'Entity not found'));
         }
         return $entity;
     }
