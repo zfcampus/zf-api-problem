@@ -28,17 +28,17 @@
     },
     "require": {
         "php": ">=5.3.23",
-        "zendframework/zend-eventmanager": "~2.3",
-        "zendframework/zend-http": "~2.3",
-        "zendframework/zend-json": "~2.3",
-        "zendframework/zend-mvc": "~2.3",
-        "zendframework/zend-view": "~2.3"
+        "zendframework/zend-eventmanager": ">=2.3,<2.5",
+        "zendframework/zend-http": ">=2.3,<2.5",
+        "zendframework/zend-json": ">=2.3,<2.5",
+        "zendframework/zend-mvc": ">=2.3,<2.5",
+        "zendframework/zend-view": ">=2.3,<2.5"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "*@dev",
         "phpunit/PHPUnit": "3.7.*",
-        "zendframework/zend-console": "~2.3",
-        "zendframework/zend-loader": "~2.3"
+        "zendframework/zend-console": ">=2.3,<2.5",
+        "zendframework/zend-loader": ">=2.3,<2.5",
+        "squizlabs/php_codesniffer": "^2.3"
     },
     "autoload": {
         "psr-4": {
