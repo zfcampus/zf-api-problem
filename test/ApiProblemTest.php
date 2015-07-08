@@ -215,4 +215,26 @@ class ApiProblemTest extends TestCase
         $this->assertArrayHasKey('foo', $payload);
         $this->assertEquals('bar', $payload['foo']);
     }
+
+    public function invalidStatusCodes()
+    {
+        return array(
+            '-1'  => array(-1),
+            '0'   => array(0),
+            '7'   => array(7),  // reported
+            '14'  => array(14), // observed
+            '600' => array(600),
+        );
+    }
+
+    /**
+     * @dataProvider invalidStatusCodes
+     * @group zf-apigility-118
+     */
+    public function testInvalidHttpStatusCodesAreCastTo500($code)
+    {
+        $e = new \Exception('Testing', $code);
+        $problem = new ApiProblem($code, $e);
+        $this->assertEquals(500, $problem->status);
+    }
 }

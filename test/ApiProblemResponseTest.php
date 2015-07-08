@@ -63,6 +63,6 @@ class ApiProblemResponseTest extends TestCase
     public function testOverridesReasonPhraseIfStatusCodeIsUnknown()
     {
         $response = new ApiProblemResponse(new ApiProblem(7, 'Random error'));
-        $this->assertContains('Unknown', $response->getReasonPhrase());
+        $this->assertContains('Internal Server Error', $response->getReasonPhrase());
     }
 }
