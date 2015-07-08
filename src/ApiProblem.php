@@ -140,6 +140,14 @@ class ApiProblem
             }
         }
 
+        // Ensure a valid HTTP status
+        if (! is_numeric($status)
+            || ($status < 100)
+            || ($status > 599)
+        ) {
+            $status = 500;
+        }
+
         $this->status = $status;
         $this->detail = $detail;
         $this->title  = $title;
