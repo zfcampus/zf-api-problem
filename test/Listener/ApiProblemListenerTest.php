@@ -50,4 +50,153 @@ class ApiProblemListenerTest extends TestCase
         $this->assertEquals(400, $problem->status);
         $this->assertSame($event->getParam('exception'), $problem->detail);
     }
+
+    /**
+     * @group zf-hal-101
+     */
+    public function testOnDispatchAttachesRenderErrorListenerIfMatchedControllerIsInRenderErrorControllersList()
+    {
+        $config = array(
+            'zf-api-problem' => array(
+                'render_error_controllers' => array(
+                    'FooController',
+                ),
+            ),
+        );
+
+        $renderErrorListener = $this->getMockBuilder('ZF\ApiProblem\RenderErrorListener')->getMock();
+
+        $services = $this->getMockBuilder('Zend\ServiceManager\ServiceLocatorInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $services
+            ->expects($this->at(0))
+            ->method('get')
+            ->with($this->equalTo('Config'))
+            ->willReturn($config);
+        $services
+            ->expects($this->at(1))
+            ->method('get')
+            ->with($this->equalTo('ZF\ApiProblem\RenderErrorListener'))
+            ->willReturn($renderErrorListener);
+
+        $events = $this->getMockBuilder('Zend\EventManager\EventManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $events
+            ->expects($this->once())
+            ->method('attach')
+            ->with($this->equalTo($renderErrorListener));
+
+        $app = $this->getMockBuilder('Zend\Mvc\Application')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $app
+            ->expects($this->once())
+            ->method('getServiceManager')
+            ->willReturn($services);
+        $app
+            ->expects($this->once())
+            ->method('getEventManager')
+            ->willReturn($events);
+
+        $routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $routeMatch
+            ->expects($this->once())
+            ->method('getParam')
+            ->with($this->equalTo('controller'))
+            ->willReturn('FooController');
+
+        $this->event->setApplication($app);
+        $this->event->setRouteMatch($routeMatch);
+
+        $this->listener->onDispatch($this->event);
+    }
+
+    public function apigilityServiceControllers()
+    {
+        return array(
+            'FooController' => array('FooController'),
+            'BarController' => array('BarController'),
+            'BazController' => array('BazController'),
+        );
+    }
+
+    public function getApigilityServiceControllerConfig()
+    {
+        return array(
+            'zf-api-problem' => array(
+                'render_error_controllers' => array(
+                    'FooController',
+                ),
+            ),
+            'zf-rest' => array(
+                'BarController' => array(),
+            ),
+            'zf-rpc' => array(
+                'BazController' => array(),
+            ),
+        );
+    }
+
+    /**
+     * @group zf-hal-101
+     * @dataProvider apigilityServiceControllers
+     */
+    public function testOnDispatchAttachesRenderErrorListenerIfMatchedControllerIsInKnownApigilityConfigs($controller)
+    {
+        $config = $this->getApigilityServiceControllerConfig();
+
+        $renderErrorListener = $this->getMockBuilder('ZF\ApiProblem\RenderErrorListener')->getMock();
+
+        $services = $this->getMockBuilder('Zend\ServiceManager\ServiceLocatorInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $services
+            ->expects($this->at(0))
+            ->method('get')
+            ->with($this->equalTo('Config'))
+            ->willReturn($config);
+        $services
+            ->expects($this->at(1))
+            ->method('get')
+            ->with($this->equalTo('ZF\ApiProblem\RenderErrorListener'))
+            ->willReturn($renderErrorListener);
+
+        $events = $this->getMockBuilder('Zend\EventManager\EventManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $events
+            ->expects($this->once())
+            ->method('attach')
+            ->with($this->equalTo($renderErrorListener));
+
+        $app = $this->getMockBuilder('Zend\Mvc\Application')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $app
+            ->expects($this->once())
+            ->method('getServiceManager')
+            ->willReturn($services);
+        $app
+            ->expects($this->once())
+            ->method('getEventManager')
+            ->willReturn($events);
+
+        $routeMatch = $this->getMockBuilder('Zend\Mvc\Router\RouteMatch')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $routeMatch
+            ->expects($this->once())
+            ->method('getParam')
+            ->with($this->equalTo('controller'))
+            ->willReturn($controller);
+
+        $this->event->setApplication($app);
+        $this->event->setRouteMatch($routeMatch);
+
+        $this->listener->onDispatch($this->event);
+    }
 }
