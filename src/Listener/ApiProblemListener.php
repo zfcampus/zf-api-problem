@@ -118,20 +118,12 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function onDispatch(MvcEvent $e)
     {
-        $app      = $e->getApplication();
-        $services = $app->getServiceManager();
-        $config   = $services->get('Config');
-        if (!isset($config['zf-api-problem'])) {
-            return;
-        }
-        if (!isset($config['zf-api-problem']['render_error_controllers'])) {
-            return;
-        }
+        $app        = $e->getApplication();
+        $services   = $app->getServiceManager();
+        $config     = $services->get('Config');
+        $controller = $e->getRouteMatch()->getParam('controller');
 
-        $controller  = $e->getRouteMatch()->getParam('controller');
-        $controllers = $config['zf-api-problem']['render_error_controllers'];
-        if (!in_array($controller, $controllers)) {
-            // The current controller is not in our list of controllers to handle
+        if (! $this->shouldInvokeRenderErrorListener($controller, $config)) {
             return;
         }
 
@@ -218,6 +210,33 @@ class ApiProblemListener extends AbstractListenerAggregate
             if ($match && $match->getTypeString() != '*/*') {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Does the matched controller require the render error listener?
+     *
+     * @param string $controller
+     * @param array $config
+     * @return bool
+     */
+    private function shouldInvokeRenderErrorListener($controller, array $config)
+    {
+        if (isset($config['zf-api-problem']['render_error_controllers'])
+            && is_array($config['zf-api-problem']['render_error_controllers'])
+            && in_array($controller, $config['zf-api-problem']['render_error_controllers'], true)
+        ) {
+            return true;
+        }
+
+        if (isset($config['zf-rest'][$controller])) {
+            return true;
+        }
+
+        if (isset($config['zf-rpc'][$controller])) {
+            return true;
         }
 
         return false;
