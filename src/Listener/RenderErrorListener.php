@@ -28,7 +28,7 @@ class RenderErrorListener extends AbstractListenerAggregate
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'), 100);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'onRenderError'], 100);
     }
 
     /**
@@ -72,19 +72,19 @@ class RenderErrorListener extends AbstractListenerAggregate
             }
             $title   = 'Unexpected error';
             $detail  = $exception->getMessage();
-            $details = array(
+            $details = [
                 'code'    => $exception->getCode(),
                 'message' => $exception->getMessage(),
                 'trace'   => $exception->getTraceAsString(),
-            );
+            ];
         }
 
-        $payload = array(
+        $payload = [
             'status'      => $status,
             'title'       => $title,
             'describedBy' => $describedBy,
             'detail'      => $detail,
-        );
+        ];
         if ($details && $this->displayExceptions) {
             $payload['details'] = $details;
         }

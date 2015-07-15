@@ -18,7 +18,7 @@ class DomainException extends \DomainException implements
     /**
      * @var array
      */
-    protected $details = array();
+    protected $details = [];
 
     /**
      * @var string

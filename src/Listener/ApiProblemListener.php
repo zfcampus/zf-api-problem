@@ -32,10 +32,10 @@ class ApiProblemListener extends AbstractListenerAggregate
      *
      * @var array
      */
-    protected $acceptFilters = array(
+    protected $acceptFilters = [
         'application/json',
         'application/*+json',
-    );
+    ];
 
     /**
      * Constructor
@@ -48,7 +48,7 @@ class ApiProblemListener extends AbstractListenerAggregate
     {
         if (!empty($filters)) {
             if (is_string($filters)) {
-                $this->acceptFilters = array($filters);
+                $this->acceptFilters = [$filters];
             }
 
             if (is_array($filters)) {
@@ -62,14 +62,14 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function attach(EventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 1000);
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 100);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 1000);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'onDispatchError'], 100);
 
         $sharedEvents = $events->getSharedManager();
         $sharedEvents->attach(
             'Zend\Stdlib\DispatchableInterface',
             MvcEvent::EVENT_DISPATCH,
-            array($this, 'onDispatch'),
+            [$this, 'onDispatch'],
             100
         );
     }
