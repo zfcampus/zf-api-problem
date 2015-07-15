@@ -27,26 +27,30 @@
         }
     },
     "require": {
-        "php": ">=5.3.23",
-        "zendframework/zend-eventmanager": ">=2.3,<2.5",
-        "zendframework/zend-http": ">=2.3,<2.5",
-        "zendframework/zend-json": ">=2.3,<2.5",
-        "zendframework/zend-mvc": ">=2.3,<2.5",
-        "zendframework/zend-view": ">=2.3,<2.5"
+        "php": ">=5.5",
+        "zendframework/zend-eventmanager": "~2.3",
+        "zendframework/zend-http": "~2.3",
+        "zendframework/zend-json": "~2.3",
+        "zendframework/zend-mvc": "~2.3",
+        "zendframework/zend-view": "~2.3"
     },
     "require-dev": {
-        "phpunit/PHPUnit": "3.7.*",
-        "zendframework/zend-console": ">=2.3,<2.5",
-        "zendframework/zend-loader": ">=2.3,<2.5",
-        "squizlabs/php_codesniffer": "^2.3"
+        "phpunit/phpunit": "~4.7",
+        "zendframework/zend-console": "~2.3",
+        "zendframework/zend-loader": "~2.3",
+        "squizlabs/php_codesniffer": "^2.3.1"
     },
     "autoload": {
         "psr-4": {
-            "ZF\\ApiProblem\\": "src/",
-            "ZFTest\\ApiProblem\\": "test/"
+            "ZF\\ApiProblem\\": "src/"
         },
         "classmap": [
             "Module.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZFTest\\ApiProblem\\": "test/"
+        }
     }
 }

@@ -33,11 +33,11 @@ class ApiProblemStrategyTest extends TestCase
 
     public function invalidViewModels()
     {
-        return array(
-            'null'    => array(null),
-            'generic' => array(new ViewModel()),
-            'json'    => array(new JsonModel()),
-        );
+        return [
+            'null'    => [null],
+            'generic' => [new ViewModel()],
+            'json'    => [new JsonModel()],
+        ];
     }
 
     /**
@@ -61,7 +61,7 @@ class ApiProblemStrategyTest extends TestCase
     public function testInjectResponseDoesNotSetContentTypeHeaderIfResultIsNotString()
     {
         $this->event->setRenderer($this->renderer);
-        $this->event->setResult(array('foo'));
+        $this->event->setResult(['foo']);
         $this->strategy->injectResponse($this->event);
         $headers = $this->response->getHeaders();
         $this->assertFalse($headers->has('Content-Type'));
@@ -83,13 +83,13 @@ class ApiProblemStrategyTest extends TestCase
 
     public function invalidStatusCodes()
     {
-        return array(
-            array(0),
-            array(1),
-            array(99),
-            array(600),
-            array(10081),
-        );
+        return [
+            [0],
+            [1],
+            [99],
+            [600],
+            [10081],
+        ];
     }
 
     /**

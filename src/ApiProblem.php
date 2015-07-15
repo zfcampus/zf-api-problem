@@ -16,7 +16,7 @@ class ApiProblem
      *
      * @var array
      */
-    protected $additionalDetails = array();
+    protected $additionalDetails = [];
 
     /**
      * URL describing the problem type; defaults to HTTP status codes
@@ -51,19 +51,19 @@ class ApiProblem
      *
      * @var array
      */
-    protected $normalizedProperties = array(
+    protected $normalizedProperties = [
         'type'   => 'type',
         'status' => 'status',
         'title'  => 'title',
         'detail' => 'detail',
-    );
+    ];
 
     /**
      * Status titles for common problems
      *
      * @var array
      */
-    protected $problemStatusTitles = array(
+    protected $problemStatusTitles = [
         // CLIENT ERROR
         400 => 'Bad Request',
         401 => 'Unauthorized',
@@ -103,7 +103,7 @@ class ApiProblem
         507 => 'Insufficient Storage',
         508 => 'Loop Detected',
         511 => 'Network Authentication Required',
-    );
+    ];
 
     /**
      * Title of the error.
@@ -126,7 +126,7 @@ class ApiProblem
      * @param string $title
      * @param array  $additional
      */
-    public function __construct($status, $detail, $type = null, $title = null, array $additional = array())
+    public function __construct($status, $detail, $type = null, $title = null, array $additional = [])
     {
         if ($detail instanceof Exception\ProblemExceptionInterface) {
             if (null === $type) {
@@ -195,12 +195,12 @@ class ApiProblem
      */
     public function toArray()
     {
-        $problem = array(
+        $problem = [
             'type'   => $this->type,
             'title'  => $this->getTitle(),
             'status' => $this->getStatus(),
             'detail' => $this->getDetail(),
-        );
+        ];
         // Required fields should always overwrite additional fields
         return array_merge($this->additionalDetails, $problem);
     }
@@ -305,14 +305,14 @@ class ApiProblem
         $message = trim($e->getMessage());
         $this->additionalDetails['trace'] = $e->getTrace();
 
-        $previous = array();
+        $previous = [];
         $e = $e->getPrevious();
         while ($e) {
-            $previous[] = array(
+            $previous[] = [
                 'code'    => (int) $e->getCode(),
                 'message' => trim($e->getMessage()),
                 'trace'   => $e->getTrace(),
-            );
+            ];
             $e = $e->getPrevious();
         }
         if (count($previous)) {
