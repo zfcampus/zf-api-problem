@@ -19,7 +19,7 @@ class ApiProblemListenerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $filters = null;
-        $config  = array();
+        $config  = [];
 
         if ($serviceLocator->has('Config')) {
             $config = $serviceLocator->get('Config');
