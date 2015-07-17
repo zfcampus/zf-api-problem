@@ -6,8 +6,10 @@
 
 namespace ZF\ApiProblem;
 
+use Zend\Loader\StandardAutoloader;
 use Zend\Mvc\ResponseSender\SendResponseEvent;
 use Zend\Mvc\MvcEvent;
+use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
 /**
  * ZF2 module
@@ -21,11 +23,13 @@ class Module
      */
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-                __NAMESPACE__ => __DIR__ . '/src/',
-            ))
-        );
+        return [
+            StandardAutoloader::class => [
+                'namespaces' => [
+                    __NAMESPACE__ => __DIR__ . '/src/',
+                ]
+            ]
+        ];
     }
 
     /**
@@ -43,21 +47,21 @@ class Module
      *
      * Attaches a render event.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  MvcEvent $e
      */
-    public function onBootstrap($e)
+    public function onBootstrap(MvcEvent $e)
     {
         $app            = $e->getTarget();
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
         $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
-        $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 100);
+        $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
 
         $sendResponseListener = $serviceManager->get('SendResponseListener');
         $sendResponseListener->getEventManager()->attach(
             SendResponseEvent::EVENT_SEND_RESPONSE,
-            $serviceManager->get('ZF\ApiProblem\Listener\SendApiProblemResponseListener'),
+            $serviceManager->get(SendApiProblemResponseListener::class),
             -500
         );
     }
@@ -67,9 +71,9 @@ class Module
      *
      * Attaches a rendering/response strategy to the View.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  MvcEvent $e
      */
-    public function onRender($e)
+    public function onRender(MvcEvent $e)
     {
         $app      = $e->getTarget();
         $services = $app->getServiceManager();
