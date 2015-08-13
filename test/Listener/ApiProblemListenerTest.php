@@ -30,10 +30,13 @@ class ApiProblemListenerTest extends TestCase
         $this->assertNull($this->listener->onRender($this->event));
     }
 
-    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventException()
+    /**
+     * @dataProvider getValidAcceptHeaderValuesToTest
+     */
+    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventException($accept)
     {
         $request = new Request();
-        $request->getHeaders()->addHeaderLine('Accept', 'application/json');
+        $request->getHeaders()->addHeaderLine('Accept', $accept);
 
         $event = new MvcEvent();
         $event->setError(Application::ERROR_EXCEPTION);
@@ -49,5 +52,13 @@ class ApiProblemListenerTest extends TestCase
         $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $problem);
         $this->assertEquals(400, $problem->status);
         $this->assertSame($event->getParam('exception'), $problem->detail);
+    }
+
+    public function getValidAcceptHeaderValuesToTest()
+    {
+        return [
+            ['application/json'],
+            ['*/*']
+        ];
     }
 }
