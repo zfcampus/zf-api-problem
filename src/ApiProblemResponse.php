@@ -23,7 +23,7 @@ class ApiProblemResponse extends Response
      *
      * @var int
      */
-    protected $jsonFlags = 0;
+    protected $jsonFlags = JSON_PARTIAL_OUTPUT_ON_ERROR;
 
     /**
      * @param ApiProblem $apiProblem
@@ -35,7 +35,7 @@ class ApiProblemResponse extends Response
         $this->setReasonPhrase($apiProblem->title);
 
         if (defined('JSON_UNESCAPED_SLASHES')) {
-            $this->jsonFlags = constant('JSON_UNESCAPED_SLASHES');
+            $this->jsonFlags |= constant('JSON_UNESCAPED_SLASHES');
         }
     }
 
