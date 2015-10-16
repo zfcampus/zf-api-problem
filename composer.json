@@ -28,6 +28,7 @@
     },
     "require": {
         "php": ">=5.5",
+        "ext-json": "*",
         "zendframework/zend-eventmanager": "~2.3",
         "zendframework/zend-http": "~2.3",
         "zendframework/zend-json": "~2.3",
