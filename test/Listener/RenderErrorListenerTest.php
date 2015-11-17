@@ -11,6 +11,7 @@ use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
+use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\Listener\RenderErrorListener;
 
 class RenderErrorListenerTest extends TestCase
