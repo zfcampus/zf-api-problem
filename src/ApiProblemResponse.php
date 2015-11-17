@@ -71,7 +71,7 @@ class ApiProblemResponse extends Response
     {
         $headers = parent::getHeaders();
         if (!$headers->has('content-type')) {
-            $headers->addHeaderLine('content-type', 'application/problem+json');
+            $headers->addHeaderLine('content-type', ApiProblem::CONTENT_TYPE);
         }
         return $headers;
     }

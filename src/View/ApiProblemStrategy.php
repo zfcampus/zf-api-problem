@@ -72,7 +72,7 @@ class ApiProblemStrategy extends JsonStrategy
 
         $problem     = $model->getApiProblem();
         $statusCode  = $this->getStatusCodeFromApiProblem($problem);
-        $contentType = 'application/problem+json';
+        $contentType = ApiProblem::CONTENT_TYPE;
 
         // Populate response
         $response = $e->getResponse();
