@@ -12,6 +12,11 @@ namespace ZF\ApiProblem;
 class ApiProblem
 {
     /**
+     * Content type for api problem response
+     */
+    const CONTENT_TYPE = 'application/problem+json';
+    
+    /**
      * Additional details to include in report
      *
      * @var array
