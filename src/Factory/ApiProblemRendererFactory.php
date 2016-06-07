@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -11,9 +12,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 use ZF\ApiProblem\View\ApiProblemRenderer;
 
 /**
- * Class ApiProblemRendererFactory
- *
- * @package ZF\ApiProblem\Factory
+ * Class ApiProblemRendererFactory.
  */
 class ApiProblemRendererFactory implements FactoryInterface
 {
@@ -24,9 +23,9 @@ class ApiProblemRendererFactory implements FactoryInterface
      *
      * @return \ZF\ApiProblem\View\ApiProblemRenderer
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $config            = $container->get('Config');
+        $config = $container->get('Config');
         $displayExceptions = isset($config['view_manager'])
             && isset($config['view_manager']['display_exceptions'])
             && $config['view_manager']['display_exceptions'];
@@ -36,6 +35,4 @@ class ApiProblemRendererFactory implements FactoryInterface
 
         return $renderer;
     }
-
-
 }

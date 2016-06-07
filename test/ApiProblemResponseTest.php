@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -33,7 +34,7 @@ class ApiProblemResponseTest extends TestCase
     public function testApiProblemResponseBodyIsSerializedApiProblem()
     {
         $apiProblem = new ApiProblem(400, 'Random error');
-        $response   = new ApiProblemResponse($apiProblem);
+        $response = new ApiProblemResponse($apiProblem);
         $this->assertEquals($apiProblem->toArray(), json_decode($response->getContent(), true));
     }
 
@@ -43,7 +44,7 @@ class ApiProblemResponseTest extends TestCase
     public function testApiProblemResponseSetsContentTypeHeader()
     {
         $response = new ApiProblemResponse(new ApiProblem(400, 'Random error'));
-        $headers  = $response->getHeaders();
+        $headers = $response->getHeaders();
         $this->assertTrue($headers->has('content-type'));
         $header = $headers->get('content-type');
         $this->assertInstanceOf('Zend\Http\Header\ContentType', $header);
@@ -53,7 +54,7 @@ class ApiProblemResponseTest extends TestCase
     public function testComposeApiProblemIsAccessible()
     {
         $apiProblem = new ApiProblem(400, 'Random error');
-        $response   = new ApiProblemResponse($apiProblem);
+        $response = new ApiProblemResponse($apiProblem);
         $this->assertSame($apiProblem, $response->getApiProblem());
     }
 

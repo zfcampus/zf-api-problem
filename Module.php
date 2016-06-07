@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -17,12 +18,12 @@ use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 use ZF\ApiProblem\View\ApiProblemStrategy;
 
 /**
- * ZF2 module
+ * ZF2 module.
  */
 class Module
 {
     /**
-     * Retrieve autoloader configuration
+     * Retrieve autoloader configuration.
      *
      * @return array
      */
@@ -30,27 +31,27 @@ class Module
     {
         return [
             'Zend\Loader\StandardAutoloader' => ['namespaces' => [
-                __NAMESPACE__ => __DIR__ . '/src/',
+                __NAMESPACE__ => __DIR__.'/src/',
             ]],
         ];
     }
 
     /**
-     * Retrieve module configuration
+     * Retrieve module configuration.
      *
      * @return array
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__.'/config/module.config.php';
     }
 
     /**
-     * Listener for bootstrap event
+     * Listener for bootstrap event.
      *
      * Attaches a render event.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param \Zend\Mvc\MvcEvent $e
      */
     public function onBootstrap($e)
     {
@@ -65,7 +66,6 @@ class Module
         /** @var SendResponseListener $sendResponseListener */
         $sendResponseListener = $serviceManager->get('SendResponseListener');
 
-
         $apiProblemListener->attach($eventManager);
         $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
 
@@ -77,11 +77,11 @@ class Module
     }
 
     /**
-     * Listener for the render event
+     * Listener for the render event.
      *
      * Attaches a rendering/response strategy to the View.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param \Zend\Mvc\MvcEvent $e
      */
     public function onRender($e)
     {

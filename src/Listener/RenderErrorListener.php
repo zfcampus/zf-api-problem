@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -12,7 +13,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\View\Exception\ExceptionInterface as ViewExceptionInterface;
 
 /**
- * RenderErrorListener
+ * RenderErrorListener.
  *
  * Provides a listener on the render.error event, at high priority.
  */
@@ -33,35 +34,37 @@ class RenderErrorListener extends AbstractListenerAggregate
     }
 
     /**
-     * @param  bool $flag
+     * @param bool $flag
+     *
      * @return RenderErrorListener
      */
     public function setDisplayExceptions($flag)
     {
         $this->displayExceptions = (bool) $flag;
+
         return $this;
     }
 
     /**
-     * Handle rendering errors
+     * Handle rendering errors.
      *
      * Rendering errors are usually due to trying to render a template in
      * the PhpRenderer, when we have no templates.
      *
      * As such, report as an unacceptable response.
      *
-     * @param  MvcEvent $e
+     * @param MvcEvent $e
      */
     public function onRenderError(MvcEvent $e)
     {
-        $response    = $e->getResponse();
-        $status      = 406;
-        $title       = 'Not Acceptable';
+        $response = $e->getResponse();
+        $status = 406;
+        $title = 'Not Acceptable';
         $describedBy = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
-        $detail      = 'Your request could not be resolved to an acceptable representation.';
-        $details     = false;
+        $detail = 'Your request could not be resolved to an acceptable representation.';
+        $details = false;
 
-        $exception   = $e->getParam('exception');
+        $exception = $e->getParam('exception');
         if ($exception instanceof \Exception
             && !$exception instanceof ViewExceptionInterface
         ) {
@@ -71,20 +74,20 @@ class RenderErrorListener extends AbstractListenerAggregate
             } else {
                 $status = 500;
             }
-            $title   = 'Unexpected error';
-            $detail  = $exception->getMessage();
+            $title = 'Unexpected error';
+            $detail = $exception->getMessage();
             $details = [
-                'code'    => $exception->getCode(),
+                'code' => $exception->getCode(),
                 'message' => $exception->getMessage(),
-                'trace'   => $exception->getTraceAsString(),
+                'trace' => $exception->getTraceAsString(),
             ];
         }
 
         $payload = [
-            'status'      => $status,
-            'title'       => $title,
+            'status' => $status,
+            'title' => $title,
             'describedBy' => $describedBy,
-            'detail'      => $detail,
+            'detail' => $detail,
         ];
         if ($details && $this->displayExceptions) {
             $payload['details'] = $details;

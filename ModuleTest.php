@@ -1,8 +1,9 @@
 <?php
+
 /**
  * Creator: adamgrabek
  * Date: 08.06.2016
- * Time: 00:06
+ * Time: 00:06.
  */
 
 namespace ZF\ApiProblem;
@@ -17,22 +18,18 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use ZF\ApiProblem\Listener\ApiProblemListener;
 use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
-
 class ModuleTest extends TestCase
 {
-
     public function testOnBootstrap()
     {
         $module = new Module();
 
-
-        $application = $this->getMock(Application::class, [], [], '', FALSE);
+        $application = $this->getMock(Application::class, [], [], '', false);
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
         $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
 
         $eventManager = new EventManager(new SharedEventManager());
         $event = $this->getMock(MvcEvent::class);
-
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
@@ -40,7 +37,6 @@ class ModuleTest extends TestCase
 
         $module->onBootstrap($event);
     }
-
 
     public function serviceLocator($service)
     {

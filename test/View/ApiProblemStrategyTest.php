@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -17,26 +18,25 @@ use ZF\ApiProblem\View\ApiProblemRenderer;
 use ZF\ApiProblem\View\ApiProblemStrategy;
 
 /**
- * @subpackage UnitTest
  */
 class ApiProblemStrategyTest extends TestCase
 {
     public function setUp()
     {
-        $this->response = new Response;
-        $this->event    = new ViewEvent;
+        $this->response = new Response();
+        $this->event = new ViewEvent();
         $this->event->setResponse($this->response);
 
-        $this->renderer = new ApiProblemRenderer;
+        $this->renderer = new ApiProblemRenderer();
         $this->strategy = new ApiProblemStrategy($this->renderer);
     }
 
     public function invalidViewModels()
     {
         return [
-            'null'    => [null],
+            'null' => [null],
             'generic' => [new ViewModel()],
-            'json'    => [new JsonModel()],
+            'json' => [new JsonModel()],
         ];
     }
 
@@ -70,7 +70,7 @@ class ApiProblemStrategyTest extends TestCase
     public function testInjectResponseSetsContentTypeHeaderToApiProblemForApiProblemModel()
     {
         $problem = new ApiProblem(500, 'whatever', 'foo', 'bar');
-        $model   = new ApiProblemModel($problem);
+        $model = new ApiProblemModel($problem);
         $this->event->setModel($model);
         $this->event->setRenderer($this->renderer);
         $this->event->setResult('{"foo":"bar"}');
@@ -98,7 +98,7 @@ class ApiProblemStrategyTest extends TestCase
     public function testUsesStatusCode500ForAnyStatusCodesAbove599OrBelow100($status)
     {
         $problem = new ApiProblem($status, 'whatever');
-        $model   = new ApiProblemModel($problem);
+        $model = new ApiProblemModel($problem);
         $this->event->setModel($model);
         $this->event->setRenderer($this->renderer);
         $this->event->setResult('{"foo":"bar"}');

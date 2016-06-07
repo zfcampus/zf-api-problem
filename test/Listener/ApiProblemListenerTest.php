@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -18,7 +19,7 @@ class ApiProblemListenerTest extends TestCase
 {
     public function setUp()
     {
-        $this->event    = new MvcEvent();
+        $this->event = new MvcEvent();
         $this->event->setError('this is an error event');
         $this->listener = new ApiProblemListener();
     }
