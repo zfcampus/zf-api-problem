@@ -3,5 +3,8 @@
         <testsuite name="ZFApiProblem Module Tests">
             <directory>./test</directory>
         </testsuite>
+        <testsuite name="ZFApiProblem Module Class tests">
+            <file>./ModuleTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

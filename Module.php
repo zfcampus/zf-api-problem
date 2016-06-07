@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -6,81 +7,98 @@
 
 namespace ZF\ApiProblem;
 
+use Zend\EventManager\EventManagerInterface;
+use Zend\Mvc\Application;
 use Zend\Mvc\ResponseSender\SendResponseEvent;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\SendResponseListener;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use ZF\ApiProblem\Listener\ApiProblemListener;
+use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
+use ZF\ApiProblem\View\ApiProblemStrategy;
 
 /**
- * ZF2 module
+ * ZF2 module.
  */
 class Module
 {
     /**
-     * Retrieve autoloader configuration
+     * Retrieve autoloader configuration.
      *
      * @return array
      */
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-                __NAMESPACE__ => __DIR__ . '/src/',
-            ))
-        );
+        return [
+            'Zend\Loader\StandardAutoloader' => ['namespaces' => [
+                __NAMESPACE__ => __DIR__.'/src/',
+            ]],
+        ];
     }
 
     /**
-     * Retrieve module configuration
+     * Retrieve module configuration.
      *
      * @return array
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__.'/config/module.config.php';
     }
 
     /**
-     * Listener for bootstrap event
+     * Listener for bootstrap event.
      *
      * Attaches a render event.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param \Zend\Mvc\MvcEvent $e
      */
     public function onBootstrap($e)
     {
-        $app            = $e->getTarget();
+        $app = $e->getTarget();
+        /** @var ServiceLocatorInterface $serviceManager */
         $serviceManager = $app->getServiceManager();
-        $eventManager   = $app->getEventManager();
+        /** @var EventManagerInterface $eventManager */
+        $eventManager = $app->getEventManager();
 
-        $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
-        $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 100);
-
+        /** @var ApiProblemListener $apiProblemListener */
+        $apiProblemListener = $serviceManager->get(ApiProblemListener::class);
+        /** @var SendResponseListener $sendResponseListener */
         $sendResponseListener = $serviceManager->get('SendResponseListener');
+
+        $apiProblemListener->attach($eventManager);
+        $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
+
         $sendResponseListener->getEventManager()->attach(
             SendResponseEvent::EVENT_SEND_RESPONSE,
-            $serviceManager->get('ZF\ApiProblem\Listener\SendApiProblemResponseListener'),
+            $serviceManager->get(SendApiProblemResponseListener::class),
             -500
         );
     }
 
     /**
-     * Listener for the render event
+     * Listener for the render event.
      *
      * Attaches a rendering/response strategy to the View.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param \Zend\Mvc\MvcEvent $e
      */
     public function onRender($e)
     {
-        $app      = $e->getTarget();
+        /** @var Application $app */
+        $app = $e->getTarget();
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {
-            $view   = $services->get('View');
+            $view = $services->get('View');
+            /** @var EventManagerInterface $events */
             $events = $view->getEventManager();
 
             // register at high priority, to "beat" normal json strategy registered
             // via view manager, as well as HAL strategy.
-            $events->attach($services->get('ZF\ApiProblem\ApiProblemStrategy'), 400);
+            /** @var ApiProblemStrategy $apiProblemStrategy */
+            $apiProblemStrategy = $services->get(ApiProblemStrategy::class);
+            $apiProblemStrategy->attach($events, 400);
         }
     }
 }
