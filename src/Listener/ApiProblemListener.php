@@ -58,9 +58,10 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
-     * @param    EventManagerInterface $events
+     * @param EventManagerInterface $events
+     * @param int                   $priority
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 1000);
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'onDispatchError'], 100);

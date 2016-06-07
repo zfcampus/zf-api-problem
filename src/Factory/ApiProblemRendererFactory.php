@@ -6,19 +6,27 @@
 
 namespace ZF\ApiProblem\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Interop\Container\ContainerInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZF\ApiProblem\View\ApiProblemRenderer;
 
+/**
+ * Class ApiProblemRendererFactory
+ *
+ * @package ZF\ApiProblem\Factory
+ */
 class ApiProblemRendererFactory implements FactoryInterface
 {
     /**
-     * {@inheritDoc}
-     * @return ApiProblemRenderer
+     * @param \Interop\Container\ContainerInterface $container
+     * @param string                                $requestedName
+     * @param array|NULL                            $options
+     *
+     * @return \ZF\ApiProblem\View\ApiProblemRenderer
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL)
     {
-        $config            = $serviceLocator->get('Config');
+        $config            = $container->get('Config');
         $displayExceptions = isset($config['view_manager'])
             && isset($config['view_manager']['display_exceptions'])
             && $config['view_manager']['display_exceptions'];
@@ -28,4 +36,6 @@ class ApiProblemRendererFactory implements FactoryInterface
 
         return $renderer;
     }
+
+
 }

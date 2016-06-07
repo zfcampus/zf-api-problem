@@ -6,8 +6,13 @@
 
 namespace ZF\ApiProblem;
 
+use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\ResponseSender\SendResponseEvent;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\SendResponseListener;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use ZF\ApiProblem\Listener\ApiProblemListener;
+use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
 /**
  * ZF2 module
@@ -21,11 +26,11 @@ class Module
      */
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array('namespaces' => array(
+        return [
+            'Zend\Loader\StandardAutoloader' => ['namespaces' => [
                 __NAMESPACE__ => __DIR__ . '/src/',
-            ))
-        );
+            ]],
+        ];
     }
 
     /**
@@ -47,17 +52,25 @@ class Module
      */
     public function onBootstrap($e)
     {
-        $app            = $e->getTarget();
+        $app = $e->getTarget();
+        /** @var ServiceLocatorInterface $serviceManager */
         $serviceManager = $app->getServiceManager();
-        $eventManager   = $app->getEventManager();
+        /** @var EventManagerInterface $eventManager */
+        $eventManager = $app->getEventManager();
 
-        $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
-        $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 100);
-
+        /** @var ApiProblemListener $apiProblemListener */
+        $apiProblemListener = $serviceManager->get(ApiProblemListener::class);
+        /** @var SendResponseListener $sendResponseListener */
         $sendResponseListener = $serviceManager->get('SendResponseListener');
+
+
+
+        $apiProblemListener->attach($eventManager);
+        $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
+
         $sendResponseListener->getEventManager()->attach(
             SendResponseEvent::EVENT_SEND_RESPONSE,
-            $serviceManager->get('ZF\ApiProblem\Listener\SendApiProblemResponseListener'),
+            $serviceManager->get(SendApiProblemResponseListener::class),
             -500
         );
     }
@@ -71,11 +84,11 @@ class Module
      */
     public function onRender($e)
     {
-        $app      = $e->getTarget();
+        $app = $e->getTarget();
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {
-            $view   = $services->get('View');
+            $view = $services->get('View');
             $events = $view->getEventManager();
 
             // register at high priority, to "beat" normal json strategy registered

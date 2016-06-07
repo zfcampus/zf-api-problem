@@ -6,23 +6,29 @@
 
 namespace ZF\ApiProblem\Factory;
 
-use Zend\ServiceManager\FactoryInterface;
+use Interop\Container\ContainerInterface;
+
+use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZF\ApiProblem\Listener\ApiProblemListener;
 
 class ApiProblemListenerFactory implements FactoryInterface
 {
+
     /**
-     * {@inheritDoc}
-     * @return ApiProblemListener
+     * @param \Interop\Container\ContainerInterface $container
+     * @param string                                $requestedName
+     * @param array|NULL                            $options
+     *
+     * @return \ZF\ApiProblem\Listener\ApiProblemListener
      */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL)
     {
         $filters = null;
         $config  = [];
 
-        if ($serviceLocator->has('Config')) {
-            $config = $serviceLocator->get('Config');
+        if ($container->has('Config')) {
+            $config = $container->get('Config');
         }
 
         if (isset($config['zf-api-problem']['accept_filters'])) {
@@ -31,4 +37,6 @@ class ApiProblemListenerFactory implements FactoryInterface
 
         return new ApiProblemListener($filters);
     }
+
+
 }

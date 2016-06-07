@@ -6,20 +6,16 @@
 
 namespace ZF\ApiProblem\Factory;
 
+use Interop\Container\ContainerInterface;
 use Zend\Http\Response as HttpResponse;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
 use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
 class SendApiProblemResponseListenerFactory implements FactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     * @return SendApiProblemResponseListener
-     */
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = NULL)
     {
-        $config            = $serviceLocator->get('Config');
+        $config            = $container->get('Config');
         $displayExceptions = isset($config['view_manager'])
             && isset($config['view_manager']['display_exceptions'])
             && $config['view_manager']['display_exceptions'];
@@ -27,8 +23,8 @@ class SendApiProblemResponseListenerFactory implements FactoryInterface
         $listener = new SendApiProblemResponseListener();
         $listener->setDisplayExceptions($displayExceptions);
 
-        if ($serviceLocator->has('Response')) {
-            $response = $serviceLocator->get('Response');
+        if ($container->has('Response')) {
+            $response = $container->get('Response');
             if ($response instanceof HttpResponse) {
                 $listener->setApplicationResponse($response);
             }
@@ -36,4 +32,5 @@ class SendApiProblemResponseListenerFactory implements FactoryInterface
 
         return $listener;
     }
+
 }
