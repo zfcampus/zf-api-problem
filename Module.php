@@ -7,12 +7,14 @@
 namespace ZF\ApiProblem;
 
 use Zend\EventManager\EventManagerInterface;
+use Zend\Mvc\Application;
 use Zend\Mvc\ResponseSender\SendResponseEvent;
 use Zend\Mvc\MvcEvent;
 use Zend\Mvc\SendResponseListener;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use ZF\ApiProblem\Listener\ApiProblemListener;
 use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
+use ZF\ApiProblem\View\ApiProblemStrategy;
 
 /**
  * ZF2 module
@@ -64,7 +66,6 @@ class Module
         $sendResponseListener = $serviceManager->get('SendResponseListener');
 
 
-
         $apiProblemListener->attach($eventManager);
         $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
 
@@ -84,16 +85,20 @@ class Module
      */
     public function onRender($e)
     {
+        /** @var Application $app */
         $app = $e->getTarget();
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {
             $view = $services->get('View');
+            /** @var EventManagerInterface $events */
             $events = $view->getEventManager();
 
             // register at high priority, to "beat" normal json strategy registered
             // via view manager, as well as HAL strategy.
-            $events->attach($services->get('ZF\ApiProblem\ApiProblemStrategy'), 400);
+            /** @var ApiProblemStrategy $apiProblemStrategy */
+            $apiProblemStrategy = $services->get(ApiProblemStrategy::class);
+            $apiProblemStrategy->attach($events, 400);
         }
     }
 }
