@@ -1,7 +1,7 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\ApiProblem;
@@ -34,6 +34,6 @@ return [
         // 'accept_filters' => $stringOrArray,
 
         // Array of controller service names that should enable the ApiProblem render.error listener
-        //'render_error_controllers' => [],
+        // 'render_error_controllers' => [],
     ],
 ];

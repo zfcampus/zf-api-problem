@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -9,7 +10,7 @@ namespace ZF\ApiProblem;
 use Zend\Http\Response;
 
 /**
- * Represents an ApiProblem response payload
+ * Represents an ApiProblem response payload.
  */
 class ApiProblemResponse extends Response
 {
@@ -19,7 +20,7 @@ class ApiProblemResponse extends Response
     protected $apiProblem;
 
     /**
-     * Flags to use with json_encode
+     * Flags to use with json_encode.
      *
      * @var int
      */
@@ -46,7 +47,7 @@ class ApiProblemResponse extends Response
     }
 
     /**
-     * Retrieve the content
+     * Retrieve the content.
      *
      * Serializes the composed ApiProblem instance to JSON.
      *
@@ -58,7 +59,7 @@ class ApiProblemResponse extends Response
     }
 
     /**
-     * Retrieve headers
+     * Retrieve headers.
      *
      * Proxies to parent class, but then checks if we have an content-type
      * header; if not, sets it, with a value of "application/problem+json".
@@ -71,11 +72,12 @@ class ApiProblemResponse extends Response
         if (!$headers->has('content-type')) {
             $headers->addHeaderLine('content-type', ApiProblem::CONTENT_TYPE);
         }
+
         return $headers;
     }
 
     /**
-     * Override reason phrase handling
+     * Override reason phrase handling.
      *
      * If no corresponding reason phrase is available for the current status
      * code, return "Unknown Error".
@@ -84,7 +86,7 @@ class ApiProblemResponse extends Response
      */
     public function getReasonPhrase()
     {
-        if (! empty($this->reasonPhrase)) {
+        if (!empty($this->reasonPhrase)) {
             return $this->reasonPhrase;
         }
 

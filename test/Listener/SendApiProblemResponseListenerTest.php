@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -18,12 +19,12 @@ class SendApiProblemResponseListenerTest extends TestCase
 {
     public function setUp()
     {
-        $this->exception  = new DomainException('Random error', 400);
+        $this->exception = new DomainException('Random error', 400);
         $this->apiProblem = new ApiProblem(400, $this->exception);
-        $this->response   = new ApiProblemResponse($this->apiProblem);
-        $this->event      = new SendResponseEvent();
+        $this->response = new ApiProblemResponse($this->apiProblem);
+        $this->event = new SendResponseEvent();
         $this->event->setResponse($this->response);
-        $this->listener   = new SendApiProblemResponseListener();
+        $this->listener = new SendApiProblemResponseListener();
     }
 
     public function testListenerImplementsResponseSenderInterface()
@@ -74,7 +75,7 @@ class SendApiProblemResponseListenerTest extends TestCase
 
     public function testSendContentDoesNothingIfEventDoesNotContainApiProblemResponse()
     {
-        $this->event->setResponse(new HttpResponse);
+        $this->event->setResponse(new HttpResponse());
         ob_start();
         $this->listener->sendContent($this->event);
         $contents = ob_get_clean();

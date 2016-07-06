@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -11,7 +12,7 @@ use Zend\Mvc\MvcEvent;
 use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
 /**
- * ZF2 module
+ * ZF2 module.
  */
 class Module
 {
@@ -22,11 +23,11 @@ class Module
      */
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return include __DIR__ . '/../config/module.config.php';
     }
 
     /**
-     * Listener for bootstrap event
+     * Listener for bootstrap event.
      *
      * Attaches a render event.
      *
@@ -34,11 +35,11 @@ class Module
      */
     public function onBootstrap(MvcEvent $e)
     {
-        $app            = $e->getTarget();
+        $app = $e->getTarget();
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
-        $serviceManager->get('ZF\ApiProblem\ApiProblemListener')->attach($eventmanager);
+        $serviceManager->get(Listener\ApiProblemListener::class)->attach($eventManager);
         $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
 
         $sendResponseListener = $serviceManager->get('SendResponseListener');
@@ -50,7 +51,7 @@ class Module
     }
 
     /**
-     * Listener for the render event
+     * Listener for the render event.
      *
      * Attaches a rendering/response strategy to the View.
      *
@@ -58,16 +59,16 @@ class Module
      */
     public function onRender(MvcEvent $e)
     {
-        $app      = $e->getTarget();
+        $app = $e->getTarget();
         $services = $app->getServiceManager();
 
         if ($services->has('View')) {
-            $view   = $services->get('View');
+            $view = $services->get('View');
             $events = $view->getEventManager();
 
             // register at high priority, to "beat" normal json strategy registered
             // via view manager, as well as HAL strategy.
-            $services->get('ZF\ApiProblem\ApiProblemStrategy')->attach($events, 400);
+            $services->get(View\ApiProblemStrategy::class)->attach($events, 400);
         }
     }
 }

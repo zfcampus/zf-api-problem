@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -37,12 +38,14 @@ class ApiProblemModel extends ViewModel
     }
 
     /**
-     * @param  ApiProblem $problem
+     * @param ApiProblem $problem
+     *
      * @return ApiProblemModel
      */
     public function setApiProblem(ApiProblem $problem)
     {
         $this->problem = $problem;
+
         return $this;
     }
 
