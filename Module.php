@@ -6,7 +6,6 @@
 
 namespace ZF\ApiProblem;
 
-use Zend\Loader\StandardAutoloader;
 use Zend\Mvc\ResponseSender\SendResponseEvent;
 use Zend\Mvc\MvcEvent;
 use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
@@ -16,22 +15,6 @@ use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
  */
 class Module
 {
-    /**
-     * Retrieve autoloader configuration
-     *
-     * @return array
-     */
-    public function getAutoloaderConfig()
-    {
-        return [
-            StandardAutoloader::class => [
-                'namespaces' => [
-                    __NAMESPACE__ => __DIR__ . '/src/',
-                ]
-            ]
-        ];
-    }
-
     /**
      * Retrieve module configuration
      *
