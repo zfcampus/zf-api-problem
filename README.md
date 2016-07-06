@@ -8,7 +8,7 @@ Introduction
 
 This module provides data structures and rendering for the API-Problem format.
 
-- [Problem Details for HTTP APIs](http://tools.ietf.org/html/draft-nottingham-http-problem-06),
+- [Problem Details for HTTP APIs](https://tools.ietf.org/html/rfc7807),
   used for reporting API problems.
 
 Requirements
