@@ -7,7 +7,8 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Added
 
 - [#45](https://github.com/zfcampus/zf-api-problem/pull/45) adds support for PHP 7.
-- [#45](https://github.com/zfcampus/zf-api-problem/pull/45) adds support for
+- [#44](https://github.com/zfcampus/zf-api-problem/pull/44) and
+  [#45](https://github.com/zfcampus/zf-api-problem/pull/45) add support for
   version 3 components of Zend Framework.
 - [#39](https://github.com/zfcampus/zf-api-problem/pull/39) adds the constant
   `ApiProblem::CONTENT_TYPE` for specifying the Content-Type of API Problem
@@ -27,7 +28,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#45](https://github.com/zfcampus/zf-api-problem/pull/45) ensures that
+- [#44](https://github.com/zfcampus/zf-api-problem/pull/44) and
+  [#45](https://github.com/zfcampus/zf-api-problem/pull/45) ensure that
   definition and attachment of the listener aggregates defined in the module
   will work with both v2 and v3 versions of zend-eventmanager.
 - [#38](https://github.com/zfcampus/zf-api-problem/pull/38) fixes an issue
