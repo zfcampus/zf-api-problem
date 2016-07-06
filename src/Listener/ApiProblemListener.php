@@ -137,7 +137,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         // Attach the ApiProblem render.error listener
         $events = $app->getEventManager();
-        $events->attach($services->get('ZF\ApiProblem\RenderErrorListener'));
+        $services->get('ZF\ApiProblem\RenderErrorListener')->attach($events);
     }
 
     /**

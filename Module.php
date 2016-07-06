@@ -38,7 +38,7 @@ class Module
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
-        $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
+        $serviceManager->get('ZF\ApiProblem\ApiProblemListener')->attach($eventmanager);
         $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
 
         $sendResponseListener = $serviceManager->get('SendResponseListener');
@@ -67,7 +67,7 @@ class Module
 
             // register at high priority, to "beat" normal json strategy registered
             // via view manager, as well as HAL strategy.
-            $events->attach($services->get('ZF\ApiProblem\ApiProblemStrategy'), 400);
+            $services->get('ZF\ApiProblem\ApiProblemStrategy')->attach($events, 400);
         }
     }
 }
