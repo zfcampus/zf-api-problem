@@ -9,6 +9,7 @@
 namespace ZF\ApiProblem;
 
 use PHPUnit_Framework_TestCase as TestCase;
+use ReflectionClass;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\SharedEventManager;
 use Zend\Mvc\Application;
@@ -20,6 +21,17 @@ use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
 class ModuleTest extends TestCase
 {
+    public function marshalEventManager()
+    {
+        $r = new ReflectionClass(EventManager::class);
+        if ($r->hasMethod('setSharedManager')) {
+            $eventManager = new EventManager();
+            $eventManager->setSharedManager(new SharedEventManager());
+            return $eventManager;
+        }
+        return new EventManager(new SharedEventManager());
+    }
+
     public function testOnBootstrap()
     {
         $module = new Module();
@@ -28,7 +40,7 @@ class ModuleTest extends TestCase
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
         $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
 
-        $eventManager = new EventManager(new SharedEventManager());
+        $eventManager = $this->marshalEventManager();
         $event = $this->getMock(MvcEvent::class);
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
