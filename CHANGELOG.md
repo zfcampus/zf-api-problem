@@ -27,3 +27,6 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#45](https://github.com/zfcampus/zf-api-problem/pull/45) ensures that
   definition and attachment of the listener aggregates defined in the module
   will work with both v2 and v3 versions of zend-eventmanager.
+- [#38](https://github.com/zfcampus/zf-api-problem/pull/38) fixes an issue
+  whereby JSON encoding failed for included stack traces if they originated
+  within a PHP stream.
