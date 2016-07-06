@@ -8,26 +8,13 @@ namespace ZF\ApiProblem;
 
 use Zend\Mvc\ResponseSender\SendResponseEvent;
 use Zend\Mvc\MvcEvent;
+use ZF\ApiProblem\Listener\SendApiProblemResponseListener;
 
 /**
  * ZF2 module
  */
 class Module
 {
-    /**
-     * Retrieve autoloader configuration
-     *
-     * @return array
-     */
-    public function getAutoloaderConfig()
-    {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array('namespaces' => array(
-                __NAMESPACE__ => __DIR__ . '/src/',
-            ))
-        );
-    }
-
     /**
      * Retrieve module configuration
      *
@@ -43,21 +30,21 @@ class Module
      *
      * Attaches a render event.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  MvcEvent $e
      */
-    public function onBootstrap($e)
+    public function onBootstrap(MvcEvent $e)
     {
         $app            = $e->getTarget();
         $serviceManager = $app->getServiceManager();
         $eventManager   = $app->getEventManager();
 
-        $eventManager->attach($serviceManager->get('ZF\ApiProblem\ApiProblemListener'));
-        $eventManager->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 100);
+        $serviceManager->get('ZF\ApiProblem\ApiProblemListener')->attach($eventmanager);
+        $eventManager->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 100);
 
         $sendResponseListener = $serviceManager->get('SendResponseListener');
         $sendResponseListener->getEventManager()->attach(
             SendResponseEvent::EVENT_SEND_RESPONSE,
-            $serviceManager->get('ZF\ApiProblem\Listener\SendApiProblemResponseListener'),
+            $serviceManager->get(SendApiProblemResponseListener::class),
             -500
         );
     }
@@ -67,9 +54,9 @@ class Module
      *
      * Attaches a rendering/response strategy to the View.
      *
-     * @param  \Zend\Mvc\MvcEvent $e
+     * @param  MvcEvent $e
      */
-    public function onRender($e)
+    public function onRender(MvcEvent $e)
     {
         $app      = $e->getTarget();
         $services = $app->getServiceManager();
@@ -80,7 +67,7 @@ class Module
 
             // register at high priority, to "beat" normal json strategy registered
             // via view manager, as well as HAL strategy.
-            $events->attach($services->get('ZF\ApiProblem\ApiProblemStrategy'), 400);
+            $services->get('ZF\ApiProblem\ApiProblemStrategy')->attach($events, 400);
         }
     }
 }

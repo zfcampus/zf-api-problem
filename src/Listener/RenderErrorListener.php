@@ -24,9 +24,9 @@ class RenderErrorListener extends AbstractListenerAggregate
     protected $displayExceptions = false;
 
     /**
-     * @param EventManagerInterface $events
+     * {@inheritDoc}
      */
-    public function attach(EventManagerInterface $events)
+    public function attach(EventManagerInterface $events, $priority = 1)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER_ERROR, [$this, 'onRenderError'], 100);
     }
