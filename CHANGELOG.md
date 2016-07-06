@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file, in reverse 
 - [#45](https://github.com/zfcampus/zf-api-problem/pull/45) adds support for PHP 7.
 - [#45](https://github.com/zfcampus/zf-api-problem/pull/45) adds support for
   version 3 components of Zend Framework.
+- [#39](https://github.com/zfcampus/zf-api-problem/pull/39) adds the constant
+  `ApiProblem::CONTENT_TYPE` for specifying the Content-Type of API Problem
+  responses.
 
 ### Deprecated
 
