@@ -7,10 +7,10 @@
 namespace ZFTest\ApiProblem\Listener;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Console\Request as ConsoleRequest;
 use Zend\Http\Request;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
+use Zend\Stdlib\RequestInterface;
 use ZF\ApiProblem\Exception\DomainException;
 use ZF\ApiProblem\Listener\ApiProblemListener;
 
@@ -23,9 +23,10 @@ class ApiProblemListenerTest extends TestCase
         $this->listener = new ApiProblemListener();
     }
 
-    public function testOnRenderReturnsEarlyWhenConsoleRequestDetected()
+    public function testOnRenderReturnsEarlyWhenNonHttpRequestDetected()
     {
-        $this->event->setRequest(new ConsoleRequest());
+        $request = $this->prophesize(RequestInterface::class)->reveal();
+        $this->event->setRequest($request);
 
         $this->assertNull($this->listener->onRender($this->event));
     }
