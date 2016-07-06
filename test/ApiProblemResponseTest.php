@@ -59,7 +59,7 @@ class ApiProblemResponseTest extends TestCase
         $this->assertTrue($headers->has('content-type'));
         $header = $headers->get('content-type');
         $this->assertInstanceOf('Zend\Http\Header\ContentType', $header);
-        $this->assertEquals('application/problem+json', $header->getFieldValue());
+        $this->assertEquals(ApiProblem::CONTENT_TYPE, $header->getFieldValue());
     }
 
     public function testComposeApiProblemIsAccessible()
