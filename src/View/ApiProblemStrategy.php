@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -32,7 +33,8 @@ class ApiProblemStrategy extends JsonStrategy
     /**
      * Detect if we should use the ApiProblemRenderer based on model type.
      *
-     * @param  ViewEvent $e
+     * @param ViewEvent $e
+     *
      * @return null|ApiProblemRenderer
      */
     public function selectRenderer(ViewEvent $e)
@@ -49,12 +51,12 @@ class ApiProblemStrategy extends JsonStrategy
     }
 
     /**
-     * Inject the response
+     * Inject the response.
      *
      * Injects the response with the rendered content, and sets the content
      * type based on the detection that occurred during renderer selection.
      *
-     * @param  ViewEvent $e
+     * @param ViewEvent $e
      */
     public function injectResponse(ViewEvent $e)
     {
@@ -72,7 +74,7 @@ class ApiProblemStrategy extends JsonStrategy
 
         $problem     = $model->getApiProblem();
         $statusCode  = $this->getStatusCodeFromApiProblem($problem);
-        $contentType = 'application/problem+json';
+        $contentType = ApiProblem::CONTENT_TYPE;
 
         // Populate response
         $response = $e->getResponse();
@@ -83,11 +85,12 @@ class ApiProblemStrategy extends JsonStrategy
     }
 
     /**
-     * Retrieve the HTTP status from an ApiProblem object
+     * Retrieve the HTTP status from an ApiProblem object.
      *
      * Ensures that the status falls within the acceptable range (100 - 599).
      *
-     * @param  ApiProblem $problem
+     * @param ApiProblem $problem
+     *
      * @return int
      */
     protected function getStatusCodeFromApiProblem(ApiProblem $problem)

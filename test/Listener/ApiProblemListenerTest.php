@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -7,10 +8,10 @@
 namespace ZFTest\ApiProblem\Listener;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Console\Request as ConsoleRequest;
 use Zend\Http\Request;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
+use Zend\Stdlib\RequestInterface;
 use ZF\ApiProblem\Exception\DomainException;
 use ZF\ApiProblem\Listener\ApiProblemListener;
 
@@ -18,14 +19,15 @@ class ApiProblemListenerTest extends TestCase
 {
     public function setUp()
     {
-        $this->event    = new MvcEvent();
+        $this->event = new MvcEvent();
         $this->event->setError('this is an error event');
         $this->listener = new ApiProblemListener();
     }
 
-    public function testOnRenderReturnsEarlyWhenConsoleRequestDetected()
+    public function testOnRenderReturnsEarlyWhenNonHttpRequestDetected()
     {
-        $this->event->setRequest(new ConsoleRequest());
+        $request = $this->prophesize(RequestInterface::class)->reveal();
+        $this->event->setRequest($request);
 
         $this->assertNull($this->listener->onRender($this->event));
     }

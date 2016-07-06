@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -7,19 +8,25 @@
 namespace ZF\ApiProblem;
 
 /**
- * Object describing an API-Problem payload
+ * Object describing an API-Problem payload.
  */
 class ApiProblem
 {
     /**
-     * Additional details to include in report
+     * Content type for api problem response
+     */
+    const CONTENT_TYPE = 'application/problem+json';
+
+    /**
+     * Additional details to include in report.
      *
      * @var array
      */
     protected $additionalDetails = [];
 
     /**
-     * URL describing the problem type; defaults to HTTP status codes
+     * URL describing the problem type; defaults to HTTP status codes.
+     *
      * @var string
      */
     protected $type = 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html';
@@ -47,19 +54,19 @@ class ApiProblem
     protected $status;
 
     /**
-     * Normalized property names for overloading
+     * Normalized property names for overloading.
      *
      * @var array
      */
     protected $normalizedProperties = [
-        'type'   => 'type',
+        'type' => 'type',
         'status' => 'status',
-        'title'  => 'title',
+        'title' => 'title',
         'detail' => 'detail',
     ];
 
     /**
-     * Status titles for common problems
+     * Status titles for common problems.
      *
      * @var array
      */
@@ -113,7 +120,7 @@ class ApiProblem
     protected $title;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * Create an instance using the provided information. If nothing is
      * provided for the type field, the class default will be used;
@@ -141,7 +148,7 @@ class ApiProblem
         }
 
         // Ensure a valid HTTP status
-        if (! is_numeric($status)
+        if (!is_numeric($status)
             || ($status < 100)
             || ($status > 599)
         ) {
@@ -150,7 +157,7 @@ class ApiProblem
 
         $this->status = $status;
         $this->detail = $detail;
-        $this->title  = $title;
+        $this->title = $title;
 
         if (null !== $type) {
             $this->type = $type;
@@ -160,10 +167,12 @@ class ApiProblem
     }
 
     /**
-     * Retrieve properties
+     * Retrieve properties.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return mixed
+     *
      * @throws Exception\InvalidArgumentException
      */
     public function __get($name)
@@ -171,6 +180,7 @@ class ApiProblem
         $normalized = strtolower($name);
         if (in_array($normalized, array_keys($this->normalizedProperties))) {
             $prop = $this->normalizedProperties[$normalized];
+
             return $this->{$prop};
         }
 
@@ -189,15 +199,15 @@ class ApiProblem
     }
 
     /**
-     * Cast to an array
+     * Cast to an array.
      *
      * @return array
      */
     public function toArray()
     {
         $problem = [
-            'type'   => $this->type,
-            'title'  => $this->getTitle(),
+            'type' => $this->type,
+            'title' => $this->getTitle(),
             'status' => $this->getStatus(),
             'detail' => $this->getDetail(),
         ];
@@ -209,17 +219,19 @@ class ApiProblem
      * Set the flag indicating whether an exception detail should include a
      * stack trace and previous exception information.
      *
-     * @param  bool $flag
+     * @param bool $flag
+     *
      * @return ApiProblem
      */
     public function setDetailIncludesStackTrace($flag)
     {
         $this->detailIncludesStackTrace = (bool) $flag;
+
         return $this;
     }
 
     /**
-     * Retrieve the API-Problem detail
+     * Retrieve the API-Problem detail.
      *
      * If an exception was provided, creates the detail message from it;
      * otherwise, detail as provided is used.
@@ -236,7 +248,7 @@ class ApiProblem
     }
 
     /**
-     * Retrieve the API-Problem HTTP status code
+     * Retrieve the API-Problem HTTP status code.
      *
      * If an exception was provided, creates the status code from it;
      * otherwise, code as provided is used.
@@ -253,7 +265,7 @@ class ApiProblem
     }
 
     /**
-     * Retrieve the title
+     * Retrieve the title.
      *
      * If the default $type is used, and the $status is found in
      * $problemStatusTitles, then use the matching title.
@@ -309,9 +321,9 @@ class ApiProblem
         $e = $e->getPrevious();
         while ($e) {
             $previous[] = [
-                'code'    => (int) $e->getCode(),
+                'code' => (int) $e->getCode(),
                 'message' => trim($e->getMessage()),
-                'trace'   => $e->getTrace(),
+                'trace' => $e->getTrace(),
             ];
             $e = $e->getPrevious();
         }
@@ -329,7 +341,7 @@ class ApiProblem
      */
     protected function createStatusFromException()
     {
-        $e      = $this->detail;
+        $e = $this->detail;
         $status = $e->getCode();
 
         if (!empty($status)) {
