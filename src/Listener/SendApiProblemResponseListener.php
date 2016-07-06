@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -12,7 +13,7 @@ use Zend\Mvc\ResponseSender\SendResponseEvent;
 use ZF\ApiProblem\ApiProblemResponse;
 
 /**
- * Send ApiProblem responses
+ * Send ApiProblem responses.
  */
 class SendApiProblemResponseListener extends HttpResponseSender
 {
@@ -27,24 +28,28 @@ class SendApiProblemResponseListener extends HttpResponseSender
     protected $displayExceptions = false;
 
     /**
-     * @param  HttpResponse $response
+     * @param HttpResponse $response
+     *
      * @return self
      */
     public function setApplicationResponse(HttpResponse $response)
     {
         $this->applicationResponse = $response;
+
         return $this;
     }
 
     /**
-     * Set the flag determining whether exception stack traces are included
+     * Set the flag determining whether exception stack traces are included.
      *
-     * @param  bool $flag
+     * @param bool $flag
+     *
      * @return self
      */
     public function setDisplayExceptions($flag)
     {
         $this->displayExceptions = (bool) $flag;
+
         return $this;
     }
 
@@ -59,12 +64,13 @@ class SendApiProblemResponseListener extends HttpResponseSender
     }
 
     /**
-     * Send the response content
+     * Send the response content.
      *
      * Sets the composed ApiProblem's flag for including the stack trace in the
      * detail based on the display exceptions flag, and then sends content.
      *
      * @param SendResponseEvent $e
+     *
      * @return self
      */
     public function sendContent(SendResponseEvent $e)
@@ -74,16 +80,18 @@ class SendApiProblemResponseListener extends HttpResponseSender
             return $this;
         }
         $response->getApiProblem()->setDetailIncludesStackTrace($this->displayExceptions());
+
         return parent::sendContent($e);
     }
 
     /**
-     * Send HTTP response headers
+     * Send HTTP response headers.
      *
      * If an application response is composed, and is an HTTP response, merges
      * its headers with the ApiProblemResponse headers prior to sending them.
      *
-     * @param  SendResponseEvent $e
+     * @param SendResponseEvent $e
+     *
      * @return self
      */
     public function sendHeaders(SendResponseEvent $e)
@@ -101,9 +109,10 @@ class SendApiProblemResponseListener extends HttpResponseSender
     }
 
     /**
-     * Send ApiProblem response
+     * Send ApiProblem response.
      *
-     * @param  SendResponseEvent $event
+     * @param SendResponseEvent $event
+     *
      * @return self
      */
     public function __invoke(SendResponseEvent $event)
@@ -116,14 +125,15 @@ class SendApiProblemResponseListener extends HttpResponseSender
         $this->sendHeaders($event)
              ->sendContent($event);
         $event->stopPropagation(true);
+
         return $this;
     }
 
     /**
-     * Merge headers set on the application response into the API Problem response
+     * Merge headers set on the application response into the API Problem response.
      *
-     * @param  HttpResponse $applicationResponse
-     * @param  ApiProblemResponse $apiProblemResponse
+     * @param HttpResponse       $applicationResponse
+     * @param ApiProblemResponse $apiProblemResponse
      */
     protected function mergeHeaders(HttpResponse $applicationResponse, ApiProblemResponse $apiProblemResponse)
     {

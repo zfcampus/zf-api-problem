@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -17,7 +18,7 @@ use ZF\ApiProblem\ApiProblemResponse;
 use ZF\ApiProblem\View\ApiProblemModel;
 
 /**
- * ApiProblemListener
+ * ApiProblemListener.
  *
  * Provides a listener on the render event, at high priority.
  *
@@ -27,7 +28,7 @@ use ZF\ApiProblem\View\ApiProblemModel;
 class ApiProblemListener extends AbstractListenerAggregate
 {
     /**
-     * Default types to match in Accept header
+     * Default types to match in Accept header.
      *
      * @var array
      */
@@ -37,7 +38,7 @@ class ApiProblemListener extends AbstractListenerAggregate
     ];
 
     /**
-     * Constructor
+     * Constructor.
      *
      * Set the accept filter, if one is passed
      *
@@ -74,7 +75,7 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
-     * Listen to the render event
+     * Listen to the render event.
      *
      * @param MvcEvent $e
      */
@@ -92,8 +93,8 @@ class ApiProblemListener extends AbstractListenerAggregate
         }
 
         // Marshal the information we need for the API-Problem response
-        $status     = $e->getResponse()->getStatusCode();
-        $exception  = $model->getVariable('exception');
+        $status = $e->getResponse()->getStatusCode();
+        $exception = $model->getVariable('exception');
 
         if ($exception instanceof \Exception) {
             $apiProblem = new ApiProblem($status, $exception);
@@ -109,7 +110,7 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
-     * Handle dispatch
+     * Handle dispatch.
      *
      * It checks if the controller is in our list
      *
@@ -117,15 +118,15 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function onDispatch(MvcEvent $e)
     {
-        $app      = $e->getApplication();
+        $app = $e->getApplication();
         $services = $app->getServiceManager();
-        $config   = $services->get('Config');
+        $config = $services->get('config');
 
         if (!isset($config['zf-api-problem']['render_error_controllers'])) {
             return;
         }
 
-        $controller  = $e->getRouteMatch()->getParam('controller');
+        $controller = $e->getRouteMatch()->getParam('controller');
         $controllers = $config['zf-api-problem']['render_error_controllers'];
         if (!in_array($controller, $controllers)) {
             // The current controller is not in our list of controllers to handle
@@ -138,12 +139,13 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
-     * Handle render errors
+     * Handle render errors.
      *
      * If the event represents an error, and has an exception composed, marshals an ApiProblem
      * based on the exception, stops event propagation, and returns an ApiProblemResponse.
      *
-     * @param  MvcEvent $e
+     * @param MvcEvent $e
+     *
      * @return ApiProblemResponse
      */
     public function onDispatchError(MvcEvent $e)
@@ -154,7 +156,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         // Marshall an ApiProblem and view model based on the exception
         $exception = $e->getParam('exception');
-        if (! $exception instanceof \Exception) {
+        if (!$exception instanceof \Exception) {
             // If it's not an exception, do not know what to do.
             return;
         }
@@ -162,13 +164,15 @@ class ApiProblemListener extends AbstractListenerAggregate
         $e->stopPropagation();
         $response = new ApiProblemResponse(new ApiProblem($exception->getCode(), $exception));
         $e->setResponse($response);
+
         return $response;
     }
 
     /**
-     * Determine if we have a valid error event
+     * Determine if we have a valid error event.
      *
-     * @param  MvcEvent $e
+     * @param MvcEvent $e
+     *
      * @return bool
      */
     protected function validateErrorEvent(MvcEvent $e)
@@ -199,13 +203,14 @@ class ApiProblemListener extends AbstractListenerAggregate
     }
 
     /**
-     * Attempt to match the accept criteria
+     * Attempt to match the accept criteria.
      *
      * If it matches, but on "*\/*", return false.
      *
      * Otherwise, return based on whether or not one or more criteria match.
      *
-     * @param  AcceptHeader $accept
+     * @param AcceptHeader $accept
+     *
      * @return bool
      */
     protected function matchAcceptCriteria(AcceptHeader $accept)

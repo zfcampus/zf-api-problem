@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9ad929bad7c54c2b000c9f106eb49274",
-    "content-hash": "f755421243d7337003debaea8b13aaa4",
+    "hash": "9ce7e8d467bf4fa01b9f07495ca33589",
+    "content-hash": "c3e61de5ce8d80b8082ae7d3ecb5e5db",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -40,12 +40,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-config.git",
-                "reference": "9dc083ce3341a12bfc1053df40b5f20e42b1f862"
+                "reference": "2920e877a9f6dca9fa8f6bd3b1ffc2e19bb1e30d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-config-2.6.0-e2b849.zip",
-                "reference": "9dc083ce3341a12bfc1053df40b5f20e42b1f862",
+                "url": "https://api.github.com/repos/zendframework/zend-config/zipball/2920e877a9f6dca9fa8f6bd3b1ffc2e19bb1e30d",
+                "reference": "2920e877a9f6dca9fa8f6bd3b1ffc2e19bb1e30d",
                 "shasum": "1013c99554bbafbd4f8d1c0702c8a7540e40a3b7"
             },
             "require": {
@@ -100,12 +100,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-escaper.git",
-                "reference": "60f9c828e5d4fb5901ee9f2ff1c6d18177de20d1"
+                "reference": "2dcd14b61a72d8b8e27d579c6344e12c26141d4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-escaper-2.5.2-302008.zip",
-                "reference": "60f9c828e5d4fb5901ee9f2ff1c6d18177de20d1",
+                "url": "https://api.github.com/repos/zendframework/zend-escaper/zipball/2dcd14b61a72d8b8e27d579c6344e12c26141d4e",
+                "reference": "2dcd14b61a72d8b8e27d579c6344e12c26141d4e",
                 "shasum": "c6912745939f5bcecdbc97fc8d2f7180436a8d32"
             },
             "require": {
@@ -149,12 +149,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-eventmanager.git",
-                "reference": "be713ce379d320ac96ee9540b5dac2a5259722da"
+                "reference": "5c80bdee0e952be112dcec0968bad770082c3a6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-eventmanager-3.0.1-17b0b9.zip",
-                "reference": "be713ce379d320ac96ee9540b5dac2a5259722da",
+                "url": "https://api.github.com/repos/zendframework/zend-eventmanager/zipball/5c80bdee0e952be112dcec0968bad770082c3a6e",
+                "reference": "5c80bdee0e952be112dcec0968bad770082c3a6e",
                 "shasum": "160792d45cbcf31a1c4ae4961215b4f8739e1b73"
             },
             "require": {
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-http.git",
-                "reference": "ca5b0bbecc1c4101c0554ba66e678303312e05dc"
+                "reference": "7b920b4ec34b5ee58f76eb4e8c408b083121953c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-http-2.5.4-5a0647.zip",
-                "reference": "ca5b0bbecc1c4101c0554ba66e678303312e05dc",
+                "url": "https://api.github.com/repos/zendframework/zend-http/zipball/7b920b4ec34b5ee58f76eb4e8c408b083121953c",
+                "reference": "7b920b4ec34b5ee58f76eb4e8c408b083121953c",
                 "shasum": "42b4a537200c6a39e09177d00f29ed781145d479"
             },
             "require": {
@@ -262,12 +262,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-json.git",
-                "reference": "58495b9d76a423f5bfc7f44946f68454ddcf7c7a"
+                "reference": "f42a1588e75c2a3e338cd94c37906231e616daab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-json-3.0.0-4c1ef0.zip",
-                "reference": "58495b9d76a423f5bfc7f44946f68454ddcf7c7a",
+                "url": "https://api.github.com/repos/zendframework/zend-json/zipball/f42a1588e75c2a3e338cd94c37906231e616daab",
+                "reference": "f42a1588e75c2a3e338cd94c37906231e616daab",
                 "shasum": "8dc98c6ff277ea60db62aa3735d403951476996e"
             },
             "require": {
@@ -337,13 +337,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-loader.git",
-                "reference": "c632cddeb2c1216235b8777d0d8ecde173a9b283"
+                "reference": "c5fd2f071bde071f4363def7dea8dec7393e135c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-loader-2.5.1-eda8fc.zip",
-                "reference": "c632cddeb2c1216235b8777d0d8ecde173a9b283",
-                "shasum": "18e4296563b12965b2a854e8e3b9f64ce38c413a"
+                "url": "https://api.github.com/repos/zendframework/zend-loader/zipball/c5fd2f071bde071f4363def7dea8dec7393e135c",
+                "reference": "c5fd2f071bde071f4363def7dea8dec7393e135c",
+                "shasum": "c44a50906a23e80bb4f2f266f8c6c6b7ab368bd3"
             },
             "require": {
                 "php": ">=5.3.23"
@@ -386,12 +386,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-modulemanager.git",
-                "reference": "dd183dd4819bace579df6cf16cb29092198b0161"
+                "reference": "2a59ab9a0dd7699a55050dff659ab0f28272b46e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-modulemanager-2.7.2-dcc92a.zip",
-                "reference": "dd183dd4819bace579df6cf16cb29092198b0161",
+                "url": "https://api.github.com/repos/zendframework/zend-modulemanager/zipball/2a59ab9a0dd7699a55050dff659ab0f28272b46e",
+                "reference": "2a59ab9a0dd7699a55050dff659ab0f28272b46e",
                 "shasum": "3282a6d571b95043689d992e76c13963a90a2489"
             },
             "require": {
@@ -450,12 +450,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-mvc.git",
-                "reference": "382e3f486ad86a413c567a537f7612ceb837c213"
+                "reference": "3c6c9e570e01a8b8fcb0605d2f8eb25812c0c273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-mvc-3.0.2-02ef14.zip",
-                "reference": "382e3f486ad86a413c567a537f7612ceb837c213",
+                "url": "https://api.github.com/repos/zendframework/zend-mvc/zipball/3c6c9e570e01a8b8fcb0605d2f8eb25812c0c273",
+                "reference": "3c6c9e570e01a8b8fcb0605d2f8eb25812c0c273",
                 "shasum": "08dd8e028827c1fc249142a88661760bf3bdb755"
             },
             "require": {
@@ -541,12 +541,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-router.git",
-                "reference": "379835c52995780a01b77feb250c8f261e21308d"
+                "reference": "03763610632a9022aff22a0e8f340852e68392a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-router-3.0.2-e41abb.zip",
-                "reference": "379835c52995780a01b77feb250c8f261e21308d",
+                "url": "https://api.github.com/repos/zendframework/zend-router/zipball/03763610632a9022aff22a0e8f340852e68392a1",
+                "reference": "03763610632a9022aff22a0e8f340852e68392a1",
                 "shasum": "1e0bb7a2ea55b4836e73e21cf15379f30a575c63"
             },
             "require": {
@@ -628,12 +628,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-servicemanager.git",
-                "reference": "9f96017ca716328001b596800cce5cdada02cd3f"
+                "reference": "90b88339a4b937c6bb0055ee04b2567e7e628f25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-servicemanager-3.1.0-210ed1.zip",
-                "reference": "9f96017ca716328001b596800cce5cdada02cd3f",
+                "url": "https://api.github.com/repos/zendframework/zend-servicemanager/zipball/90b88339a4b937c6bb0055ee04b2567e7e628f25",
+                "reference": "90b88339a4b937c6bb0055ee04b2567e7e628f25",
                 "shasum": "33153ac4a55902c4ab234e25b44fe75fb8e3a75d"
             },
             "require": {
@@ -689,12 +689,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-stdlib.git",
-                "reference": "8aeb489d593bf80bf1f6352cd8e2ca81c08443c1"
+                "reference": "8bafa58574204bdff03c275d1d618aaa601588ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-stdlib-3.0.1-e66fb9.zip",
-                "reference": "8aeb489d593bf80bf1f6352cd8e2ca81c08443c1",
+                "url": "https://api.github.com/repos/zendframework/zend-stdlib/zipball/8bafa58574204bdff03c275d1d618aaa601588ae",
+                "reference": "8bafa58574204bdff03c275d1d618aaa601588ae",
                 "shasum": "84d6a05dc65569cc4af3fdd7a66f618969187a1b"
             },
             "require": {
@@ -740,12 +740,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-uri.git",
-                "reference": "f11dc4805ce7c4343f6b0f8a2572036f90214b24"
+                "reference": "0bf717a239432b1a1675ae314f7c4acd742749ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-uri-2.5.2-210611.zip",
-                "reference": "f11dc4805ce7c4343f6b0f8a2572036f90214b24",
+                "url": "https://api.github.com/repos/zendframework/zend-uri/zipball/0bf717a239432b1a1675ae314f7c4acd742749ed",
+                "reference": "0bf717a239432b1a1675ae314f7c4acd742749ed",
                 "shasum": "d532c421dd3173ea9bd4f3e3890bae4eff36fcff"
             },
             "require": {
@@ -791,12 +791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-validator.git",
-                "reference": "ee8d088d520f0e4057ced185b406508caf66d5b7"
+                "reference": "8ec9f57a717dd37340308aa632f148a2c2be1cfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-validator-2.8.1-9c3f89.zip",
-                "reference": "ee8d088d520f0e4057ced185b406508caf66d5b7",
+                "url": "https://api.github.com/repos/zendframework/zend-validator/zipball/8ec9f57a717dd37340308aa632f148a2c2be1cfc",
+                "reference": "8ec9f57a717dd37340308aa632f148a2c2be1cfc",
                 "shasum": "80a58f6b188bb1cfec4a1a1dc0861618a2f159fa"
             },
             "require": {
@@ -866,12 +866,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-view.git",
-                "reference": "669f20a1d5bad10a255145faceef837c51bcf8bd"
+                "reference": "71b4ebd0c4c9a2d0e0438f9d3a435e08dd769ff8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-view-2.8.1-7f812d.zip",
-                "reference": "669f20a1d5bad10a255145faceef837c51bcf8bd",
+                "url": "https://api.github.com/repos/zendframework/zend-view/zipball/71b4ebd0c4c9a2d0e0438f9d3a435e08dd769ff8",
+                "reference": "71b4ebd0c4c9a2d0e0438f9d3a435e08dd769ff8",
                 "shasum": "1867e5ed45eb8136c227794589da6db0f20d7e0e"
             },
             "require": {
@@ -2141,7 +2141,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.6 || ^7.0"
+        "php": "^5.6 || ^7.0",
+        "ext-json": "*"
     },
     "platform-dev": []
 }
