@@ -121,9 +121,7 @@ class ApiProblemListener extends AbstractListenerAggregate
         $app      = $e->getApplication();
         $services = $app->getServiceManager();
         $config   = $services->get('Config');
-        if (!isset($config['zf-api-problem'])) {
-            return;
-        }
+
         if (!isset($config['zf-api-problem']['render_error_controllers'])) {
             return;
         }
