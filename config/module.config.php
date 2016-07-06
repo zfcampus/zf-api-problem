@@ -4,20 +4,22 @@
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
+namespace ZF\ApiProblem;
+
 return [
     'service_manager' => [
         'aliases'   => [
-            'ZF\ApiProblem\ApiProblemListener'  => 'ZF\ApiProblem\Listener\ApiProblemListener',
-            'ZF\ApiProblem\RenderErrorListener' => 'ZF\ApiProblem\Listener\RenderErrorListener',
-            'ZF\ApiProblem\ApiProblemRenderer'  => 'ZF\ApiProblem\View\ApiProblemRenderer',
-            'ZF\ApiProblem\ApiProblemStrategy'  => 'ZF\ApiProblem\View\ApiProblemStrategy',
+            ApiProblemListener::class  => Listener\ApiProblemListener::class,
+            RenderErrorListener::class => Listener\RenderErrorListener::class,
+            ApiProblemRenderer::class  => View\ApiProblemRenderer::class,
+            ApiProblemStrategy::class  => View\ApiProblemStrategy::class,
         ],
         'factories' => [
-            'ZF\ApiProblem\Listener\ApiProblemListener'             => 'ZF\ApiProblem\Factory\ApiProblemListenerFactory',
-            'ZF\ApiProblem\Listener\RenderErrorListener'            => 'ZF\ApiProblem\Factory\RenderErrorListenerFactory',
-            'ZF\ApiProblem\Listener\SendApiProblemResponseListener' => 'ZF\ApiProblem\Factory\SendApiProblemResponseListenerFactory',
-            'ZF\ApiProblem\View\ApiProblemRenderer'                 => 'ZF\ApiProblem\Factory\ApiProblemRendererFactory',
-            'ZF\ApiProblem\View\ApiProblemStrategy'                 => 'ZF\ApiProblem\Factory\ApiProblemStrategyFactory',
+            Listener\ApiProblemListener::class             => Factory\ApiProblemListenerFactory::class,
+            Listener\RenderErrorListener::class            => Factory\RenderErrorListenerFactory::class,
+            Listener\SendApiProblemResponseListener::class => Factory\SendApiProblemResponseListenerFactory::class,
+            View\ApiProblemRenderer::class                 => Factory\ApiProblemRendererFactory::class,
+            View\ApiProblemStrategy::class                 => Factory\ApiProblemStrategyFactory::class,
         ],
     ],
 
