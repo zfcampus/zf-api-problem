@@ -10,6 +10,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Exception\ExceptionInterface as ViewExceptionInterface;
+use ZF\ApiProblem\ApiProblem;
 
 /**
  * RenderErrorListener
@@ -89,7 +90,7 @@ class RenderErrorListener extends AbstractListenerAggregate
             $payload['details'] = $details;
         }
 
-        $response->getHeaders()->addHeaderLine('content-type', 'application/problem+json');
+        $response->getHeaders()->addHeaderLine('content-type', ApiProblem::CONTENT_TYPE);
         $response->setStatusCode($status);
         $response->setContent(json_encode($payload));
 
