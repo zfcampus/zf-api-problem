@@ -15,7 +15,6 @@ use Zend\View\Model\ModelInterface;
 use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\ApiProblemResponse;
 use ZF\ApiProblem\View\ApiProblemModel;
-use ZF\ApiProblem\Exception\ProblemExceptionInterface;
 
 /**
  * ApiProblemListener
