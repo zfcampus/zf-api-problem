@@ -1,10 +1,10 @@
 <?php
-
 /**
- * Creator: adamgrabek
- * Date: 08.06.2016
- * Time: 00:06.
+ * @link      http://github.com/zfcampus/zf-api-problem for the canonical source repository
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
+
 
 namespace ZF\ApiProblem;
 
@@ -50,7 +50,7 @@ class ModuleTest extends TestCase
 
                 return $listener;
                 break;
-            case SendApiProblemResponseListener::class :
+            case SendApiProblemResponseListener::class:
                 return new SendApiProblemResponseListener();
             default:
                 //
