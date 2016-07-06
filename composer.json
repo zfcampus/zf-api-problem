@@ -17,9 +17,6 @@
         "source": "https://github.com/zfcampus/zf-api-problem",
         "issues": "https://github.com/zfcampus/zf-api-problem/issues"
     },
-    "repositories": [
-        { "type": "composer", "url": "https://packages.zendframework.com" }
-    ],
     "extra": {
         "branch-alias": {
             "dev-master": "1.1-dev",
@@ -53,5 +50,14 @@
         "psr-4": {
             "ZFTest\\ApiProblem\\": "test/"
         }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit"
     }
 }
