@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 1.2.1 - TBD
+## 1.2.1 - 2016-07-07
 
 ### Added
 
@@ -36,7 +36,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#47](https://github.com/zfcampus/zf-api-problem/pull/47) fixes an issue with
+  the various factories introduced in 1.2.0; they had been updated to implement the
+  zend-servicemanager v3 interfaces, which broke usage with v2. They are now
+  written in a way that will work with both versions.
 
 ## 1.2.0 - 2016-07-06
 
