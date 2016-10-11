@@ -46,7 +46,7 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function __construct($filters = null)
     {
-        if (!empty($filters)) {
+        if (! empty($filters)) {
             if (is_string($filters)) {
                 $this->acceptFilters = [$filters];
             }
@@ -81,14 +81,14 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function onRender(MvcEvent $e)
     {
-        if (!$this->validateErrorEvent($e)) {
+        if (! $this->validateErrorEvent($e)) {
             return;
         }
 
         // Next, do we have a view model in the result?
         // If not, nothing more to do.
         $model = $e->getResult();
-        if (!$model instanceof ModelInterface || $model instanceof ApiProblemModel) {
+        if (! $model instanceof ModelInterface || $model instanceof ApiProblemModel) {
             return;
         }
 
@@ -122,13 +122,13 @@ class ApiProblemListener extends AbstractListenerAggregate
         $services = $app->getServiceManager();
         $config = $services->get('config');
 
-        if (!isset($config['zf-api-problem']['render_error_controllers'])) {
+        if (! isset($config['zf-api-problem']['render_error_controllers'])) {
             return;
         }
 
         $controller = $e->getRouteMatch()->getParam('controller');
         $controllers = $config['zf-api-problem']['render_error_controllers'];
-        if (!in_array($controller, $controllers)) {
+        if (! in_array($controller, $controllers)) {
             // The current controller is not in our list of controllers to handle
             return;
         }
@@ -150,13 +150,13 @@ class ApiProblemListener extends AbstractListenerAggregate
      */
     public function onDispatchError(MvcEvent $e)
     {
-        if (!$this->validateErrorEvent($e)) {
+        if (! $this->validateErrorEvent($e)) {
             return;
         }
 
         // Marshall an ApiProblem and view model based on the exception
         $exception = $e->getParam('exception');
-        if (!$exception instanceof \Exception) {
+        if (! $exception instanceof \Exception) {
             // If it's not an exception, do not know what to do.
             return;
         }
@@ -178,24 +178,24 @@ class ApiProblemListener extends AbstractListenerAggregate
     protected function validateErrorEvent(MvcEvent $e)
     {
         // only worried about error pages
-        if (!$e->isError()) {
+        if (! $e->isError()) {
             return false;
         }
 
         // and then, only if we have an Accept header...
         $request = $e->getRequest();
-        if (!$request instanceof HttpRequest) {
+        if (! $request instanceof HttpRequest) {
             return false;
         }
 
         $headers = $request->getHeaders();
-        if (!$headers->has('Accept')) {
+        if (! $headers->has('Accept')) {
             return false;
         }
 
         // ... that matches certain criteria
         $accept = $headers->get('Accept');
-        if (!$this->matchAcceptCriteria($accept)) {
+        if (! $this->matchAcceptCriteria($accept)) {
             return false;
         }
 

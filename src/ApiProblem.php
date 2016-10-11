@@ -153,7 +153,7 @@ class ApiProblem
         }
 
         // Ensure a valid HTTP status
-        if (!is_numeric($status)
+        if (! is_numeric($status)
             || ($status < 100)
             || ($status > 599)
         ) {
@@ -313,7 +313,7 @@ class ApiProblem
         /** @var Exception|Throwable $e */
         $e = $this->detail;
 
-        if (!$this->detailIncludesStackTrace) {
+        if (! $this->detailIncludesStackTrace) {
             return $e->getMessage();
         }
 
