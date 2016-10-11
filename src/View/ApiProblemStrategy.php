@@ -41,7 +41,7 @@ class ApiProblemStrategy extends JsonStrategy
     {
         $model = $e->getModel();
 
-        if (!$model instanceof ApiProblemModel) {
+        if (! $model instanceof ApiProblemModel) {
             // unrecognized model; do nothing
             return;
         }
@@ -61,13 +61,13 @@ class ApiProblemStrategy extends JsonStrategy
     public function injectResponse(ViewEvent $e)
     {
         $result = $e->getResult();
-        if (!is_string($result)) {
+        if (! is_string($result)) {
             // We don't have a string, and thus, no JSON
             return;
         }
 
         $model = $e->getModel();
-        if (!$model instanceof ApiProblemModel) {
+        if (! $model instanceof ApiProblemModel) {
             // Model is not an ApiProblemModel; we cannot handle it here
             return;
         }
