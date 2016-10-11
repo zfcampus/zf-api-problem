@@ -40,7 +40,7 @@ class ApiProblemRenderer extends JsonRenderer
      */
     public function render($nameOrModel, $values = null)
     {
-        if (!$nameOrModel instanceof ApiProblemModel) {
+        if (! $nameOrModel instanceof ApiProblemModel) {
             return '';
         }
 
