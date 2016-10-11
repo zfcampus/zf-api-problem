@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#49](https://github.com/zfcampus/zf-api-problem/pull/49) fixes `ApiProblem`'s
+  detail message marshaling when PHP 7 `Throwable` types are provided as the
+  detail.
 
 ## 1.2.1 - 2016-07-07
 

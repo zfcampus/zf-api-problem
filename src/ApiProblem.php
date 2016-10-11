@@ -2,10 +2,15 @@
 
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\ApiProblem;
+
+use Exception;
+use Throwable;
+use ZF\ApiProblem\Exception\InvalidArgumentException;
+use ZF\ApiProblem\Exception\ProblemExceptionInterface;
 
 /**
  * Object describing an API-Problem payload.
@@ -34,7 +39,7 @@ class ApiProblem
     /**
      * Description of the specific problem.
      *
-     * @var string|\Exception
+     * @var string|Exception|Throwable
      */
     protected $detail = '';
 
@@ -128,14 +133,14 @@ class ApiProblem
      * from $problemStatusTitles as a result.
      *
      * @param int    $status
-     * @param string $detail
+     * @param string|Exception|Throwable $detail
      * @param string $type
      * @param string $title
      * @param array  $additional
      */
     public function __construct($status, $detail, $type = null, $title = null, array $additional = [])
     {
-        if ($detail instanceof Exception\ProblemExceptionInterface) {
+        if ($detail instanceof ProblemExceptionInterface) {
             if (null === $type) {
                 $type = $detail->getType();
             }
@@ -170,10 +175,8 @@ class ApiProblem
      * Retrieve properties.
      *
      * @param string $name
-     *
      * @return mixed
-     *
-     * @throws Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __get($name)
     {
@@ -192,7 +195,7 @@ class ApiProblem
             return $this->additionalDetails[$normalized];
         }
 
-        throw new Exception\InvalidArgumentException(sprintf(
+        throw new InvalidArgumentException(sprintf(
             'Invalid property name "%s"',
             $name
         ));
@@ -220,7 +223,6 @@ class ApiProblem
      * stack trace and previous exception information.
      *
      * @param bool $flag
-     *
      * @return ApiProblem
      */
     public function setDetailIncludesStackTrace($flag)
@@ -240,7 +242,7 @@ class ApiProblem
      */
     protected function getDetail()
     {
-        if ($this->detail instanceof \Exception) {
+        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
             return $this->createDetailFromException();
         }
 
@@ -257,7 +259,7 @@ class ApiProblem
      */
     protected function getStatus()
     {
-        if ($this->detail instanceof \Exception) {
+        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
             $this->status = $this->createStatusFromException();
         }
 
@@ -290,7 +292,7 @@ class ApiProblem
             return $this->problemStatusTitles[$this->status];
         }
 
-        if ($this->detail instanceof \Exception) {
+        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
             return get_class($this->detail);
         }
 
@@ -308,6 +310,7 @@ class ApiProblem
      */
     protected function createDetailFromException()
     {
+        /** @var Exception|Throwable $e */
         $e = $this->detail;
 
         if (!$this->detailIncludesStackTrace) {
@@ -337,17 +340,18 @@ class ApiProblem
     /**
      * Create HTTP status from an exception.
      *
-     * @return string
+     * @return int
      */
     protected function createStatusFromException()
     {
+        /** @var Exception|Throwable $e */
         $e = $this->detail;
         $status = $e->getCode();
 
-        if (!empty($status)) {
+        if ($status) {
             return $status;
-        } else {
-            return 500;
         }
+
+        return 500;
     }
 }

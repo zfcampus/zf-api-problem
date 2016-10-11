@@ -40,6 +40,23 @@ class ApiProblemTest extends TestCase
         $this->assertEquals($status, $payload['status']);
     }
 
+    /**
+     * @requires PHP 7.0
+     */
+    public function testErrorAsDetails()
+    {
+        $error = new \TypeError('error message', 705);
+        $apiProblem = new ApiProblem(500, $error);
+        $payload = $apiProblem->toArray();
+
+        $this->assertArrayHasKey('title', $payload);
+        $this->assertEquals('TypeError', $payload['title']);
+        $this->assertArrayHasKey('status', $payload);
+        $this->assertEquals(705, $payload['status']);
+        $this->assertArrayHasKey('detail', $payload);
+        $this->assertEquals('error message', $payload['detail']);
+    }
+
     public function testExceptionCodeIsUsedForStatus()
     {
         $exception = new \Exception('exception message', 401);
