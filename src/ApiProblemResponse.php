@@ -69,7 +69,7 @@ class ApiProblemResponse extends Response
     public function getHeaders()
     {
         $headers = parent::getHeaders();
-        if (!$headers->has('content-type')) {
+        if (! $headers->has('content-type')) {
             $headers->addHeaderLine('content-type', ApiProblem::CONTENT_TYPE);
         }
 
@@ -86,7 +86,7 @@ class ApiProblemResponse extends Response
      */
     public function getReasonPhrase()
     {
-        if (!empty($this->reasonPhrase)) {
+        if (! empty($this->reasonPhrase)) {
             return $this->reasonPhrase;
         }
 

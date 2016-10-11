@@ -76,7 +76,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
     public function sendContent(SendResponseEvent $e)
     {
         $response = $e->getResponse();
-        if (!$response instanceof ApiProblemResponse) {
+        if (! $response instanceof ApiProblemResponse) {
             return $this;
         }
         $response->getApiProblem()->setDetailIncludesStackTrace($this->displayExceptions());
@@ -97,7 +97,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
     public function sendHeaders(SendResponseEvent $e)
     {
         $response = $e->getResponse();
-        if (!$response instanceof ApiProblemResponse) {
+        if (! $response instanceof ApiProblemResponse) {
             return $this;
         }
 
@@ -118,7 +118,7 @@ class SendApiProblemResponseListener extends HttpResponseSender
     public function __invoke(SendResponseEvent $event)
     {
         $response = $event->getResponse();
-        if (!$response instanceof ApiProblemResponse) {
+        if (! $response instanceof ApiProblemResponse) {
             return $this;
         }
 
