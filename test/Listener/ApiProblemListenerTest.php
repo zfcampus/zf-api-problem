@@ -52,4 +52,28 @@ class ApiProblemListenerTest extends TestCase
         $this->assertEquals(400, $problem->status);
         $this->assertSame($event->getParam('exception'), $problem->detail);
     }
+
+    /**
+     * @requires PHP 7.0
+     */
+    public function testOnDispatchErrorReturnsAnApiProblemResponseBasedOnCurrentEventThrowable()
+    {
+        $request = new Request();
+        $request->getHeaders()->addHeaderLine('Accept', 'application/json');
+
+        $event = new MvcEvent();
+        $event->setError(Application::ERROR_EXCEPTION);
+        $event->setParam('exception', new \TypeError('triggering throwable', 400));
+        $event->setRequest($request);
+        $return = $this->listener->onDispatchError($event);
+
+        $this->assertTrue($event->propagationIsStopped());
+        $this->assertInstanceOf('ZF\ApiProblem\ApiProblemResponse', $return);
+        $response = $event->getResponse();
+        $this->assertSame($return, $response);
+        $problem = $response->getApiProblem();
+        $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $problem);
+        $this->assertEquals(400, $problem->status);
+        $this->assertSame($event->getParam('exception'), $problem->detail);
+    }
 }
