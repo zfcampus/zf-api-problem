@@ -72,3 +72,7 @@ by omitting the `--dry-run` switch:
 ```console
 $ ./vendor/bin/php-cs-fixer fix .
 ```
+
+## Conduct
+
+Please see our [CONDUCT.md](CONDUCT.md) to understand expected behavior when interacting with others in the project.
