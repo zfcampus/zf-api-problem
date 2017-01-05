@@ -258,7 +258,7 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getStatus()
+    public function getStatus()
     {
         if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
             $this->status = $this->createStatusFromException();
