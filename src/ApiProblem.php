@@ -234,14 +234,16 @@ class ApiProblem
     /**
      * Retrieve the API-Problem detail.
      *
-     * If an exception was provided, creates the detail message from it;
+     * If an exception was provided (and raw == false), creates the detail message from it;
      * otherwise, detail as provided is used.
+     *
+     * @param bool $raw (default false)
      *
      * @return string
      */
-    protected function getDetail()
+    public function getDetail($raw = false)
     {
-        if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
+        if (!$raw && ($this->detail instanceof Throwable || $this->detail instanceof Exception)) {
             return $this->createDetailFromException();
         }
 
