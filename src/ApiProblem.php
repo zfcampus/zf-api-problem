@@ -202,6 +202,25 @@ class ApiProblem
     }
 
     /**
+     * Set properties.
+     *
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        $normalized = strtolower($name);
+        if (in_array($normalized, array_keys($this->normalizedProperties))) {
+            $prop = $this->normalizedProperties[$normalized];
+            $this->{$prop} = $value;
+        } else {
+            $this->additionalDetails[$name] = $value;
+        }
+    }
+
+    /**
      * Cast to an array.
      *
      * @return array
