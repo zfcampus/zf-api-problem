@@ -6,6 +6,8 @@
 
 namespace ZF\ApiProblem\Listener;
 
+use Exception;
+use Throwable;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Mvc\MvcEvent;
@@ -64,7 +66,7 @@ class RenderErrorListener extends AbstractListenerAggregate
         $details = false;
 
         $exception = $e->getParam('exception');
-        if (($exception instanceof \Exception || $exception instanceof \Throwable)
+        if (($exception instanceof Throwable || $exception instanceof Exception)
             && ! $exception instanceof ViewExceptionInterface
         ) {
             $code = $exception->getCode();
