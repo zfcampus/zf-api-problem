@@ -64,7 +64,7 @@ class RenderErrorListener extends AbstractListenerAggregate
         $details = false;
 
         $exception = $e->getParam('exception');
-        if ($exception instanceof \Exception
+        if (($exception instanceof \Exception || $exception instanceof \Throwable)
             && ! $exception instanceof ViewExceptionInterface
         ) {
             $code = $exception->getCode();
