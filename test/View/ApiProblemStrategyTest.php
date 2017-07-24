@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
@@ -17,8 +16,6 @@ use ZF\ApiProblem\View\ApiProblemModel;
 use ZF\ApiProblem\View\ApiProblemRenderer;
 use ZF\ApiProblem\View\ApiProblemStrategy;
 
-/**
- */
 class ApiProblemStrategyTest extends TestCase
 {
     public function setUp()
