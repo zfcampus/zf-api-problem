@@ -6,6 +6,8 @@
 
 namespace ZF\ApiProblem\Listener;
 
+use Exception;
+use Throwable;
 use Zend\EventManager\EventManagerInterface;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\Http\Header\Accept as AcceptHeader;
@@ -95,7 +97,7 @@ class ApiProblemListener extends AbstractListenerAggregate
         $status = $e->getResponse()->getStatusCode();
         $exception = $model->getVariable('exception');
 
-        if ($exception instanceof \Exception) {
+        if ($exception instanceof Throwable || $exception instanceof Exception) {
             $apiProblem = new ApiProblem($status, $exception);
         } else {
             $apiProblem = new ApiProblem($status, $model->getVariable('message'));
@@ -155,7 +157,7 @@ class ApiProblemListener extends AbstractListenerAggregate
 
         // Marshall an ApiProblem and view model based on the exception
         $exception = $e->getParam('exception');
-        if (! $exception instanceof \Exception) {
+        if (! ($exception instanceof Throwable || $exception instanceof Exception)) {
             // If it's not an exception, do not know what to do.
             return;
         }
