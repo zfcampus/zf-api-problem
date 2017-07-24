@@ -36,9 +36,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#52](https://github.com/zfcampus/zf-api-problem/pull/52) updates the
-  `ApiProblemListener` to check for either exceptions or PHP 7 `Throwable`
-  instances when creating an `ApiProblem`.
+- [#52](https://github.com/zfcampus/zf-api-problem/pull/52) and
+  [#55](https://github.com/zfcampus/zf-api-problem/pull/55) update the
+  `ApiProblemListener` and `RenderErrorListener` to check for either exceptions
+  or PHP 7 `Throwable` instances when creating an `ApiProblem` to return.
 
 ## 1.2.2 - 2016-10-11
 
