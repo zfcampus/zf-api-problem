@@ -1,10 +1,8 @@
 <?php
 /**
- * @link      http://github.com/zfcampus/zf-api-problem for the canonical source repository
+ * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
  * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
-
 
 namespace ZF\ApiProblem;
 

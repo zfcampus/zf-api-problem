@@ -1,7 +1,8 @@
 ZF Api Problem
 ==============
 
-[![Build Status](https://travis-ci.org/zfcampus/zf-api-problem.png)](https://travis-ci.org/zfcampus/zf-api-problem)
+[![Build Status](https://travis-ci.org/zfcampus/zf-api-problem.svg?branch=master)](https://travis-ci.org/zfcampus/zf-api-problem)
+[![Coverage Status](https://coveralls.io/repos/github/zfcampus/zf-api-problem/badge.svg?branch=master)](https://coveralls.io/github/zfcampus/zf-api-problem?branch=master)
 
 Introduction
 ------------
@@ -22,14 +23,14 @@ Installation
 Run the following `composer` command:
 
 ```console
-$ composer require "zfcampus/zf-api-problem:~1.0-dev"
+$ composer require zfcampus/zf-api-problem
 ```
 
 Alternately, manually add the following to your `composer.json`, in the `require` section:
 
 ```javascript
 "require": {
-    "zfcampus/zf-api-problem": "~1.0-dev"
+    "zfcampus/zf-api-problem": "^1.2"
 }
 ```
 
@@ -39,18 +40,23 @@ Finally, add the module name to your project's `config/application.config.php` u
 key:
 
 ```php
-return array(
+return [
     /* ... */
-    'modules' => array(
+    'modules' => [
         /* ... */
         'ZF\ApiProblem',
-    ),
+    ],
     /* ... */
-);
+];
 ```
 
+> ### zf-component-installer
+>
+> If you use [zf-component-installer](https://github.com/zendframework/zf-component-installer),
+> that plugin will install zf-api-problem as a module for you.
+
 Configuration
--------------
+=============
 
 ### User Configuration
 
@@ -74,26 +80,26 @@ The following configuration is provided in `config/module.config.php` to enable 
 function:
 
 ```php
-'service_manager' => array(
-    'aliases'   => array(
+'service_manager' => [
+    'aliases'   => [
         'ZF\ApiProblem\ApiProblemListener'  => 'ZF\ApiProblem\Listener\ApiProblemListener',
         'ZF\ApiProblem\RenderErrorListener' => 'ZF\ApiProblem\Listener\RenderErrorListener',
         'ZF\ApiProblem\ApiProblemRenderer'  => 'ZF\ApiProblem\View\ApiProblemRenderer',
         'ZF\ApiProblem\ApiProblemStrategy'  => 'ZF\ApiProblem\View\ApiProblemStrategy',
-    ),
-    'factories' => array(
+    ],
+    'factories' => [
         'ZF\ApiProblem\Listener\ApiProblemListener'             => 'ZF\ApiProblem\Factory\ApiProblemListenerFactory',
         'ZF\ApiProblem\Listener\RenderErrorListener'            => 'ZF\ApiProblem\Factory\RenderErrorListenerFactory',
         'ZF\ApiProblem\Listener\SendApiProblemResponseListener' => 'ZF\ApiProblem\Factory\SendApiProblemResponseListenerFactory',
         'ZF\ApiProblem\View\ApiProblemRenderer'                 => 'ZF\ApiProblem\Factory\ApiProblemRendererFactory',
         'ZF\ApiProblem\View\ApiProblemStrategy'                 => 'ZF\ApiProblem\Factory\ApiProblemStrategyFactory',
-    ),
-),
-'view_manager' => array(
+    ],
+],
+'view_manager' => [
     // Enable this in your application configuration in order to get full
     // exception stack traces in your API-Problem responses.
     'display_exceptions' => false,
-),
+],
 ```
 
 ZF2 Events
@@ -175,13 +181,14 @@ encountered.  An instance of `ApiProblem` is typically wrapped in an
 constructor:
 
 ```php
-class ApiProblem {
+class ApiProblem
+{
     public function __construct(
         $status,
         $detail,
         $type = null,
         $title = null,
-        array $additional = array()
+        array $additional = []
     ) {
         /* ... */
     }
