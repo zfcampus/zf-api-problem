@@ -54,6 +54,8 @@ class ApiProblemTest extends TestCase
         $this->assertEquals(705, $payload['status']);
         $this->assertArrayHasKey('detail', $payload);
         $this->assertEquals('error message', $payload['detail']);
+        $this->assertEquals('error message', $apiProblem->getDetail());
+        $this->assertSame($error, $apiProblem->getRawDetail());
     }
 
     public function testExceptionCodeIsUsedForStatus()
@@ -71,6 +73,8 @@ class ApiProblemTest extends TestCase
         $payload = $apiProblem->toArray();
         $this->assertArrayHasKey('detail', $payload);
         $this->assertEquals('foo', $payload['detail']);
+        $this->assertEquals('foo', $apiProblem->getDetail());
+        $this->assertEquals('foo', $apiProblem->getRawDetail());
     }
 
     public function testExceptionMessageIsUsedForDetail()
@@ -80,6 +84,8 @@ class ApiProblemTest extends TestCase
         $payload = $apiProblem->toArray();
         $this->assertArrayHasKey('detail', $payload);
         $this->assertEquals($exception->getMessage(), $payload['detail']);
+        $this->assertEquals('exception message', $apiProblem->getDetail());
+        $this->assertSame($exception, $apiProblem->getRawDetail());
     }
 
     public function testExceptionsCanTriggerInclusionOfStackTraceInDetails()
