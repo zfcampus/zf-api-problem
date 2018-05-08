@@ -1,7 +1,7 @@
 ZF Api Problem
 ==============
 
-[![Build Status](https://travis-ci.org/zfcampus/zf-api-problem.svg?branch=master)](https://travis-ci.org/zfcampus/zf-api-problem)
+[![Build Status](https://secure.travis-ci.org/zfcampus/zf-api-problem.svg?branch=master)](https://secure.travis-ci.org/zfcampus/zf-api-problem)
 [![Coverage Status](https://coveralls.io/repos/github/zfcampus/zf-api-problem/badge.svg?branch=master)](https://coveralls.io/github/zfcampus/zf-api-problem?branch=master)
 
 Introduction
