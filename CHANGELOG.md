@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.2.4 - TBD
+## 1.3.0 - 2018-05-08
 
 ### Added
+
+- [#58](https://github.com/zfcampus/zf-api-problem/pull/58) adds support for PHP 7.2.
+
+### Changed
 
 - Nothing.
 
@@ -14,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#58](https://github.com/zfcampus/zf-api-problem/pull/58) removes support for HHVM.
 
 ### Fixed
 

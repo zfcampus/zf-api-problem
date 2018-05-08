@@ -6,14 +6,14 @@
 
 namespace ZFTest\ApiProblem\View;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\View\ApiProblemModel;
 use ZF\ApiProblem\View\ApiProblemRenderer;
 
 class ApiProblemRendererTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->renderer = new ApiProblemRenderer();
     }
