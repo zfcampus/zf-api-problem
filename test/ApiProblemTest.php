@@ -6,7 +6,7 @@
 
 namespace ZFTest\ApiProblem;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\Exception;
