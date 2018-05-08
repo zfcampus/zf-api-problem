@@ -6,7 +6,7 @@
 
 namespace ZF\ApiProblem;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Zend\EventManager\EventManager;
 use Zend\EventManager\SharedEventManager;
@@ -34,12 +34,14 @@ class ModuleTest extends TestCase
     {
         $module = new Module();
 
-        $application = $this->getMock(Application::class, [], [], '', false);
+        $application = $this->getMockBuilder(Application::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $serviceLocator = $this->getMockForAbstractClass(ServiceLocatorInterface::class);
         $serviceLocator->method('get')->will($this->returnCallback([$this, 'serviceLocator']));
 
         $eventManager = $this->marshalEventManager();
-        $event = $this->getMock(MvcEvent::class);
+        $event = $this->getMockBuilder(MvcEvent::class)->getMock();
 
         $application->method('getServiceManager')->willReturn($serviceLocator);
         $application->method('getEventManager')->willReturn($eventManager);
@@ -55,7 +57,7 @@ class ModuleTest extends TestCase
                 return new ApiProblemListener();
                 break;
             case 'SendResponseListener':
-                $listener = $this->getMock(SendResponseListener::class);
+                $listener = $this->getMockBuilder(SendResponseListener::class)->getMock();
                 $listener->method('getEventManager')->willReturn(new EventManager());
 
                 return $listener;

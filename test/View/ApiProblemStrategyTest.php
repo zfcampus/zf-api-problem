@@ -6,7 +6,7 @@
 
 namespace ZFTest\ApiProblem\View;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Http\Response;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
@@ -18,7 +18,7 @@ use ZF\ApiProblem\View\ApiProblemStrategy;
 
 class ApiProblemStrategyTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->response = new Response();
         $this->event = new ViewEvent();

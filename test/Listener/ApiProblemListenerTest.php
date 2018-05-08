@@ -6,7 +6,7 @@
 
 namespace ZFTest\ApiProblem\Listener;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Http\Request;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
@@ -16,7 +16,7 @@ use ZF\ApiProblem\Listener\ApiProblemListener;
 
 class ApiProblemListenerTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->event = new MvcEvent();
         $this->event->setError('this is an error event');

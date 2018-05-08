@@ -6,7 +6,7 @@
 
 namespace ZFTest\ApiProblem\Listener;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use TypeError;
 use Zend\Http\Request;
@@ -23,7 +23,7 @@ class RenderErrorListenerTest extends TestCase
      */
     protected $listener;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->listener = new RenderErrorListener();
     }
