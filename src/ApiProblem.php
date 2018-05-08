@@ -239,12 +239,22 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getDetail()
+    public function getDetail()
     {
         if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
             return $this->createDetailFromException();
         }
 
+        return $this->detail;
+    }
+
+    /**
+     * Retrieve the raw API-Problem detail.
+     *
+     * @return string|Exception|Throwable
+     */
+    public function getRawDetail()
+    {
         return $this->detail;
     }
 
@@ -256,7 +266,7 @@ class ApiProblem
      *
      * @return string
      */
-    protected function getStatus()
+    public function getStatus()
     {
         if ($this->detail instanceof Throwable || $this->detail instanceof Exception) {
             $this->status = $this->createStatusFromException();
