@@ -3,7 +3,7 @@ ZF Api Problem
 
 > ## Repository abandoned 2019-12-31
 >
-> This repository has moved to laminas-api-tools/api-tools-api-problem.
+> This repository has moved to [laminas-api-tools/api-tools-api-problem](https://github.com/laminas-api-tools/api-tools-api-problem).
 
 [![Build Status](https://secure.travis-ci.org/zfcampus/zf-api-problem.svg?branch=master)](https://secure.travis-ci.org/zfcampus/zf-api-problem)
 [![Coverage Status](https://coveralls.io/repos/github/zfcampus/zf-api-problem/badge.svg?branch=master)](https://coveralls.io/github/zfcampus/zf-api-problem?branch=master)
